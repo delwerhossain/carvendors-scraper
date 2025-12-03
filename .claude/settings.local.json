@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"c:\\wamp64\\www\\carvendors-scraper\" /B)",
+      "Bash(php scrape.php:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
