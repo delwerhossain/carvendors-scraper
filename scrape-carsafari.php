@@ -96,10 +96,10 @@ try {
     echo "\n==============================================\n";
     if ($result['success']) {
         echo "COMPLETED SUCCESSFULLY\n";
-        echo "Found: {$result['stats']['found']}\n";
-        echo "Inserted: {$result['stats']['inserted']}\n";
-        echo "Updated: {$result['stats']['updated']}\n";
-        echo "Published: {$result['stats']['published'] ?? 0}\n";
+        echo "Found: " . $result['stats']['found'] . "\n";
+        echo "Inserted: " . $result['stats']['inserted'] . "\n";
+        echo "Updated: " . $result['stats']['updated'] . "\n";
+        echo "Published: " . ($result['stats']['published'] ?? 0) . "\n";
         exit(0);
     } else {
         echo "FAILED: {$result['error']}\n";

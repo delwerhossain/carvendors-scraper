@@ -8,10 +8,10 @@
 
 class CarScraper
 {
-    private PDO $db;
-    private array $config;
-    private int $logId = 0;
-    private array $stats = [
+    protected PDO $db;
+    protected array $config;
+    protected int $logId = 0;
+    protected array $stats = [
         'found' => 0,
         'inserted' => 0,
         'updated' => 0,
@@ -28,7 +28,7 @@ class CarScraper
     /**
      * Initialize database connection
      */
-    private function initDatabase(): void
+    protected function initDatabase(): void
     {
         $dbConfig = $this->config['database'];
         
@@ -49,7 +49,7 @@ class CarScraper
     /**
      * Ensure required directories exist
      */
-    private function ensureDirectories(): void
+    protected function ensureDirectories(): void
     {
         $dirs = [
             $this->config['output']['log_path'],
@@ -130,7 +130,7 @@ class CarScraper
     /**
      * Fetch a URL with proper headers and error handling
      */
-    private function fetchUrl(string $url): ?string
+    protected function fetchUrl(string $url): ?string
     {
         $this->log("  Fetching: $url");
 
@@ -175,7 +175,7 @@ class CarScraper
     /**
      * Parse the main listing page and extract all vehicle cards
      */
-    private function parseListingPage(string $html): array
+    protected function parseListingPage(string $html): array
     {
         $vehicles = [];
         
@@ -227,7 +227,7 @@ class CarScraper
     /**
      * Find the parent card container for a vehicle link
      */
-    private function findParentCard(DOMNode $node, DOMXPath $xpath): ?DOMNode
+    protected function findParentCard(DOMNode $node, DOMXPath $xpath): ?DOMNode
     {
         $current = $node->parentNode;
         $maxDepth = 10;
@@ -266,7 +266,7 @@ class CarScraper
     /**
      * Parse a single vehicle card and extract data
      */
-    private function parseVehicleCard(DOMNode $card, DOMXPath $xpath, ?string $vehicleUrl = null): ?array
+    protected function parseVehicleCard(DOMNode $card, DOMXPath $xpath, ?string $vehicleUrl = null): ?array
     {
         $cardHtml = $card->ownerDocument->saveHTML($card);
         
@@ -289,19 +289,40 @@ class CarScraper
             return null;
         }
 
-        // Extract image URL
+        // Extract image URLs (primary + all additional images)
         $imageUrl = null;
-        if (preg_match('/src=["\']([^"\']+\.(jpg|jpeg|png|webp)[^"\']*)/i', $cardHtml, $matches)) {
-            $imageUrl = $this->normalizeUrl($matches[1]);
+        $imageUrls = [];  // All images found
+
+        // Find all image src attributes
+        if (preg_match_all('/src=["\']([^"\']+\.(jpg|jpeg|png|webp)[^"\']*)/i', $cardHtml, $matches)) {
+            foreach ($matches[1] as $url) {
+                $normalized = $this->normalizeUrl($url);
+                if ($normalized && !in_array($normalized, $imageUrls)) {
+                    $imageUrls[] = $normalized;
+                }
+            }
         }
         // Also check for data-src (lazy loading)
-        if (!$imageUrl && preg_match('/data-src=["\']([^"\']+\.(jpg|jpeg|png|webp)[^"\']*)/i', $cardHtml, $matches)) {
-            $imageUrl = $this->normalizeUrl($matches[1]);
+        if (preg_match_all('/data-src=["\']([^"\']+\.(jpg|jpeg|png|webp)[^"\']*)/i', $cardHtml, $matches)) {
+            foreach ($matches[1] as $url) {
+                $normalized = $this->normalizeUrl($url);
+                if ($normalized && !in_array($normalized, $imageUrls)) {
+                    $imageUrls[] = $normalized;
+                }
+            }
         }
         // Check for background-image style
-        if (!$imageUrl && preg_match('/background-image:\s*url\(["\']?([^"\')\s]+)/i', $cardHtml, $matches)) {
-            $imageUrl = $this->normalizeUrl($matches[1]);
+        if (preg_match_all('/background-image:\s*url\(["\']?([^"\')\s]+)/i', $cardHtml, $matches)) {
+            foreach ($matches[1] as $url) {
+                $normalized = $this->normalizeUrl($url);
+                if ($normalized && !in_array($normalized, $imageUrls)) {
+                    $imageUrls[] = $normalized;
+                }
+            }
         }
+
+        // Use first image as primary, store all
+        $imageUrl = !empty($imageUrls) ? $imageUrls[0] : null;
 
         // Extract title - usually in a heading or strong tag
         $title = '';
@@ -367,7 +388,8 @@ class CarScraper
             'first_reg_date' => $details['first_reg_date'] ?? null,
             'description_short' => $descriptionShort,
             'description_full' => null, // Will be filled from detail page
-            'image_url' => $imageUrl,
+            'image_url' => $imageUrl,  // Primary image
+            'image_urls' => $imageUrls,  // All images
             'vehicle_url' => $vehicleUrl,
         ];
     }
@@ -375,7 +397,7 @@ class CarScraper
     /**
      * Extract vehicle details from HTML text
      */
-    private function extractVehicleDetails(string $html): array
+    protected function extractVehicleDetails(string $html): array
     {
         $details = [
             'mileage' => null,
@@ -402,12 +424,33 @@ class CarScraper
             }
         }
 
-        // Colour patterns - avoid matching JavaScript variables and HTML code
-        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s\-]+?)(?:[\s<;]|$)/i', $html, $matches)) {
+        // Colour patterns - use whitelist of valid car colors to avoid false positives
+        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s\-]+?)(?:[\s<;|,]|$)/i', $html, $matches)) {
             $colour = trim($matches[1]);
-            // Filter out common false positives and code artifacts
-            $blacklist = ['var', 'function', 'window', 'document', 'this', 'const', 'let', 'type', 'class', 'style', 'id', 'name'];
-            if (!in_array(strtolower($colour), $blacklist) && strlen($colour) > 2 && strlen($colour) < 30 && preg_match('/^[a-zA-Z\s\-]+$/', $colour)) {
+            $colour = preg_replace('/[<>";\']+/', '', $colour);  // Remove HTML artifacts
+            $colourLower = strtolower(trim($colour));
+
+            // Valid car colors list
+            $validColors = [
+                'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green', 'brown', 'beige',
+                'gold', 'orange', 'yellow', 'purple', 'pink', 'maroon', 'navy', 'turquoise', 'bronze',
+                'cream', 'ivory', 'pearl', 'metallic', 'gunmetal', 'charcoal', 'graphite', 'midnight',
+                'bordeaux', 'wine', 'burgundy', 'crimson', 'scarlet', 'cobalt', 'azure', 'teal',
+                'olive', 'forest', 'emerald', 'lime', 'mint', 'sage', 'khaki', 'tan', 'copper',
+                'rust', 'champagne', 'sand', 'taupe', 'ash', 'smoke', 'slate', 'pewter'
+            ];
+
+            // Check if color matches valid list (exact or starts with)
+            $isValid = false;
+            foreach ($validColors as $validColor) {
+                if ($colourLower === $validColor || strpos($colourLower, $validColor) === 0) {
+                    $isValid = true;
+                    break;
+                }
+            }
+
+            // Additional check: must be 3-25 chars, only letters/spaces/hyphens
+            if ($isValid && strlen($colour) > 2 && strlen($colour) < 30 && preg_match('/^[a-zA-Z\s\-]+$/', $colour)) {
                 $details['colour'] = $this->cleanText($colour);
             }
         }
@@ -440,7 +483,7 @@ class CarScraper
     /**
      * Enrich vehicles with full descriptions from detail pages
      */
-    private function enrichWithDetailPages(array $vehicles): array
+    protected function enrichWithDetailPages(array $vehicles): array
     {
         $delay = $this->config['scraper']['request_delay'];
         $total = count($vehicles);
@@ -479,7 +522,7 @@ class CarScraper
     /**
      * Extract full description from meta tag, removing finance text
      */
-    private function extractFullDescription(string $html): ?string
+    protected function extractFullDescription(string $html): ?string
     {
         // Try to get description from meta tag
         if (preg_match('/<meta\s+name=["\']description["\']\s+content=["\']([^"\']+)/i', $html, $matches)) {
@@ -499,7 +542,7 @@ class CarScraper
     /**
      * Remove finance-related text from description
      */
-    private function removeFinanceText(string $text): string
+    protected function removeFinanceText(string $text): string
     {
         $patterns = $this->config['description_cutoff_patterns'];
         
@@ -516,7 +559,7 @@ class CarScraper
     /**
      * Save vehicles to database
      */
-    private function saveVehicles(array $vehicles): array
+    protected function saveVehicles(array $vehicles): array
     {
         $source = $this->config['scraper']['source'];
         $activeIds = [];
@@ -600,7 +643,7 @@ class CarScraper
     /**
      * Mark vehicles not in the current scrape as inactive
      */
-    private function deactivateMissingVehicles(array $activeIds): int
+    protected function deactivateMissingVehicles(array $activeIds): int
     {
         if (empty($activeIds)) {
             return 0;
@@ -625,7 +668,7 @@ class CarScraper
     /**
      * Save JSON snapshot of all active vehicles
      */
-    private function saveJsonSnapshot(): void
+    protected function saveJsonSnapshot(): void
     {
         $source = $this->config['scraper']['source'];
 
@@ -674,7 +717,7 @@ class CarScraper
     /**
      * Normalize a URL (make absolute, clean up)
      */
-    private function normalizeUrl(?string $url): ?string
+    protected function normalizeUrl(?string $url): ?string
     {
         if (!$url) {
             return null;
@@ -700,7 +743,7 @@ class CarScraper
     /**
      * Extract external ID from vehicle URL
      */
-    private function extractExternalId(string $url): ?string
+    protected function extractExternalId(string $url): ?string
     {
         // Pattern: /vehicle/name/slug-here/
         if (preg_match('/\/vehicle\/name\/([^\/\?#]+)/i', $url, $matches)) {
@@ -712,7 +755,7 @@ class CarScraper
     /**
      * Extract numeric price from price string
      */
-    private function extractNumericPrice(?string $price): ?float
+    protected function extractNumericPrice(?string $price): ?float
     {
         if (!$price) {
             return null;
@@ -724,7 +767,7 @@ class CarScraper
     /**
      * Extract numeric mileage from mileage string
      */
-    private function extractNumericMileage(?string $mileage): ?float
+    protected function extractNumericMileage(?string $mileage): ?float
     {
         if (!$mileage) {
             return null;
@@ -735,37 +778,36 @@ class CarScraper
     }
 
     /**
-     * Clean text (remove extra whitespace, garbage characters, etc.)
+     * Clean text (remove extra whitespace, garbage characters, etc.) - AGGRESSIVE
      */
-    private function cleanText(string $text): string
+    protected function cleanText(string $text): string
     {
-        // Remove null bytes and control characters (except newlines/tabs)
+        // 1. Remove null bytes and control characters
         $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
 
-        // Decode HTML entities
+        // 2. Aggressively remove ALL broken UTF-8 sequences (â*, ã*, etc.)
+        $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/u', '...', $text);
+        $text = preg_replace('/[\xE0-\xEF][\x80-\xBF]{2}/u', '...', $text);
+
+        // 3. Decode HTML entities
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
-        // Replace specific broken/double-encoded UTF-8 sequences only (avoid over-matching)
+        // 4. Replace specific known broken sequences
         $text = str_replace([
-            'â¦',    // broken ellipsis (U+2026 double-encoded)
-            'â€™',   // broken apostrophe
-            'â€œ',   // broken quote
-            'â€"',   // broken en-dash
-            'â€"',   // broken em-dash
-            'â€',    // other broken unicode
+            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â€', 'â€‚', 'â€ƒ', 'â„¢',
+            '&#' // HTML entity remnants
         ], [
-            '...',
-            "'",
-            '"',
-            '-',
-            '-',
-            '',
+            '...', "'", '"', '-', '-', '', ',', '...', 'TM', ''
         ], $text);
 
-        // Remove extra whitespace
-        $text = preg_replace('/\s+/', ' ', $text);
+        // 5. Remove any remaining suspicious byte sequences
+        $text = preg_replace('/[^\x00-\x7F]+/u', '...', $text);  // Remove non-ASCII if it's not valid UTF-8
 
-        // Trim
+        // 6. Remove extra whitespace
+        $text = preg_replace('/\s+/', ' ', $text);
+        $text = preg_replace('/\.{4,}/', '...', $text);  // Multiple ellipsis to single
+
+        // 7. Trim
         $text = trim($text);
 
         return $text;
@@ -774,7 +816,7 @@ class CarScraper
     /**
      * Log a message
      */
-    private function log(string $message): void
+    protected function log(string $message): void
     {
         $timestamp = date('Y-m-d H:i:s');
         $line = "[$timestamp] $message\n";
@@ -788,7 +830,7 @@ class CarScraper
     /**
      * Start a scrape log entry
      */
-    private function startScrapeLog(): void
+    protected function startScrapeLog(): void
     {
         $sql = "INSERT INTO scrape_logs (source, started_at, status) VALUES (?, NOW(), 'running')";
         $stmt = $this->db->prepare($sql);
@@ -799,7 +841,7 @@ class CarScraper
     /**
      * Finish a scrape log entry
      */
-    private function finishScrapeLog(string $status, ?string $error = null): void
+    protected function finishScrapeLog(string $status, ?string $error = null): void
     {
         if (!$this->logId) {
             return;

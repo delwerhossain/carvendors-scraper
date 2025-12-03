@@ -13,7 +13,7 @@
 class CarSafariScraper extends CarScraper
 {
     private string $dbName;
-    private int $vendorId = 1;  // Default vendor ID - change as needed
+    private int $vendorId = 432;  // Default vendor ID for scraping data
 
     public function __construct(array $config, string $dbName = 'carsafari')
     {
@@ -113,8 +113,11 @@ class CarSafariScraper extends CarScraper
                 $vehicleId = $this->saveVehicleInfo($vehicle, $attrId, $now);
 
                 if ($vehicleId) {
-                    // Step 3: Download and save images
-                    if (!empty($vehicle['image_url'])) {
+                    // Step 3: Download and save multiple images
+                    if (!empty($vehicle['image_urls']) && is_array($vehicle['image_urls'])) {
+                        $this->downloadAndSaveImages($vehicle['image_urls'], $vehicleId);
+                    } elseif (!empty($vehicle['image_url'])) {
+                        // Fallback for single image
                         $this->downloadAndSaveImage($vehicle['image_url'], $vehicleId);
                     }
 
@@ -199,9 +202,9 @@ class CarSafariScraper extends CarScraper
                     attr_id, reg_no, selling_price, regular_price, mileage,
                     color, transmission, fuel_type, body_style, description,
                     attention_grabber, vendor_id, v_condition, active_status,
-                    created_at, updated_at
+                    vehicle_url, created_at, updated_at
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', '1', ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NEW', '1', ?, ?, ?
                 ) ON DUPLICATE KEY UPDATE
                     attr_id = VALUES(attr_id),
                     selling_price = VALUES(selling_price),
@@ -213,6 +216,7 @@ class CarSafariScraper extends CarScraper
                     body_style = VALUES(body_style),
                     description = VALUES(description),
                     attention_grabber = VALUES(attention_grabber),
+                    vehicle_url = VALUES(vehicle_url),
                     active_status = '1',
                     updated_at = VALUES(updated_at)";
 
@@ -234,8 +238,9 @@ class CarSafariScraper extends CarScraper
             $vehicle['description_full'] ?? $vehicle['description_short'],
             $vehicle['title'],  // attention_grabber
             $this->vendorId,
-            $now,
-            $now,
+            $vehicle['vehicle_url'] ?? null,  // vehicle_url link
+            $now,  // created_at
+            $now,  // updated_at
         ]);
 
         if (!$result) {
@@ -247,6 +252,55 @@ class CarSafariScraper extends CarScraper
             return (int)$existing['id'];
         } else {
             return (int)$this->db->lastInsertId();
+        }
+    }
+
+    /**
+     * Download multiple images and save to gyc_product_images with serial numbering
+     */
+    private function downloadAndSaveImages(array $imageUrls, int $vehicleId): void
+    {
+        if (empty($imageUrls)) {
+            return;
+        }
+
+        $serial = 1;
+        $timestamp = date('YmdHis');
+
+        foreach ($imageUrls as $imageUrl) {
+            try {
+                // Generate filename with serial number
+                $filename = $timestamp . '_' . $serial . '.jpg';
+
+                // Download image
+                $imageData = $this->downloadImage($imageUrl);
+                if (!$imageData) {
+                    $this->log("  Warning: Could not download image #{$serial} for vehicle $vehicleId");
+                    $serial++;
+                    continue;
+                }
+
+                // Save to filesystem
+                $uploadPath = dirname($this->config['output']['json_path']) . '/images/';
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+
+                file_put_contents($uploadPath . $filename, $imageData);
+
+                // Save record to database with serial number
+                $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
+                        VALUES (?, ?, ?, NOW())";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$filename, $vehicleId, $serial]);
+
+                $this->log("  Saved image #{$serial} for vehicle $vehicleId");
+                $serial++;
+
+            } catch (Exception $e) {
+                $this->log("  Warning: Could not save image #{$serial} for vehicle $vehicleId: " . $e->getMessage());
+                $serial++;
+            }
         }
     }
 
@@ -355,7 +409,7 @@ class CarSafariScraper extends CarScraper
     /**
      * Extract numeric mileage (inherited from parent, reuse)
      */
-    protected function extractNumericMileage(?string $mileage): ?int
+    protected function extractNumericMileage(?string $mileage): ?float
     {
         if (!$mileage) {
             return null;

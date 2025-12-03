@@ -12,7 +12,11 @@
       "Bash(then echo \"Creating images/ directory for downloaded images...\")",
       "Bash(fi)",
       "Bash(c:wamp64binphpphp8.3.14php.exe scrape.php)",
-      "Bash(/c/wamp64/bin/php/php8.3.14/php.exe:*)"
+      "Bash(/c/wamp64/bin/php/php8.3.14/php.exe:*)",
+      "Bash(mysql:*)",
+      "Bash(timeout 300 /c/wamp64/bin/php/php8.3.14/php.exe:*)",
+      "Bash(tail:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
