@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(dir \"c:\\wamp64\\www\\carvendors-scraper\" /B)",
-      "Bash(php scrape.php:*)"
+      "Bash(php scrape.php:*)",
+      "Bash(dir \"c:\\wamp64\\www\\carvendors-scraper\\data\")",
+      "Bash(echo:*)",
+      "Bash(dir:*)",
+      "Bash(c:wamp64binphpphp8.3.14php.exe \"c:\\wamp64\\www\\carvendors-scraper\\scrape.php\")",
+      "Bash(del README.md SETUP_GUIDE.md OPTIMIZATION_REPORT.md CPANEL_SETUP_GUIDE.md COMPLETE_SETUP.md)",
+      "Bash(if [ ! -d \"images\" ])",
+      "Bash(then echo \"Creating images/ directory for downloaded images...\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []

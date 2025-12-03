@@ -149,7 +149,7 @@ class CarScraper
                 'Accept-Language: en-GB,en;q=0.9',
                 'Cache-Control: no-cache',
             ],
-            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYPEER => $this->config['scraper']['verify_ssl'] ?? true,
             CURLOPT_ENCODING => '', // Accept all encodings
         ]);
 
@@ -333,13 +333,17 @@ class CarScraper
             }
         }
 
-        // Extract location
+        // Extract location - be more precise with patterns
         $location = null;
-        if (preg_match('/(?:location|branch|office)[:\s]*([^<\n]+)/i', $cardHtml, $matches)) {
-            $location = $this->cleanText($matches[1]);
+        if (preg_match('/(?:location|branch|office)[:\s]*([a-zA-Z\s,]+?)(?:<|$)/i', $cardHtml, $matches)) {
+            $loc = trim($matches[1]);
+            // Only accept if looks like actual location
+            if (strlen($loc) > 2 && strlen($loc) < 100 && !preg_match('/^[\s"\'>;]+$/', $loc)) {
+                $location = $this->cleanText($loc);
+            }
         }
         // Common location patterns
-        if (!$location && preg_match('/(Head\s*office|Main\s*branch|Showroom)/i', $cardHtml, $matches)) {
+        if (!$location && preg_match('/(Head\s*office|Main\s*branch|Showroom|Office|Location)/i', $cardHtml, $matches)) {
             $location = $this->cleanText($matches[1]);
         }
 
@@ -384,9 +388,13 @@ class CarScraper
             $details['mileage'] = $matches[1] . ' miles';
         }
 
-        // Colour patterns
-        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z]+(?:\s+[a-zA-Z]+)?)/i', $html, $matches)) {
-            $details['colour'] = $this->cleanText($matches[1]);
+        // Colour patterns - avoid matching JavaScript variables
+        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s]+?)(?:<|;|\||$)/i', $html, $matches)) {
+            $colour = trim($matches[1]);
+            // Filter out common false positives
+            if (!in_array(strtolower($colour), ['var', 'function', 'window', 'document', 'this']) && strlen($colour) < 30) {
+                $details['colour'] = $this->cleanText($colour);
+            }
         }
 
         // Transmission patterns
@@ -605,11 +613,23 @@ class CarScraper
     private function saveJsonSnapshot(): void
     {
         $source = $this->config['scraper']['source'];
-        
+
         $sql = "SELECT * FROM vehicles WHERE source = ? AND is_active = 1 ORDER BY price_numeric DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$source]);
         $vehicles = $stmt->fetchAll();
+
+        // Ensure numeric fields are actual numbers in JSON
+        foreach ($vehicles as &$vehicle) {
+            if ($vehicle['price_numeric']) {
+                $vehicle['price_numeric'] = (float)$vehicle['price_numeric'];
+            }
+            if ($vehicle['mileage_numeric']) {
+                $vehicle['mileage_numeric'] = (int)$vehicle['mileage_numeric'];
+            }
+            $vehicle['id'] = (int)$vehicle['id'];
+            $vehicle['is_active'] = (int)$vehicle['is_active'];
+        }
 
         $json = json_encode([
             'generated_at' => date('c'),
@@ -620,7 +640,7 @@ class CarScraper
 
         $path = $this->config['output']['json_path'];
         file_put_contents($path, $json);
-        
+
         $this->log("  Saved JSON to: $path");
     }
 
@@ -677,13 +697,14 @@ class CarScraper
     /**
      * Extract numeric mileage from mileage string
      */
-    private function extractNumericMileage(?string $mileage): ?int
+    private function extractNumericMileage(?string $mileage): ?float
     {
         if (!$mileage) {
             return null;
         }
-        $numeric = preg_replace('/[^0-9]/', '', $mileage);
-        return $numeric ? (int)$numeric : null;
+        // Remove all non-numeric characters except decimal point
+        $numeric = preg_replace('/[^0-9.]/', '', $mileage);
+        return ($numeric && $numeric !== '') ? (float)$numeric : null;
     }
 
     /**
