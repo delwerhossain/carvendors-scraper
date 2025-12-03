@@ -335,16 +335,21 @@ class CarScraper
 
         // Extract location - be more precise with patterns
         $location = null;
-        if (preg_match('/(?:location|branch|office)[:\s]*([a-zA-Z\s,]+?)(?:<|$)/i', $cardHtml, $matches)) {
+        if (preg_match('/(?:location|branch|office)[:\s]*([a-zA-Z\s,\.]+?)(?:[\s<;]|$)/i', $cardHtml, $matches)) {
             $loc = trim($matches[1]);
-            // Only accept if looks like actual location
-            if (strlen($loc) > 2 && strlen($loc) < 100 && !preg_match('/^[\s"\'>;]+$/', $loc)) {
+            // Filter out HTML artifacts and empty matches
+            $loc = preg_replace('/[<>"\';\\\\]+/', '', $loc);
+            $loc = trim($loc);
+            // Only accept if looks like actual location (real town/city names)
+            if (strlen($loc) > 3 && strlen($loc) < 100 && preg_match('/^[a-zA-Z\s,\.]+$/', $loc)) {
                 $location = $this->cleanText($loc);
             }
         }
-        // Common location patterns
-        if (!$location && preg_match('/(Head\s*office|Main\s*branch|Showroom|Office|Location)/i', $cardHtml, $matches)) {
-            $location = $this->cleanText($matches[1]);
+        // Common location patterns - from structured data
+        if (!$location && preg_match('/<(?:span|div)[^>]*class=["\']?(?:location|branch|office)["\']?[^>]*>([a-zA-Z\s,\.]+?)<\/(?:span|div)>/i', $cardHtml, $matches)) {
+            $loc = trim($matches[1]);
+            $loc = preg_replace('/[<>"\';\\\\]+/', '', $loc);
+            $location = $this->cleanText($loc);
         }
 
         return [
@@ -381,18 +386,28 @@ class CarScraper
             'first_reg_date' => null,
         ];
 
-        // Mileage patterns
+        // Mileage patterns - try multiple formats
         if (preg_match('/(?:mileage|miles)[:\s]*([0-9,]+(?:\s*miles)?)/i', $html, $matches)) {
             $details['mileage'] = $this->cleanText($matches[1]);
         } elseif (preg_match('/([0-9,]+)\s*miles/i', $html, $matches)) {
             $details['mileage'] = $matches[1] . ' miles';
+        } elseif (preg_match('/\b([0-9]{2,})[,\s]*([0-9]{3})\b\s*miles/i', $html, $matches)) {
+            // Match numbers like "75,000 miles" or "75 000 miles"
+            $details['mileage'] = str_replace([',', ' '], '', $matches[0]);
+        } elseif (preg_match('/\b\d{4,}\s*(?:k|K)\b/', $html, $matches)) {
+            // Match numbers like "75K" (thousand miles)
+            preg_match('/\d+/', $matches[0], $numMatch);
+            if ($numMatch) {
+                $details['mileage'] = ($numMatch[0] * 1000) . ' miles';
+            }
         }
 
-        // Colour patterns - avoid matching JavaScript variables
-        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s]+?)(?:<|;|\||$)/i', $html, $matches)) {
+        // Colour patterns - avoid matching JavaScript variables and HTML code
+        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s\-]+?)(?:[\s<;]|$)/i', $html, $matches)) {
             $colour = trim($matches[1]);
-            // Filter out common false positives
-            if (!in_array(strtolower($colour), ['var', 'function', 'window', 'document', 'this']) && strlen($colour) < 30) {
+            // Filter out common false positives and code artifacts
+            $blacklist = ['var', 'function', 'window', 'document', 'this', 'const', 'let', 'type', 'class', 'style', 'id', 'name'];
+            if (!in_array(strtolower($colour), $blacklist) && strlen($colour) > 2 && strlen($colour) < 30 && preg_match('/^[a-zA-Z\s\-]+$/', $colour)) {
                 $details['colour'] = $this->cleanText($colour);
             }
         }
@@ -619,8 +634,9 @@ class CarScraper
         $stmt->execute([$source]);
         $vehicles = $stmt->fetchAll();
 
-        // Ensure numeric fields are actual numbers in JSON
+        // Sanitize and convert fields for JSON output
         foreach ($vehicles as &$vehicle) {
+            // Ensure numeric fields are actual numbers
             if ($vehicle['price_numeric']) {
                 $vehicle['price_numeric'] = (float)$vehicle['price_numeric'];
             }
@@ -629,6 +645,17 @@ class CarScraper
             }
             $vehicle['id'] = (int)$vehicle['id'];
             $vehicle['is_active'] = (int)$vehicle['is_active'];
+
+            // Clean text fields from any remaining garbage characters
+            $textFields = ['title', 'location', 'colour', 'description_short', 'description_full'];
+            foreach ($textFields as $field) {
+                if (!empty($vehicle[$field])) {
+                    // Remove broken UTF-8 sequences
+                    $vehicle[$field] = preg_replace('/â[¦€‚ƒ„…†‡ˆ‰Š]/u', '...', $vehicle[$field]);
+                    // Remove any remaining invalid UTF-8
+                    $vehicle[$field] = mb_convert_encoding($vehicle[$field], 'UTF-8', 'UTF-8');
+                }
+            }
         }
 
         $json = json_encode([
@@ -708,19 +735,39 @@ class CarScraper
     }
 
     /**
-     * Clean text (remove extra whitespace, etc.)
+     * Clean text (remove extra whitespace, garbage characters, etc.)
      */
     private function cleanText(string $text): string
     {
+        // Remove null bytes and control characters (except newlines/tabs)
+        $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
+
         // Decode HTML entities
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        
+
+        // Replace specific broken/double-encoded UTF-8 sequences only (avoid over-matching)
+        $text = str_replace([
+            'â¦',    // broken ellipsis (U+2026 double-encoded)
+            'â€™',   // broken apostrophe
+            'â€œ',   // broken quote
+            'â€"',   // broken en-dash
+            'â€"',   // broken em-dash
+            'â€',    // other broken unicode
+        ], [
+            '...',
+            "'",
+            '"',
+            '-',
+            '-',
+            '',
+        ], $text);
+
         // Remove extra whitespace
         $text = preg_replace('/\s+/', ' ', $text);
-        
+
         // Trim
         $text = trim($text);
-        
+
         return $text;
     }
 

@@ -343,3 +343,1014 @@
 [2025-12-03 11:33:23]   Saved JSON to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
 [2025-12-03 11:33:23] Scrape completed successfully!
 [2025-12-03 11:33:23] Stats: {"found":164,"inserted":82,"updated":0,"deactivated":0}
+[2025-12-03 13:46:08] Starting scrape...
+[2025-12-03 13:46:08] Fetching listing page...
+[2025-12-03 13:46:08]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-03 13:46:10] Parsing vehicle cards...
+[2025-12-03 13:46:11] Found 164 vehicles
+[2025-12-03 13:46:11] Fetching detail pages for full descriptions...
+[2025-12-03 13:46:11]   Processing 1/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 13:46:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 13:46:13]   Processing 2/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 13:46:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 13:46:16]   Processing 3/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 13:46:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 13:46:18]   Processing 4/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 13:46:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 13:46:21]   Processing 5/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 13:46:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 13:46:24]   Processing 6/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 13:46:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 13:46:26]   Processing 7/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 13:46:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 13:46:29]   Processing 8/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 13:46:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 13:46:32]   Processing 9/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 13:46:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 13:46:35]   Processing 10/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 13:46:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 13:46:38]   Processing 11/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 13:46:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 13:46:41]   Processing 12/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 13:46:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 13:46:44]   Processing 13/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 13:46:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 13:46:48]   Processing 14/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 13:46:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 13:46:51]   Processing 15/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 13:46:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 13:46:55]   Processing 16/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 13:46:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 13:46:58]   Processing 17/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 13:46:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 13:47:01]   Processing 18/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 13:47:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 13:47:04]   Processing 19/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 13:47:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 13:47:07]   Processing 20/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 13:47:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 13:47:10]   Processing 21/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 13:47:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 13:47:13]   Processing 22/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 13:47:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 13:47:16]   Processing 23/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 13:47:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 13:47:19]   Processing 24/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 13:47:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 13:47:22]   Processing 25/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 13:47:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 13:47:24]   Processing 26/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 13:47:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 13:47:28]   Processing 27/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 13:47:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 13:47:31]   Processing 28/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 13:47:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 13:47:34]   Processing 29/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 13:47:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 13:47:37]   Processing 30/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 13:47:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 13:47:40]   Processing 31/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 13:47:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 13:47:43]   Processing 32/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 13:47:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 13:47:46]   Processing 33/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 13:47:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 13:47:49]   Processing 34/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 13:47:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 13:47:52]   Processing 35/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 13:47:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 13:47:55]   Processing 36/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 13:47:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 13:48:00]   Processing 37/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 13:48:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 13:48:03]   Processing 38/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 13:48:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 13:48:06]   Processing 39/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 13:48:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 13:48:09]   Processing 40/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 13:48:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 13:48:12]   Processing 41/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 13:48:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 13:48:15]   Processing 42/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 13:48:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 13:48:18]   Processing 43/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:21]   Processing 44/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:24]   Processing 45/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:27]   Processing 46/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:31]   Processing 47/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:35]   Processing 48/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 13:48:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 13:48:37]   Processing 49/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 13:48:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 13:48:41]   Processing 50/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 13:48:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 13:48:44]   Processing 51/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 13:48:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 13:48:47]   Processing 52/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 13:48:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 13:48:50]   Processing 53/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 13:48:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 13:48:53]   Processing 54/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 13:48:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 13:48:57]   Processing 55/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 13:48:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 13:49:01]   Processing 56/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 13:49:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 13:49:05]   Processing 57/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 13:49:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 13:49:08]   Processing 58/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 13:49:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 13:49:11]   Processing 59/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 13:49:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 13:49:15]   Processing 60/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 13:49:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 13:49:18]   Processing 61/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 13:49:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 13:49:21]   Processing 62/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 13:49:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 13:49:24]   Processing 63/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 13:49:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 13:49:27]   Processing 64/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 13:49:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 13:49:30]   Processing 65/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 13:49:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 13:49:32]   Processing 66/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 13:49:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 13:49:35]   Processing 67/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 13:49:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 13:49:38]   Processing 68/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 13:49:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 13:49:41]   Processing 69/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 13:49:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 13:49:44]   Processing 70/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 13:49:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 13:49:47]   Processing 71/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 13:49:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 13:49:50]   Processing 72/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 13:49:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 13:49:53]   Processing 73/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 13:49:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 13:49:57]   Processing 74/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 13:49:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 13:49:59]   Processing 75/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 13:49:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 13:50:02]   Processing 76/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 13:50:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 13:50:05]   Processing 77/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 13:50:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 13:50:08]   Processing 78/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 13:50:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 13:50:11]   Processing 79/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 13:50:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 13:50:14]   Processing 80/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 13:50:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 13:50:17]   Processing 81/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 13:50:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 13:50:20]   Processing 82/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 13:50:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 13:50:23]   Processing 83/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 13:50:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 13:50:27]   Processing 84/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 13:50:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 13:50:31]   Processing 85/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:50:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:50:34]   Processing 86/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:50:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:50:37]   Processing 87/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 13:50:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 13:50:40]   Processing 88/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 13:50:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 13:50:42]   Processing 89/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 13:50:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 13:50:46]   Processing 90/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 13:50:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 13:50:49]   Processing 91/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 13:50:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 13:50:52]   Processing 92/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 13:50:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 13:50:55]   Processing 93/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 13:50:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 13:50:59]   Processing 94/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 13:50:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 13:51:03]   Processing 95/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 13:51:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 13:51:07]   Processing 96/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 13:51:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 13:51:10]   Processing 97/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 13:51:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 13:51:13]   Processing 98/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 13:51:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 13:51:17]   Processing 99/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 13:51:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 13:51:20]   Processing 100/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 13:51:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 13:51:23]   Processing 101/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 13:51:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 13:51:26]   Processing 102/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 13:51:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 13:51:30]   Processing 103/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 13:51:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 13:51:34]   Processing 104/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 13:51:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 13:51:37]   Processing 105/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 13:51:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 13:51:41]   Processing 106/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 13:51:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 13:51:46]   Processing 107/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 13:51:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 13:51:49]   Processing 108/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 13:51:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 13:51:52]   Processing 109/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 13:51:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 13:51:55]   Processing 110/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 13:51:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 13:51:58]   Processing 111/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 13:51:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 13:52:01]   Processing 112/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 13:52:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 13:52:04]   Processing 113/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 13:52:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 13:52:07]   Processing 114/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 13:52:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 13:52:10]   Processing 115/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 13:52:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 13:52:13]   Processing 116/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 13:52:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 13:52:16]   Processing 117/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 13:52:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 13:52:20]   Processing 118/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 13:52:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 13:52:23]   Processing 119/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 13:52:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 13:52:26]   Processing 120/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 13:52:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 13:52:29]   Processing 121/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 13:52:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 13:52:32]   Processing 122/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 13:52:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 13:52:35]   Processing 123/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 13:52:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 13:52:38]   Processing 124/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 13:52:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 13:52:41]   Processing 125/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 13:52:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 13:52:44]   Processing 126/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 13:52:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 13:52:47]   Processing 127/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 13:52:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 13:52:50]   Processing 128/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 13:52:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 13:52:53]   Processing 129/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 13:52:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 13:52:56]   Processing 130/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 13:52:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 13:53:01]   Processing 131/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 13:53:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 13:53:04]   Processing 132/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 13:53:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 13:53:07]   Processing 133/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 13:53:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 13:53:11]   Processing 134/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 13:53:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 13:53:14]   Processing 135/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:53:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:53:17]   Processing 136/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 13:53:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 13:53:20]   Processing 137/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 13:53:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 13:53:23]   Processing 138/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 13:53:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 13:53:26]   Processing 139/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 13:53:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 13:53:30]   Processing 140/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 13:53:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 13:53:33]   Processing 141/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 13:53:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 13:53:37]   Processing 142/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 13:53:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 13:53:40]   Processing 143/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 13:53:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 13:53:44]   Processing 144/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 13:53:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 13:53:47]   Processing 145/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 13:53:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 13:53:50]   Processing 146/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 13:53:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 13:53:53]   Processing 147/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 13:53:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 13:53:56]   Processing 148/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 13:53:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 13:53:59]   Processing 149/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 13:53:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 13:54:02]   Processing 150/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 13:54:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 13:54:05]   Processing 151/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 13:54:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 13:54:08]   Processing 152/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 13:54:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 13:54:11]   Processing 153/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 13:54:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 13:54:15]   Processing 154/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 13:54:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 13:54:18]   Processing 155/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 13:54:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 13:54:21]   Processing 156/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 13:54:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 13:54:24]   Processing 157/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 13:54:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 13:54:27]   Processing 158/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 13:54:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 13:54:30]   Processing 159/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 13:54:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 13:54:36]   Processing 160/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 13:54:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 13:54:39]   Processing 161/164: ford-1-8-lx-5dr
+[2025-12-03 13:54:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-03 13:54:42]   Processing 162/164: ford-1-8-lx-5dr
+[2025-12-03 13:54:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-03 13:54:45]   Processing 163/164: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-03 13:54:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-03 13:54:48]   Processing 164/164: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-03 13:54:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-03 13:54:49] Saving to database...
+[2025-12-03 13:54:50] Marking removed vehicles as inactive...
+[2025-12-03 13:54:50] Saving JSON snapshot...
+[2025-12-03 13:54:50]   Saved JSON to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-03 13:54:50] Scrape completed successfully!
+[2025-12-03 13:54:50] Stats: {"found":164,"inserted":0,"updated":82,"deactivated":0}
+[2025-12-03 14:01:51] Starting scrape...
+[2025-12-03 14:01:51] Fetching listing page...
+[2025-12-03 14:01:51]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-03 14:01:54] Parsing vehicle cards...
+[2025-12-03 14:01:54] Found 164 vehicles
+[2025-12-03 14:01:54] Fetching detail pages for full descriptions...
+[2025-12-03 14:01:54]   Processing 1/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 14:01:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 14:01:57]   Processing 2/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 14:01:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 14:02:01]   Processing 3/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 14:02:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 14:02:04]   Processing 4/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 14:02:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 14:02:07]   Processing 5/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 14:02:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 14:02:12]   Processing 6/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 14:02:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 14:02:16]   Processing 7/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 14:02:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 14:02:20]   Processing 8/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 14:02:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 14:02:24]   Processing 9/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 14:02:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 14:02:27]   Processing 10/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 14:02:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 14:02:33]   Processing 11/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 14:02:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 14:02:37]   Processing 12/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 14:02:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 14:02:40]   Processing 13/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 14:02:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 14:02:43]   Processing 14/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 14:02:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 14:02:48]   Processing 15/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 14:02:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 14:02:51]   Processing 16/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 14:02:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 14:02:53]   Processing 17/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 14:02:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 14:02:56]   Processing 18/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 14:02:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 14:03:00]   Processing 19/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 14:03:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 14:03:03]   Processing 20/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 14:03:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 14:03:06]   Processing 21/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 14:03:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 14:03:09]   Processing 22/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 14:03:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 14:03:12]   Processing 23/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 14:03:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 14:03:16]   Processing 24/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 14:03:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 14:03:18]   Processing 25/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 14:03:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 14:03:23]   Processing 26/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 14:03:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 14:03:26]   Processing 27/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 14:03:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 14:03:30]   Processing 28/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 14:03:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 14:03:34]   Processing 29/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 14:03:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 14:03:37]   Processing 30/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 14:03:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 14:03:40]   Processing 31/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 14:03:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 14:03:43]   Processing 32/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 14:03:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 14:03:46]   Processing 33/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 14:03:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 14:03:49]   Processing 34/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 14:03:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 14:03:53]   Processing 35/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 14:03:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 14:03:56]   Processing 36/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 14:03:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 14:03:59]   Processing 37/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 14:03:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 14:04:02]   Processing 38/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 14:04:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 14:04:05]   Processing 39/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:04:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:04:09]   Processing 40/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:04:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:04:12]   Processing 41/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 14:04:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 14:04:15]   Processing 42/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 14:04:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 14:04:19]   Processing 43/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:22]   Processing 44/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:25]   Processing 45/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 14:04:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 14:04:28]   Processing 46/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 14:04:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 14:04:31]   Processing 47/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:35]   Processing 48/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:39]   Processing 49/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:43]   Processing 50/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:04:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:04:47]   Processing 51/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 14:04:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 14:04:51]   Processing 52/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 14:04:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 14:04:54]   Processing 53/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 14:04:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 14:04:58]   Processing 54/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 14:04:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 14:05:01]   Processing 55/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 14:05:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 14:05:04]   Processing 56/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 14:05:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 14:05:07]   Processing 57/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 14:05:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 14:05:10]   Processing 58/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 14:05:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 14:05:13]   Processing 59/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 14:05:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 14:05:16]   Processing 60/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 14:05:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 14:05:20]   Processing 61/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 14:05:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 14:05:23]   Processing 62/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 14:05:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 14:05:26]   Processing 63/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 14:05:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 14:05:30]   Processing 64/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 14:05:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 14:05:36]   Processing 65/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:05:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:05:40]   Processing 66/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:05:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:05:43]   Processing 67/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 14:05:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 14:05:46]   Processing 68/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 14:05:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 14:05:49]   Processing 69/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 14:05:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 14:05:53]   Processing 70/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 14:05:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 14:05:56]   Processing 71/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 14:05:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 14:05:59]   Processing 72/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 14:05:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 14:06:02]   Processing 73/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 14:06:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 14:06:06]   Processing 74/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 14:06:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 14:06:10]   Processing 75/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 14:06:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:06:13]   Processing 76/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 14:06:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:06:16]   Processing 77/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 14:06:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 14:06:19]   Processing 78/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 14:06:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 14:06:23]   Processing 79/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 14:06:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 14:06:26]   Processing 80/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 14:06:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 14:06:30]   Processing 81/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 14:06:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 14:06:34]   Processing 82/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 14:06:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 14:06:38]   Processing 83/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 14:06:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 14:06:41]   Processing 84/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 14:06:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 14:06:45]   Processing 85/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:06:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:06:49]   Processing 86/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:06:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:06:52]   Processing 87/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 14:06:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 14:06:55]   Processing 88/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 14:06:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 14:07:00]   Processing 89/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 14:07:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 14:07:04]   Processing 90/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 14:07:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 14:07:10]   Processing 91/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 14:07:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 14:07:13]   Processing 92/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 14:07:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 14:07:16]   Processing 93/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 14:07:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 14:07:20]   Processing 94/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 14:07:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 14:07:23]   Processing 95/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:07:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:07:29]   Processing 96/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:07:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:07:32]   Processing 97/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 14:07:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 14:07:36]   Processing 98/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 14:07:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 14:07:39]   Processing 99/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:07:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:07:42]   Processing 100/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:07:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:07:45]   Processing 101/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 14:07:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 14:07:50]   Processing 102/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 14:07:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 14:07:53]   Processing 103/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:07:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:07:57]   Processing 104/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:07:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:08:00]   Processing 105/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 14:08:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 14:08:03]   Processing 106/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 14:08:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 14:08:06]   Processing 107/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:08:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:08:11]   Processing 108/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:08:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:08:14]   Processing 109/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 14:08:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 14:08:17]   Processing 110/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 14:08:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 14:08:20]   Processing 111/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 14:08:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:08:23]   Processing 112/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 14:08:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:08:27]   Processing 113/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 14:08:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 14:08:30]   Processing 114/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 14:08:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 14:08:34]   Processing 115/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 14:08:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 14:08:37]   Processing 116/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 14:08:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 14:08:40]   Processing 117/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 14:08:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 14:08:43]   Processing 118/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 14:08:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 14:08:46]   Processing 119/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 14:08:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 14:08:49]   Processing 120/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 14:08:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 14:08:53]   Processing 121/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 14:08:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 14:08:56]   Processing 122/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 14:08:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 14:09:00]   Processing 123/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 14:09:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 14:09:05]   Processing 124/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 14:09:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 14:09:08]   Processing 125/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 14:09:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 14:09:12]   Processing 126/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 14:09:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 14:09:16]   Processing 127/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 14:09:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 14:09:19]   Processing 128/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 14:09:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 14:09:23]   Processing 129/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 14:09:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 14:09:26]   Processing 130/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 14:09:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 14:09:29]   Processing 131/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:09:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:09:33]   Processing 132/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:09:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:09:36]   Processing 133/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 14:09:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 14:09:39]   Processing 134/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 14:09:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 14:09:43]   Processing 135/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 14:09:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 14:09:46]   Processing 136/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 14:09:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 14:09:49]   Processing 137/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 14:09:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 14:09:52]   Processing 138/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 14:09:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 14:09:54]   Processing 139/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 14:09:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 14:09:58]   Processing 140/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 14:09:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 14:10:01]   Processing 141/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 14:10:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 14:10:04]   Processing 142/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 14:10:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 14:10:07]   Processing 143/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 14:10:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 14:10:10]   Processing 144/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 14:10:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 14:10:13]   Processing 145/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 14:10:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 14:10:17]   Processing 146/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 14:10:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 14:10:20]   Processing 147/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:10:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:10:23]   Processing 148/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:10:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:10:26]   Processing 149/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 14:10:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 14:10:30]   Processing 150/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 14:10:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 14:10:34]   Processing 151/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:10:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:10:37]   Processing 152/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:10:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:10:40]   Processing 153/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 14:10:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 14:10:44]   Processing 154/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 14:10:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 14:10:47]   Processing 155/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 14:10:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 14:10:51]   Processing 156/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 14:10:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 14:10:54]   Processing 157/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 14:10:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 14:10:58]   Processing 158/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 14:10:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 14:11:01]   Processing 159/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 14:11:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 14:11:04]   Processing 160/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 14:11:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 14:11:07]   Processing 161/164: ford-1-8-lx-5dr
+[2025-12-03 14:11:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-03 14:11:10]   Processing 162/164: ford-1-8-lx-5dr
+[2025-12-03 14:11:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-03 14:11:13]   Processing 163/164: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-03 14:11:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-03 14:11:16]   Processing 164/164: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-03 14:11:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-03 14:11:17] Saving to database...
+[2025-12-03 14:11:18] Marking removed vehicles as inactive...
+[2025-12-03 14:11:18] Saving JSON snapshot...
+[2025-12-03 14:11:18]   Saved JSON to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-03 14:11:18] Scrape completed successfully!
+[2025-12-03 14:11:18] Stats: {"found":164,"inserted":0,"updated":82,"deactivated":0}
+[2025-12-03 14:18:51] Starting scrape...
+[2025-12-03 14:18:51] Fetching listing page...
+[2025-12-03 14:18:51]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-03 14:18:54] Parsing vehicle cards...
+[2025-12-03 14:18:54] Found 164 vehicles
+[2025-12-03 14:18:54] Fetching detail pages for full descriptions...
+[2025-12-03 14:18:54]   Processing 1/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 14:18:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 14:18:58]   Processing 2/164: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-03 14:18:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-03 14:19:01]   Processing 3/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 14:19:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 14:19:05]   Processing 4/164: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-03 14:19:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-03 14:19:08]   Processing 5/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 14:19:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 14:19:11]   Processing 6/164: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-03 14:19:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-03 14:19:15]   Processing 7/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 14:19:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 14:19:18]   Processing 8/164: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-03 14:19:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-03 14:19:25]   Processing 9/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 14:19:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 14:19:30]   Processing 10/164: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-03 14:19:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-03 14:19:33]   Processing 11/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 14:19:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 14:19:36]   Processing 12/164: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-03 14:19:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-03 14:19:39]   Processing 13/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 14:19:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 14:19:43]   Processing 14/164: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-03 14:19:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-03 14:19:47]   Processing 15/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 14:19:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 14:19:52]   Processing 16/164: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-03 14:19:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-03 14:19:55]   Processing 17/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 14:19:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 14:19:58]   Processing 18/164: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-03 14:19:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-03 14:20:02]   Processing 19/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 14:20:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 14:20:05]   Processing 20/164: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-03 14:20:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-03 14:20:08]   Processing 21/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 14:20:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 14:20:11]   Processing 22/164: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-03 14:20:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-03 14:20:15]   Processing 23/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 14:20:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 14:20:19]   Processing 24/164: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-03 14:20:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-03 14:20:22]   Processing 25/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 14:20:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 14:20:25]   Processing 26/164: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-03 14:20:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-03 14:20:28]   Processing 27/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 14:20:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 14:20:32]   Processing 28/164: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-03 14:20:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-03 14:20:35]   Processing 29/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 14:20:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 14:20:38]   Processing 30/164: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-03 14:20:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-03 14:20:42]   Processing 31/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 14:20:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 14:20:47]   Processing 32/164: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-03 14:20:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-03 14:20:51]   Processing 33/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 14:20:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 14:20:55]   Processing 34/164: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-03 14:20:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-03 14:20:58]   Processing 35/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 14:20:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 14:21:01]   Processing 36/164: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-03 14:21:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-03 14:21:04]   Processing 37/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 14:21:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 14:21:07]   Processing 38/164: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-03 14:21:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-03 14:21:10]   Processing 39/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:21:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:21:14]   Processing 40/164: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:21:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:21:17]   Processing 41/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 14:21:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 14:21:21]   Processing 42/164: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-03 14:21:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-03 14:21:24]   Processing 43/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:28]   Processing 44/164: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:31]   Processing 45/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 14:21:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 14:21:35]   Processing 46/164: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-03 14:21:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-03 14:21:38]   Processing 47/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:41]   Processing 48/164: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:44]   Processing 49/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:47]   Processing 50/164: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:21:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:21:50]   Processing 51/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 14:21:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 14:21:53]   Processing 52/164: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-03 14:21:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-03 14:21:56]   Processing 53/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 14:21:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 14:22:00]   Processing 54/164: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-03 14:22:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-03 14:22:03]   Processing 55/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 14:22:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 14:22:06]   Processing 56/164: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-03 14:22:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-03 14:22:09]   Processing 57/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 14:22:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 14:22:12]   Processing 58/164: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-03 14:22:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-03 14:22:15]   Processing 59/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 14:22:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 14:22:19]   Processing 60/164: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-03 14:22:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-03 14:22:22]   Processing 61/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 14:22:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 14:22:25]   Processing 62/164: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-03 14:22:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-03 14:22:28]   Processing 63/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 14:22:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 14:22:31]   Processing 64/164: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-03 14:22:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-03 14:22:35]   Processing 65/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:22:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:22:39]   Processing 66/164: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-03 14:22:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-03 14:22:42]   Processing 67/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 14:22:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 14:22:45]   Processing 68/164: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-03 14:22:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-03 14:22:49]   Processing 69/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 14:22:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 14:22:53]   Processing 70/164: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-03 14:22:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-03 14:22:56]   Processing 71/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 14:22:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 14:22:59]   Processing 72/164: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-03 14:22:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-03 14:23:03]   Processing 73/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 14:23:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 14:23:07]   Processing 74/164: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-03 14:23:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-03 14:23:12]   Processing 75/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 14:23:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:23:19]   Processing 76/164: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-03 14:23:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:23:22]   Processing 77/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 14:23:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 14:23:26]   Processing 78/164: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-03 14:23:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-03 14:23:29]   Processing 79/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 14:23:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 14:23:32]   Processing 80/164: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-03 14:23:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-03 14:23:34]   Processing 81/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 14:23:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 14:23:37]   Processing 82/164: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-03 14:23:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-03 14:23:40]   Processing 83/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 14:23:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 14:23:45]   Processing 84/164: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-03 14:23:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-03 14:23:49]   Processing 85/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:23:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:23:52]   Processing 86/164: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:23:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:23:55]   Processing 87/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 14:23:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 14:23:58]   Processing 88/164: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-03 14:23:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-03 14:24:01]   Processing 89/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 14:24:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 14:24:04]   Processing 90/164: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-03 14:24:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-03 14:24:07]   Processing 91/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 14:24:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 14:24:10]   Processing 92/164: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-03 14:24:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-03 14:24:13]   Processing 93/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 14:24:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 14:24:16]   Processing 94/164: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-03 14:24:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-03 14:24:19]   Processing 95/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:24:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:24:22]   Processing 96/164: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:24:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:24:25]   Processing 97/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:24:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:24:29]   Processing 98/164: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:24:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:24:31]   Processing 99/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 14:24:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 14:24:34]   Processing 100/164: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-03 14:24:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-03 14:24:39]   Processing 101/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 14:24:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 14:24:42]   Processing 102/164: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-03 14:24:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-03 14:24:47]   Processing 103/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 14:24:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 14:25:17]   CURL error: Operation timed out after 30004 milliseconds with 40490 out of 46758 bytes received
+[2025-12-03 14:25:18]   Processing 104/164: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-03 14:25:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-03 14:25:21]   Processing 105/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:25:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:25:25]   Processing 106/164: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-03 14:25:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-03 14:25:28]   Processing 107/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:25:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:25:32]   Processing 108/164: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-03 14:25:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-03 14:25:37]   Processing 109/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 14:25:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 14:25:41]   Processing 110/164: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-03 14:25:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-03 14:25:44]   Processing 111/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 14:25:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 14:25:47]   Processing 112/164: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-03 14:25:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-03 14:25:51]   Processing 113/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 14:25:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:25:56]   Processing 114/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-03 14:25:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-03 14:25:59]   Processing 115/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 14:25:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 14:26:02]   Processing 116/164: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-03 14:26:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-03 14:26:06]   Processing 117/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 14:26:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 14:26:09]   Processing 118/164: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-03 14:26:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-03 14:26:12]   Processing 119/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 14:26:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 14:26:16]   Processing 120/164: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-03 14:26:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-03 14:26:20]   Processing 121/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 14:26:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 14:26:24]   Processing 122/164: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-03 14:26:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-03 14:26:28]   Processing 123/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 14:26:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 14:26:31]   Processing 124/164: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-03 14:26:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-03 14:26:34]   Processing 125/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 14:26:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 14:26:37]   Processing 126/164: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-03 14:26:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-03 14:26:41]   Processing 127/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 14:26:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 14:26:44]   Processing 128/164: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-03 14:26:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-03 14:26:48]   Processing 129/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 14:26:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 14:26:52]   Processing 130/164: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-03 14:26:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-03 14:26:55]   Processing 131/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 14:26:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 14:27:00]   Processing 132/164: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-03 14:27:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-03 14:27:03]   Processing 133/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:27:03]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:27:07]   Processing 134/164: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-03 14:27:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-03 14:27:11]   Processing 135/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 14:27:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 14:27:15]   Processing 136/164: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-03 14:27:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-03 14:27:18]   Processing 137/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 14:27:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 14:27:22]   Processing 138/164: kia-ceed-1-4-crdi-vr7-euro-5-5dr
+[2025-12-03 14:27:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-4-crdi-vr7-euro-5-5dr/
+[2025-12-03 14:27:26]   Processing 139/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 14:27:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 14:27:35]   Processing 140/164: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-03 14:27:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-03 14:27:38]   Processing 141/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 14:27:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 14:27:42]   Processing 142/164: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-03 14:27:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-03 14:27:45]   Processing 143/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 14:27:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 14:27:48]   Processing 144/164: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-03 14:27:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-03 14:27:51]   Processing 145/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 14:27:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 14:27:54]   Processing 146/164: peugeot-208-1-2-vti-puretech-style-euro-6-5dr
+[2025-12-03 14:27:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-6-5dr/
+[2025-12-03 14:27:58]   Processing 147/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:27:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:28:01]   Processing 148/164: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-03 14:28:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-03 14:28:05]   Processing 149/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 14:28:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 14:28:08]   Processing 150/164: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-03 14:28:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-03 14:28:12]   Processing 151/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:28:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:28:16]   Processing 152/164: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-03 14:28:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-03 14:28:19]   Processing 153/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 14:28:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 14:28:22]   Processing 154/164: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-03 14:28:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-03 14:28:26]   Processing 155/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 14:28:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 14:28:28]   Processing 156/164: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-03 14:28:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-03 14:28:31]   Processing 157/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 14:28:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 14:28:34]   Processing 158/164: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-03 14:28:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-03 14:28:39]   Processing 159/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 14:28:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 14:28:42]   Processing 160/164: ford-c-max-1-8-tdci-style-5dr
+[2025-12-03 14:28:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-03 14:28:46]   Processing 161/164: ford-1-8-lx-5dr
+[2025-12-03 14:28:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-03 14:28:49]   Processing 162/164: ford-1-8-lx-5dr
+[2025-12-03 14:28:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/

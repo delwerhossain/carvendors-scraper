@@ -10,7 +10,9 @@
       "Bash(del README.md SETUP_GUIDE.md OPTIMIZATION_REPORT.md CPANEL_SETUP_GUIDE.md COMPLETE_SETUP.md)",
       "Bash(if [ ! -d \"images\" ])",
       "Bash(then echo \"Creating images/ directory for downloaded images...\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(c:wamp64binphpphp8.3.14php.exe scrape.php)",
+      "Bash(/c/wamp64/bin/php/php8.3.14/php.exe:*)"
     ],
     "deny": [],
     "ask": []
