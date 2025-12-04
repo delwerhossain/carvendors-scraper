@@ -16,7 +16,8 @@
       "Bash(mysql:*)",
       "Bash(timeout 300 /c/wamp64/bin/php/php8.3.14/php.exe:*)",
       "Bash(tail:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(del apply_migration.php setup_database.php scrape-single-page.php scrape.php CLAUDE.md QUICK_REFERENCE.md SETUP.md)"
     ],
     "deny": [],
     "ask": []
