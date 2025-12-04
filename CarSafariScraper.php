@@ -11,15 +11,15 @@
  * Integrates with StatisticsManager for comprehensive metrics tracking.
  */
 
-// Use autoloader if available
-if (file_exists(__DIR__ . '/autoload.php')) {
-    require_once __DIR__ . '/autoload.php';
-} else {
-    // Fallback for older structure
-    require_once __DIR__ . '/src/StatisticsManager.php' ?? null;
+// Load StatisticsManager before use
+if (file_exists(__DIR__ . '/src/StatisticsManager.php')) {
+    require_once __DIR__ . '/src/StatisticsManager.php';
 }
 
-use CarVendors\Scrapers\StatisticsManager;
+// Use namespace or create alias for backward compatibility
+if (!class_exists('StatisticsManager')) {
+    class_alias('CarVendors\Scrapers\StatisticsManager', 'StatisticsManager');
+}
 
 class CarSafariScraper extends CarScraper
 {
@@ -32,15 +32,8 @@ class CarSafariScraper extends CarScraper
         parent::__construct($config);
         $this->dbName = $dbName;
         
-        // Initialize StatisticsManager if database is available
-        try {
-            if ($this->db instanceof PDO) {
-                $this->statisticsManager = new StatisticsManager($this->db, $config);
-            }
-        } catch (Exception $e) {
-            // StatisticsManager initialization failed, continue without it
-            $this->log("Warning: StatisticsManager initialization failed: " . $e->getMessage());
-        }
+        // Temporarily disable StatisticsManager for debugging description fix
+        $this->statisticsManager = null;
     }
 
     /**
@@ -63,7 +56,12 @@ class CarSafariScraper extends CarScraper
 
         // Initialize statistics tracking
         if ($this->statisticsManager) {
-            $this->statisticsManager->initializeStatistics($this->vendorId);
+            try {
+                $this->statisticsManager->initializeStatistics($this->vendorId);
+            } catch (Exception $e) {
+                $this->log("Warning: Could not initialize statistics: " . $e->getMessage());
+                $this->statisticsManager = null;  // Disable for this run
+            }
         }
 
         try {

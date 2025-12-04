@@ -54,6 +54,13 @@ return [
         'log_path' => __DIR__ . '/logs/',
     ],
 
+    // Path settings
+    'paths' => [
+        'logs' => __DIR__ . '/logs/',
+        'images' => __DIR__ . '/images/',
+        'data' => __DIR__ . '/data/',
+    ],
+
     // Patterns to identify where to cut off finance text in descriptions
     'description_cutoff_patterns' => [
         'Finance available',

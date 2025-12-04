@@ -595,10 +595,11 @@ class CarScraper
             return null;
         }
 
-        // Remove finance-related text
+        // Remove finance-related text AND keep specs
         $description = $this->removeFinanceText($description);
         
-        return $this->cleanText($description);
+        // Use specialized description cleaner that preserves pipe format specs
+        return $this->cleanDescriptionText($description);
     }
 
     /**
@@ -871,32 +872,68 @@ class CarScraper
     /**
      * Clean text (remove extra whitespace, garbage characters, etc.) - AGGRESSIVE
      */
+    /**
+     * GENTLE text cleaner for short descriptions (preserves normal UTF-8)
+     */
     protected function cleanText(string $text): string
     {
-        // 1. Remove null bytes and control characters
-        $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
-
-        // 2. Aggressively remove ALL broken UTF-8 sequences (â*, ã*, etc.)
-        $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/u', '...', $text);
-        $text = preg_replace('/[\xE0-\xEF][\x80-\xBF]{2}/u', '...', $text);
-
-        // 3. Decode HTML entities
+        // 1. Decode HTML entities
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
-        // 4. Replace specific known broken sequences
+        // 2. Remove null bytes and control characters
+        $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
+
+        // 3. Fix broken UTF-8 sequences only (don't replace all non-ASCII)
+        $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/', '', $text);
+        $text = preg_replace('/[\xE0-\xEF][\x80-\xBF]{2}/', '', $text);
+
+        // 4. Replace specific HTML encoding artifacts
         $text = str_replace([
-            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â€', 'â€‚', 'â€ƒ', 'â„¢',
-            '&#' // HTML entity remnants
+            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â„¢',
         ], [
-            '...', "'", '"', '-', '-', '', ',', '...', 'TM', ''
+            '...', "'", '"', '-', '-', 'TM'
         ], $text);
 
-        // 5. Remove any remaining suspicious byte sequences
-        $text = preg_replace('/[^\x00-\x7F]+/u', '...', $text);  // Remove non-ASCII if it's not valid UTF-8
-
-        // 6. Remove extra whitespace
+        // 5. Clean up excessive whitespace
         $text = preg_replace('/\s+/', ' ', $text);
-        $text = preg_replace('/\.{4,}/', '...', $text);  // Multiple ellipsis to single
+        $text = preg_replace('/\.{4,}/', '...', $text);
+
+        // 6. Trim
+        $text = trim($text);
+
+        return $text;
+    }
+
+    /**
+     * SPECIALIZED cleaner for FULL descriptions (preserves specs with pipes)
+     * Keeps pipe-separated specifications intact while removing extra whitespace
+     */
+    protected function cleanDescriptionText(string $text): string
+    {
+        // 1. Decode HTML entities
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        // 2. Remove null bytes and control characters
+        $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
+
+        // 3. PRESERVE pipe-separated specs - normalize spacing around pipes
+        // Clean whitespace around pipes but keep the pipes
+        $text = preg_replace('/\s*\|\s*/', '|', $text);
+
+        // 4. Replace broken UTF-8 sequences
+        $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/', '', $text);
+        $text = preg_replace('/[\xE0-\xEF][\x80-\xBF]{2}/', '', $text);
+
+        // 5. Replace specific HTML encoding artifacts
+        $text = str_replace([
+            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â„¢',
+        ], [
+            '...', "'", '"', '-', '-', 'TM'
+        ], $text);
+
+        // 6. Clean up excessive whitespace BUT preserve pipe structure
+        $text = preg_replace('/(?<!\|)\s{2,}(?!\|)/', ' ', $text);
+        $text = preg_replace('/\.{4,}/', '...', $text);
 
         // 7. Trim
         $text = trim($text);
