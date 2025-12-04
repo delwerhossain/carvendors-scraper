@@ -17,7 +17,15 @@
       "Bash(timeout 300 /c/wamp64/bin/php/php8.3.14/php.exe:*)",
       "Bash(tail:*)",
       "Bash(grep:*)",
-      "Bash(del apply_migration.php setup_database.php scrape-single-page.php scrape.php CLAUDE.md QUICK_REFERENCE.md SETUP.md)"
+      "Bash(del apply_migration.php setup_database.php scrape-single-page.php scrape.php CLAUDE.md QUICK_REFERENCE.md SETUP.md)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\" create_scrape_logs_table.php)",
+      "Bash(timeout:*)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\" check_vehicle_count.php)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\" check_scrape_status.php)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\":*)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\" check_results.php)",
+      "Bash(\"c:\\wamp64\\bin\\php\\php8.3.14\\php.exe\" debug_logs.php)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

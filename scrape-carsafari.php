@@ -59,7 +59,7 @@ if (isset($options['help'])) {
     echo "Options:\n";
     echo "  --no-details  Skip fetching individual vehicle detail pages\n";
     echo "  --no-json     Skip generating JSON snapshot file\n";
-    echo "  --vendor=ID   Set vendor ID (default: 1)\n";
+    echo "  --vendor=ID   Set vendor ID (default: 432 - systonautosltd)\n";
     echo "  --help        Show this help message\n\n";
     exit(0);
 }
@@ -75,7 +75,7 @@ if (isset($options['no-json'])) {
     echo "Note: Skipping JSON snapshot (--no-json)\n";
 }
 
-$vendorId = isset($options['vendor']) ? (int)$options['vendor'] : 1;
+$vendorId = isset($options['vendor']) ? (int)$options['vendor'] : 432;  // Default to systonautosltd
 echo "Using vendor ID: $vendorId\n";
 
 // Start the scraper

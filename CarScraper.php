@@ -15,8 +15,12 @@ class CarScraper
         'found' => 0,
         'inserted' => 0,
         'updated' => 0,
+        'skipped' => 0,         // No changes detected
         'deactivated' => 0,
+        'images_stored' => 0,   // Track image storage
+        'errors' => 0,
     ];
+    protected int $startTime = 0;
 
     public function __construct(array $config)
     {
@@ -178,6 +182,7 @@ class CarScraper
     protected function parseListingPage(string $html): array
     {
         $vehicles = [];
+        $processedIds = [];  // STEP 1: Add deduplication tracking
         
         // Create a DOMDocument for parsing
         $dom = new DOMDocument();
@@ -207,16 +212,20 @@ class CarScraper
                 $card = $this->findParentCard($link, $xpath);
                 if ($card) {
                     $vehicle = $this->parseVehicleCard($card, $xpath, $href);
-                    if ($vehicle) {
+                    // STEP 1: Check deduplication before adding to vehicles array
+                    if ($vehicle && !isset($processedIds[$vehicle['external_id']])) {
                         $vehicles[] = $vehicle;
+                        $processedIds[$vehicle['external_id']] = true;  // Mark as processed
                     }
                 }
             }
         } else {
             foreach ($cards as $card) {
                 $vehicle = $this->parseVehicleCard($card, $xpath);
-                if ($vehicle) {
+                // STEP 1: Check deduplication before adding to vehicles array
+                if ($vehicle && !isset($processedIds[$vehicle['external_id']])) {
                     $vehicles[] = $vehicle;
+                    $processedIds[$vehicle['external_id']] = true;  // Mark as processed
                 }
             }
         }
@@ -373,6 +382,44 @@ class CarScraper
             $location = $this->cleanText($loc);
         }
 
+        // STEP 3: Extract additional fields from title
+        $doors = null;
+        $registration_plate = null;
+        $plate_year = null;
+        $drive_system = null;
+        $trim = null;
+        $year = null;
+        
+        // Extract number of doors: "5dr", "3dr", "4dr"
+        if (preg_match('/\b(\d)dr\b/i', $title, $matches)) {
+            $doors = (int)$matches[1];
+        }
+        
+        // Extract registration plate year: "(64 plate)", "(23 plate)"
+        if (preg_match('/\((\d{2})\s*(?:plate|reg|registration)\)/i', $title, $matches)) {
+            $plateCode = (int)$matches[1];
+            if ($plateCode <= 99) {
+                $registration_plate = $matches[1];
+                // Convert plate code to year: 00-49 = 2000-2049, 50-99 = 1950-1999
+                $plate_year = ($plateCode <= 49) ? 2000 + $plateCode : 1900 + $plateCode;
+            }
+        }
+        
+        // Extract drive system: "4WD", "AWD", "2WD", "FWD", "RWD", "xDrive", "sDrive", "ALL4"
+        if (preg_match('/\b(4WD|AWD|2WD|FWD|RWD|xDrive|sDrive|qDrive|ALL4)\b/i', $title, $matches)) {
+            $drive_system = strtoupper($matches[1]);
+        }
+        
+        // Extract trim level: "SE", "Sport", "S line", "FR", "GT", etc.
+        if (preg_match('/\b(SE|Sport|S\s*line|FR|GT|Elegance|Executive|Limited|Prestige|Premium|Base|Standard|R-Design|AMG|RS|M\s*Sport|GLE|GLC|GLA)\b/i', $title, $matches)) {
+            $trim = trim($matches[1]);
+        }
+        
+        // Extract year from title (already done but needed for return array)
+        if (preg_match('/\b(19|20)\d{2}\b/', $title, $matches)) {
+            $year = (int)$matches[0];
+        }
+
         return [
             'external_id' => $externalId,
             'title' => $title,
@@ -391,6 +438,15 @@ class CarScraper
             'image_url' => $imageUrl,  // Primary image
             'image_urls' => $imageUrls,  // All images
             'vehicle_url' => $vehicleUrl,
+            // STEP 3: New fields from title parsing
+            'doors' => $doors,
+            'registration_plate' => $registration_plate,
+            'plate_year' => $plate_year,
+            'drive_system' => $drive_system,
+            'trim' => $trim,
+            'year' => $year,
+            // STEP 4: Engine size (will be populated from detail page)
+            'engine_size' => null,
         ];
     }
 
@@ -508,6 +564,12 @@ class CarScraper
                         }
                     }
                 }
+                
+                // STEP 4: Extract engine size from detail page
+                $engineSize = $this->extractEngineSize($html);
+                if ($engineSize && empty($vehicle['engine_size'])) {
+                    $vehicle['engine_size'] = $engineSize;
+                }
             }
             
             // Be polite - wait between requests
@@ -554,6 +616,35 @@ class CarScraper
         }
         
         return $text;
+    }
+
+    /**
+     * STEP 4: Extract engine size from detail page HTML
+     */
+    protected function extractEngineSize(string $html): ?int
+    {
+        $engineSize = null;
+        
+        // Try multiple patterns to find engine size
+        // Pattern 1: "Engine Size: 1,598 cc" or "Engine Size: 1598 cc"
+        if (preg_match('/Engine\s*(?:Size|Capacity)?[:\s]*([0-9,]+)\s*(?:cc|cubic)/i', $html, $matches)) {
+            $engineSize = (int)str_replace(',', '', $matches[1]);
+        }
+        // Pattern 2: "1,598cc" or "1598 cc"
+        elseif (preg_match('/\b([0-9,]+)\s*(?:cc|cubic\s*centimetres?)\b/i', $html, $matches)) {
+            $engineSize = (int)str_replace(',', '', $matches[1]);
+        }
+        // Pattern 3: Engine displacement in specification table
+        elseif (preg_match('/(?:displacement|engine\s*capacity)[:\s]*([0-9,]+)\s*(?:cc|ml)/i', $html, $matches)) {
+            $engineSize = (int)str_replace(',', '', $matches[1]);
+        }
+        
+        // Validate: engine sizes should be between 600cc and 8000cc for cars
+        if ($engineSize && $engineSize >= 600 && $engineSize <= 8000) {
+            return $engineSize;
+        }
+        
+        return null;
     }
 
     /**
@@ -887,5 +978,159 @@ class CarScraper
     public function getStats(): array
     {
         return $this->stats;
+    }
+
+    /**
+     * Calculate hash of key vehicle data for change detection
+     * Used to detect if vehicle data has changed since last scrape
+     *
+     * @param array $vehicle Vehicle data array
+     * @return string MD5 hash of combined key fields
+     */
+    protected function calculateDataHash(array $vehicle): string
+    {
+        $keyFields = [
+            $vehicle['title'] ?? '',
+            $vehicle['selling_price'] ?? 0,
+            $vehicle['mileage'] ?? 0,
+            $vehicle['description'] ?? '',
+            $vehicle['model'] ?? '',
+            $vehicle['year'] ?? 0,
+            $vehicle['fuel_type'] ?? '',
+            $vehicle['transmission'] ?? '',
+        ];
+
+        $hashInput = implode('|', array_map(function($field) {
+            if (is_string($field)) {
+                // Normalize whitespace in text fields
+                return trim(preg_replace('/\s+/', ' ', $field));
+            }
+            return (string)$field;
+        }, $keyFields));
+
+        return md5($hashInput);
+    }
+
+    /**
+     * Check if a vehicle's data has changed based on stored hash
+     *
+     * @param array $vehicle Current vehicle data
+     * @param string|null $storedHash Previously calculated hash (from database)
+     * @return bool True if data has changed or no stored hash exists
+     */
+    protected function hasDataChanged(array $vehicle, ?string $storedHash): bool
+    {
+        if ($storedHash === null) {
+            return true; // New vehicle, always "changed"
+        }
+
+        $currentHash = $this->calculateDataHash($vehicle);
+        return $currentHash !== $storedHash;
+    }
+
+    /**
+     * Clean and rotate JSON output files (keep only last 2)
+     * Adds timestamp to filename for tracking
+     *
+     * @param string $outputFile Path to JSON file
+     * @return array Array of rotated files (kept files)
+     */
+    protected function rotateJsonFiles(string $outputFile): array
+    {
+        $dir = dirname($outputFile);
+        $basename = basename($outputFile, '.json');
+        
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+            return [];
+        }
+
+        // Find all timestamped JSON files matching pattern
+        $files = glob($dir . '/' . $basename . '_*.json');
+        
+        if (empty($files)) {
+            return [];
+        }
+
+        // Sort by modification time (newest first)
+        usort($files, function($a, $b) {
+            return filemtime($b) <=> filemtime($a);
+        });
+
+        // Keep only last 2 files, delete rest
+        $keptFiles = [];
+        foreach ($files as $idx => $file) {
+            if ($idx < 2) {
+                $keptFiles[] = $file;
+            } else {
+                @unlink($file);
+                $this->log('Deleted old JSON file: ' . basename($file));
+            }
+        }
+
+        return $keptFiles;
+    }
+
+    /**
+     * Create timestamped JSON filename and clean old versions
+     *
+     * @param string $outputFile Base output file path
+     * @return string New timestamped filename
+     */
+    protected function getTimestampedJsonFile(string $outputFile): string
+    {
+        $dir = dirname($outputFile);
+        $basename = basename($outputFile, '.json');
+        $timestamp = date('YYYYMMDDHHmmss');
+        
+        // Rotate old files first
+        $this->rotateJsonFiles($outputFile);
+        
+        // Return new timestamped filename
+        return $dir . '/' . $basename . '_' . $timestamp . '.json';
+    }
+
+    /**
+     * Clean up old log files (keep only last 7 days)
+     * Log files are named scraper_YYYY-MM-DD.log
+     *
+     * @return int Number of logs deleted
+     */
+    protected function cleanupOldLogs(): int
+    {
+        $logsDir = $this->config['paths']['logs'];
+        
+        if (!is_dir($logsDir)) {
+            return 0;
+        }
+
+        $logFiles = glob($logsDir . '/scraper_*.log');
+        $deleted = 0;
+        $retentionDays = 7;
+        $cutoffTime = time() - ($retentionDays * 86400);
+
+        foreach ($logFiles as $file) {
+            if (filemtime($file) < $cutoffTime) {
+                @unlink($file);
+                $deleted++;
+                $this->log('Deleted old log file: ' . basename($file));
+            }
+        }
+
+        return $deleted;
+    }
+
+    /**
+     * Get database hash for a vehicle (if exists)
+     * Override in subclasses for database-specific implementations
+     *
+     * @param string $registrationNumber Vehicle registration number
+     * @return string|null Stored data hash or null if not found
+     */
+    protected function getStoredDataHash(string $registrationNumber): ?string
+    {
+        // Base implementation returns null
+        // CarSafariScraper will override to query gyc_vehicle_info.data_hash
+        return null;
     }
 }

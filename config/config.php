@@ -48,10 +48,10 @@ return [
         'save_json' => true,
 
         // Path for JSON output (relative to script directory)
-        'json_path' => __DIR__ . '/data/vehicles.json',
+        'json_path' => __DIR__ . '/../data/vehicles.json',
 
         // Path for logs
-        'log_path' => __DIR__ . '/logs/',
+        'log_path' => __DIR__ . '/../logs/',
     ],
 
     // Patterns to identify where to cut off finance text in descriptions
@@ -69,29 +69,5 @@ return [
         'Terms and conditions apply',
         'We are authorised',
         'We are a credit broker',
-    ],
-
-    // CarCheck Integration Settings (Phase 6)
-    'carcheck' => [
-        // Enable/disable CarCheck integration
-        'enabled' => true,
-
-        // Cache time-to-live in seconds (30 minutes default)
-        'cache_ttl' => 1800,
-
-        // Request delay between API calls in seconds (rate limiting)
-        'request_delay' => 1.5,
-
-        // Maximum retries for failed API calls
-        'max_retries' => 3,
-
-        // Request timeout in seconds
-        'timeout' => 30,
-
-        // Batch processing size (how many vehicles per batch)
-        'batch_size' => 10,
-
-        // Enable automatic error recovery
-        'auto_retry' => true,
     ],
 ];
