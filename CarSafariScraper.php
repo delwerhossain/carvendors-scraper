@@ -237,8 +237,8 @@ class CarSafariScraper extends CarScraper
     private function createNewAttribute(array $vehicle): int
     {
         $sql = "INSERT INTO gyc_vehicle_attribute
-                (category_id, make_id, model, fuel_type, transmission, body_style, year, active_status, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, '1', NOW())";
+                (category_id, make_id, model, fuel_type, transmission, body_style, year, engine_size, active_status, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, '1', NOW())";
 
         $stmt = $this->db->prepare($sql);
 
@@ -249,6 +249,12 @@ class CarSafariScraper extends CarScraper
             $year = (int)$matches[1];
         }
 
+        // Format engine size (stored as string in DB, e.g., "1969")
+        $engineSize = null;
+        if (!empty($vehicle['engine_size'])) {
+            $engineSize = (string)$vehicle['engine_size'];
+        }
+
         $stmt->execute([
             1,  // category_id
             1,  // make_id (default, should be updated with real make)
@@ -257,6 +263,7 @@ class CarSafariScraper extends CarScraper
             $vehicle['transmission'] ?? 'Unknown',
             $vehicle['body_style'] ?? NULL,
             $year,
+            $engineSize,
         ]);
 
         return (int)$this->db->lastInsertId();
@@ -554,6 +561,7 @@ class CarSafariScraper extends CarScraper
                 a.transmission,
                 a.fuel_type,
                 a.body_style,
+                a.engine_size,
                 (SELECT COUNT(*) FROM gyc_product_images WHERE vechicle_info_id = v.id) as image_count,
                 (SELECT GROUP_CONCAT(file_name SEPARATOR '|||') FROM gyc_product_images WHERE vechicle_info_id = v.id ORDER BY serial ASC) as images
             FROM gyc_vehicle_info v
@@ -604,7 +612,7 @@ class CarSafariScraper extends CarScraper
                         'plate_year' => $v['registration_plate'],
                         'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
                         'drive_system' => $v['drive_system'],
-                        'engine_size' => null, // Would need to be extracted separately
+                        'engine_size' => !empty($v['engine_size']) ? (int)$v['engine_size'] : null,
                         'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
                         'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
                         'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,

@@ -462,78 +462,202 @@ class CarScraper
             'fuel_type' => null,
             'body_style' => null,
             'first_reg_date' => null,
+            'engine_size' => null,
+            'drive_system' => null,
         ];
 
-        // Mileage patterns - try multiple formats
-        if (preg_match('/(?:mileage|miles)[:\s]*([0-9,]+(?:\s*miles)?)/i', $html, $matches)) {
-            $details['mileage'] = $this->cleanText($matches[1]);
-        } elseif (preg_match('/([0-9,]+)\s*miles/i', $html, $matches)) {
-            $details['mileage'] = $matches[1] . ' miles';
-        } elseif (preg_match('/\b([0-9]{2,})[,\s]*([0-9]{3})\b\s*miles/i', $html, $matches)) {
-            // Match numbers like "75,000 miles" or "75 000 miles"
-            $details['mileage'] = str_replace([',', ' '], '', $matches[0]);
-        } elseif (preg_match('/\b\d{4,}\s*(?:k|K)\b/', $html, $matches)) {
-            // Match numbers like "75K" (thousand miles)
-            preg_match('/\d+/', $matches[0], $numMatch);
-            if ($numMatch) {
-                $details['mileage'] = ($numMatch[0] * 1000) . ' miles';
-            }
-        }
+        // Valid car colors list (used for validation)
+        $validColors = [
+            'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green', 'brown', 'beige',
+            'gold', 'orange', 'yellow', 'purple', 'pink', 'maroon', 'navy', 'turquoise', 'bronze',
+            'cream', 'ivory', 'pearl', 'metallic', 'gunmetal', 'charcoal', 'graphite', 'midnight',
+            'bordeaux', 'wine', 'burgundy', 'crimson', 'scarlet', 'cobalt', 'azure', 'teal',
+            'olive', 'forest', 'emerald', 'lime', 'mint', 'sage', 'khaki', 'tan', 'copper',
+            'rust', 'champagne', 'sand', 'taupe', 'ash', 'smoke', 'slate', 'pewter'
+        ];
 
-        // Colour patterns - use whitelist of valid car colors to avoid false positives
-        if (preg_match('/(?:colou?r)[:\s]*([a-zA-Z\s\-]+?)(?:[\s<;|,]|$)/i', $html, $matches)) {
+        // ======== COLOUR EXTRACTION (PRIORITY ORDER) ========
+        
+        // Pattern 1: Systonautos structured HTML - <span class="vd-detail-name">Colour</span><span class="vd-detail-value">Silver</span>
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Colou?r\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([^<]+)/i', $html, $matches)) {
             $colour = trim($matches[1]);
-            $colour = preg_replace('/[<>";\']+/', '', $colour);  // Remove HTML artifacts
-            $colourLower = strtolower(trim($colour));
-
-            // Valid car colors list
-            $validColors = [
-                'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green', 'brown', 'beige',
-                'gold', 'orange', 'yellow', 'purple', 'pink', 'maroon', 'navy', 'turquoise', 'bronze',
-                'cream', 'ivory', 'pearl', 'metallic', 'gunmetal', 'charcoal', 'graphite', 'midnight',
-                'bordeaux', 'wine', 'burgundy', 'crimson', 'scarlet', 'cobalt', 'azure', 'teal',
-                'olive', 'forest', 'emerald', 'lime', 'mint', 'sage', 'khaki', 'tan', 'copper',
-                'rust', 'champagne', 'sand', 'taupe', 'ash', 'smoke', 'slate', 'pewter'
-            ];
-
-            // Check if color matches valid list (exact or starts with)
-            $isValid = false;
-            foreach ($validColors as $validColor) {
-                if ($colourLower === $validColor || strpos($colourLower, $validColor) === 0) {
-                    $isValid = true;
-                    break;
-                }
+            if ($this->isValidColour($colour, $validColors)) {
+                $details['colour'] = ucfirst(strtolower($colour));
             }
-
-            // Additional check: must be 3-25 chars, only letters/spaces/hyphens
-            if ($isValid && strlen($colour) > 2 && strlen($colour) < 30 && preg_match('/^[a-zA-Z\s\-]+$/', $colour)) {
-                $details['colour'] = $this->cleanText($colour);
+        }
+        
+        // Pattern 2: Table row format - <th>Colour</th><td>Silver</td>
+        if (empty($details['colour']) && preg_match('/<th[^>]*>\s*Colou?r\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $colour = trim($matches[1]);
+            if ($this->isValidColour($colour, $validColors)) {
+                $details['colour'] = ucfirst(strtolower($colour));
+            }
+        }
+        
+        // Pattern 3: List item format - <li>Colour: Silver</li> or <li>Colour Silver</li>
+        if (empty($details['colour']) && preg_match('/<li[^>]*>[^<]*Colou?r[:\s]*([A-Za-z\s\-]+?)(?:<|$)/i', $html, $matches)) {
+            $colour = trim($matches[1]);
+            if ($this->isValidColour($colour, $validColors)) {
+                $details['colour'] = ucfirst(strtolower($colour));
+            }
+        }
+        
+        // Pattern 4: Generic text pattern - "Colour: Silver" or "ColourSilver" (no space)
+        if (empty($details['colour']) && preg_match('/Colou?r[:\s]*([A-Za-z\s\-]+?)(?:[\s<;|,\n]|Transmission|Fuel|Body|Mileage|Engine|$)/i', $html, $matches)) {
+            $colour = trim($matches[1]);
+            if ($this->isValidColour($colour, $validColors)) {
+                $details['colour'] = ucfirst(strtolower($colour));
             }
         }
 
-        // Transmission patterns
-        if (preg_match('/(automatic|manual|semi-auto|cvt)/i', $html, $matches)) {
+        // ======== MILEAGE EXTRACTION ========
+        
+        // Pattern 1: Structured HTML - <span class="vd-detail-value">75,000</span> after Mileage
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Mileage\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([0-9,]+)/i', $html, $matches)) {
+            $details['mileage'] = str_replace(',', '', $matches[1]) . ' miles';
+        }
+        // Pattern 2: Table row - <th>Mileage</th><td>75,000</td>
+        elseif (preg_match('/<th[^>]*>\s*Mileage\s*<\/th>\s*<td[^>]*>\s*([0-9,]+)/i', $html, $matches)) {
+            $details['mileage'] = str_replace(',', '', $matches[1]) . ' miles';
+        }
+        // Pattern 3: Generic text "Mileage75,000" or "Mileage: 75,000"
+        elseif (preg_match('/Mileage[:\s]*([0-9,]+)/i', $html, $matches)) {
+            $details['mileage'] = str_replace(',', '', $matches[1]) . ' miles';
+        }
+        // Pattern 4: "75,000 miles" anywhere
+        elseif (preg_match('/([0-9,]+)\s*miles/i', $html, $matches)) {
+            $details['mileage'] = str_replace(',', '', $matches[1]) . ' miles';
+        }
+
+        // ======== ENGINE SIZE EXTRACTION ========
+        
+        // Pattern 1: Structured HTML - Engine Size span
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Engine\s*Size\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([0-9,]+)/i', $html, $matches)) {
+            $details['engine_size'] = (int)str_replace(',', '', $matches[1]);
+        }
+        // Pattern 2: Table row - <th>Engine Size</th><td>1,969</td>
+        elseif (preg_match('/<th[^>]*>\s*Engine\s*(?:Size|Capacity)\s*<\/th>\s*<td[^>]*>\s*([0-9,]+)/i', $html, $matches)) {
+            $details['engine_size'] = (int)str_replace(',', '', $matches[1]);
+        }
+        // Pattern 3: Generic text "Engine Size1,969" or "Engine Size: 1969 cc"
+        elseif (preg_match('/Engine\s*(?:Size|Capacity)?[:\s]*([0-9,]+)\s*(?:cc)?/i', $html, $matches)) {
+            $engineSize = (int)str_replace(',', '', $matches[1]);
+            if ($engineSize >= 600 && $engineSize <= 8000) {
+                $details['engine_size'] = $engineSize;
+            }
+        }
+
+        // ======== TRANSMISSION EXTRACTION ========
+        
+        // Pattern 1: Structured HTML
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Transmission\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['transmission'] = ucfirst(strtolower(trim($matches[1])));
+        }
+        // Pattern 2: Table row
+        elseif (preg_match('/<th[^>]*>\s*(?:Transmission|Gearbox)\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $trans = trim($matches[1]);
+            // Extract just "Manual" or "Automatic" from "6 speed Manual"
+            if (preg_match('/(automatic|manual|semi-auto|cvt)/i', $trans, $transMatch)) {
+                $details['transmission'] = ucfirst(strtolower($transMatch[1]));
+            } else {
+                $details['transmission'] = ucfirst(strtolower($trans));
+            }
+        }
+        // Pattern 3: Generic text
+        elseif (preg_match('/(automatic|manual|semi-auto|cvt)/i', $html, $matches)) {
             $details['transmission'] = ucfirst(strtolower($matches[1]));
         }
 
-        // Fuel type patterns
-        if (preg_match('/(petrol|diesel|electric|hybrid|plug-in hybrid|phev)/i', $html, $matches)) {
+        // ======== FUEL TYPE EXTRACTION ========
+        
+        // Pattern 1: Structured HTML
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Fuel\s*Type\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['fuel_type'] = ucfirst(strtolower(trim($matches[1])));
+        }
+        // Pattern 2: Table row
+        elseif (preg_match('/<th[^>]*>\s*Fuel\s*(?:Type)?\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['fuel_type'] = ucfirst(strtolower(trim($matches[1])));
+        }
+        // Pattern 3: Generic text
+        elseif (preg_match('/(petrol|diesel|electric|hybrid|plug-in hybrid|phev)/i', $html, $matches)) {
             $details['fuel_type'] = ucfirst(strtolower($matches[1]));
         }
 
-        // Body style patterns
-        if (preg_match('/(hatchback|saloon|estate|suv|coupe|convertible|mpv|4x4)/i', $html, $matches)) {
+        // ======== BODY STYLE EXTRACTION ========
+        
+        // Pattern 1: Structured HTML
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*Body\s*Style\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['body_style'] = ucfirst(strtolower(trim($matches[1])));
+        }
+        // Pattern 2: Table row
+        elseif (preg_match('/<th[^>]*>\s*Body\s*(?:Style|Type)?\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['body_style'] = ucfirst(strtolower(trim($matches[1])));
+        }
+        // Pattern 3: Generic text
+        elseif (preg_match('/(hatchback|saloon|estate|suv|coupe|convertible|mpv|4x4)/i', $html, $matches)) {
             $details['body_style'] = ucfirst(strtolower($matches[1]));
         }
 
-        // First registration date patterns
-        if (preg_match('/(?:first\s*reg(?:istration)?|reg\.?\s*date)[:\s]*(\d{1,2}\/\d{1,2}\/\d{2,4})/i', $html, $matches)) {
-            $details['first_reg_date'] = $matches[1];
-        } elseif (preg_match('/(\d{1,2}\/\d{1,2}\/\d{4})/', $html, $matches)) {
+        // ======== FIRST REGISTRATION DATE EXTRACTION ========
+        
+        // Pattern 1: Structured HTML
+        if (preg_match('/<span[^>]*class=["\']vd-detail-name["\'][^>]*>\s*First\s*Registration\s*Date\s*<\/span>\s*<span[^>]*class=["\']vd-detail-value["\'][^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['first_reg_date'] = trim($matches[1]);
+        }
+        // Pattern 2: Table row
+        elseif (preg_match('/<th[^>]*>\s*First\s*Reg(?:istration)?\s*(?:Date)?\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['first_reg_date'] = trim($matches[1]);
+        }
+        // Pattern 3: Generic text
+        elseif (preg_match('/(?:first\s*reg(?:istration)?|reg\.?\s*date)[:\s]*(\d{1,2}\/\d{1,2}\/\d{2,4})/i', $html, $matches)) {
             $details['first_reg_date'] = $matches[1];
         }
 
+        // ======== DRIVE SYSTEM EXTRACTION ========
+        
+        // Pattern 1: Table row - <th>Drive</th><td>4WD</td>
+        if (preg_match('/<th[^>]*>\s*Drive(?:\s*System)?\s*<\/th>\s*<td[^>]*>\s*([^<]+)/i', $html, $matches)) {
+            $details['drive_system'] = strtoupper(trim($matches[1]));
+        }
+        // Pattern 2: Generic patterns
+        elseif (preg_match('/\b(4WD|AWD|2WD|FWD|RWD|4x4|All[- ]?Wheel[- ]?Drive|Front[- ]?Wheel[- ]?Drive|Rear[- ]?Wheel[- ]?Drive)\b/i', $html, $matches)) {
+            $drive = strtoupper(trim($matches[1]));
+            // Normalize
+            if (stripos($drive, 'ALL') !== false || $drive === '4WD' || $drive === 'AWD' || $drive === '4X4') {
+                $details['drive_system'] = 'AWD';
+            } elseif (stripos($drive, 'FRONT') !== false || $drive === 'FWD') {
+                $details['drive_system'] = 'FWD';
+            } elseif (stripos($drive, 'REAR') !== false || $drive === 'RWD') {
+                $details['drive_system'] = 'RWD';
+            } else {
+                $details['drive_system'] = $drive;
+            }
+        }
+
         return $details;
+    }
+
+    /**
+     * Validate if a colour string is a valid car colour
+     */
+    protected function isValidColour(string $colour, array $validColors): bool
+    {
+        $colour = trim($colour);
+        $colourLower = strtolower($colour);
+        
+        // Must be 2-30 characters and only letters/spaces/hyphens
+        if (strlen($colour) < 2 || strlen($colour) > 30 || !preg_match('/^[a-zA-Z\s\-]+$/', $colour)) {
+            return false;
+        }
+        
+        // Check against valid colors list
+        foreach ($validColors as $validColor) {
+            if ($colourLower === $validColor || strpos($colourLower, $validColor) === 0) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -550,25 +674,27 @@ class CarScraper
             $html = $this->fetchUrl($vehicle['vehicle_url']);
             
             if ($html) {
+                // Extract full description
                 $fullDesc = $this->extractFullDescription($html);
                 if ($fullDesc) {
                     $vehicle['description_full'] = $fullDesc;
                 }
                 
-                // Also try to extract any missing details from the detail page
-                if (empty($vehicle['mileage']) || empty($vehicle['colour'])) {
-                    $details = $this->extractVehicleDetails($html);
-                    foreach ($details as $key => $value) {
-                        if (empty($vehicle[$key]) && !empty($value)) {
-                            $vehicle[$key] = $value;
-                        }
+                // ALWAYS extract details from detail page - this is where accurate data is
+                $details = $this->extractVehicleDetails($html);
+                foreach ($details as $key => $value) {
+                    // Override with detail page data if available (more accurate)
+                    if (!empty($value)) {
+                        $vehicle[$key] = $value;
                     }
                 }
                 
-                // STEP 4: Extract engine size from detail page
-                $engineSize = $this->extractEngineSize($html);
-                if ($engineSize && empty($vehicle['engine_size'])) {
-                    $vehicle['engine_size'] = $engineSize;
+                // Log what we found for debugging
+                if (!empty($details['colour'])) {
+                    $this->log("    Found colour: {$details['colour']}");
+                }
+                if (!empty($details['engine_size'])) {
+                    $this->log("    Found engine_size: {$details['engine_size']}");
                 }
             }
             
