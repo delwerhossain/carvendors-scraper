@@ -8,22 +8,34 @@
 
 **Purpose**: Scrape used vehicle listings from dealer websites (currently systonautosltd.co.uk) and automatically publish them to CarSafari database with clean, normalized data and full image management.
 
-**Status**: ✅ **PRODUCTION READY** (81 vehicles, 633 images, 100% auto-published)
+**Status**: ✅ **PRODUCTION READY** (82 vehicles, 100% color extraction, 100% engine_size extraction)
 
 **Technology Stack**: 
-- **Language**: PHP 8.3.14
-- **Database**: MySQL 5.7+ (PDO)
+- **Language**: PHP 8.3.14 (or 7.4+)
+- **Database**: MySQL 5.7+ or MariaDB (PDO)
 - **HTTP**: cURL with headers & timeout handling
 - **Parsing**: DOMDocument + XPath
 - **Data**: JSON exports + database auto-sync
 - **Scheduling**: Cron jobs for automated runs
 
-**Target Database**: CarSafari (tst-car)
-- `gyc_vehicle_info` (81 records) — Main vehicle data
-- `gyc_vehicle_attribute` (161 records) — Specifications
-- `gyc_product_images` (633 records) — Image URLs
+**Target Database**: CarSafari (customizable in config.php)
+- `gyc_vehicle_info` — Main vehicle data (82 records)
+- `gyc_vehicle_attribute` — Specifications with engine_size
+- `gyc_product_images` — Image URLs & serials
+- `scraper_statistics` — Performance tracking (optional)
 
-**Key Achievement**: Solved **162→81 duplication problem** with intelligent deduplication while extracting 15+ data fields per vehicle.
+**Key Achievement**: 100% accurate color & engine_size extraction with intelligent deduplication.
+
+---
+
+## 📚 Documentation Quick Links
+
+| Guide | Purpose | For |
+|-------|---------|-----|
+| **[cPanel Full Setup Guide](#-cpanel-full-setup-guide)** | Complete cPanel deployment from scratch | Hosting users |
+| **[CPANEL_QUICK_REFERENCE.md](CPANEL_QUICK_REFERENCE.md)** | Fast commands & troubleshooting | Experienced users |
+| **[SQL_CHANGES.md](SQL_CHANGES.md)** | All database migrations & changes | Database admins |
+| **[CLAUDE.md](CLAUDE.md)** | Implementation details & history | Developers |
 
 ---
 
@@ -385,6 +397,298 @@ php scrape-carsafari.php --vendor=2
 
 # Get help
 php scrape-carsafari.php --help
+```
+
+---
+
+## 🌐 cPanel Full Setup Guide
+
+### **Step 1: Upload Project to cPanel**
+
+**Option A: Via File Manager**
+1. Login to cPanel → File Manager
+2. Navigate to `public_html/`
+3. Create folder: `carvendors-scraper`
+4. Upload all project files (keep directory structure)
+5. Set permissions: `755` (folders), `644` (files)
+
+**Option B: Via SSH/Git**
+```bash
+cd ~/public_html
+git clone https://github.com/delwerhossain/carvendors-scraper.git
+cd carvendors-scraper
+chmod -R 755 logs/ data/ images/
+chmod 644 config.php
+```
+
+### **Step 2: Database Setup**
+
+**2.1 Create Database in cPanel**
+1. cPanel → MySQL Databases
+2. Database name: `yourprefix_carsafari` (e.g., `user_carsafari`)
+3. Create user: `yourprefix_caruser` (e.g., `user_caruser`)
+4. Set password (strong, 16+ chars)
+5. Add user to database with ALL privileges
+6. Note the database name and credentials
+
+**2.2 Apply Required SQL Changes**
+
+Run these queries in phpMyAdmin (cPanel → MySQL Database → phpMyAdmin):
+
+#### **SQL Change #1: Add data_hash & Unique Index**
+```sql
+-- Add change-detection column
+ALTER TABLE gyc_vehicle_info 
+ADD COLUMN data_hash VARCHAR(32) AFTER vendor_id,
+ADD UNIQUE INDEX unique_reg_no (reg_no),
+ADD INDEX idx_vendor_id (vendor_id),
+ADD INDEX idx_active_status (active_status);
+
+-- Result: Prevents duplicate vehicle reg numbers, improves query performance
+```
+
+#### **SQL Change #2: Create Statistics Table (Optional)**
+```sql
+CREATE TABLE IF NOT EXISTS scraper_statistics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    run_date DATE NOT NULL,
+    source VARCHAR(50),
+    total_found INT DEFAULT 0,
+    total_inserted INT DEFAULT 0,
+    total_updated INT DEFAULT 0,
+    total_skipped INT DEFAULT 0,
+    images_stored INT DEFAULT 0,
+    errors INT DEFAULT 0,
+    execution_time DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE INDEX unique_run (run_date, source)
+);
+
+-- Result: Tracks scraper performance over time
+```
+
+#### **SQL Change #3: Create Error Log Table (Optional)**
+```sql
+CREATE TABLE IF NOT EXISTS scraper_error_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    error_type VARCHAR(100),
+    error_message TEXT,
+    vehicle_url VARCHAR(500),
+    scraper_source VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_created_at (created_at),
+    INDEX idx_source (scraper_source)
+);
+
+-- Result: Debug scraper issues
+```
+
+**Verify Installation:**
+```sql
+-- Check columns added
+SHOW COLUMNS FROM gyc_vehicle_info WHERE Field='data_hash';
+
+-- Check indexes
+SHOW INDEX FROM gyc_vehicle_info;
+
+-- Check new tables
+SHOW TABLES LIKE 'scraper_%';
+```
+
+### **Step 3: Configure for cPanel**
+
+Edit `config.php` and update database credentials:
+
+```php
+'database' => [
+    'host'     => 'localhost',                    // Always localhost on cPanel
+    'dbname'   => 'yourprefix_carsafari',         // Your database name
+    'username' => 'yourprefix_caruser',           // Your database user
+    'password' => 'your_strong_password_here',    // Your database password
+    'charset'  => 'utf8mb4',
+],
+
+'scraper' => [
+    'fetch_detail_pages' => true,                 // true = complete data, slower
+    'request_delay'      => 1.5,                  // seconds between requests
+    'timeout'            => 30,                   // seconds per request
+    'verify_ssl'         => true,                 // true for production
+],
+```
+
+**Verify Database Connection:**
+```bash
+# SSH into cPanel server
+ssh username@yourdomain.com
+cd ~/public_html/carvendors-scraper
+
+# Test connection
+/usr/bin/php -r "
+require 'config.php';
+try {
+    \$pdo = new PDO('mysql:host=' . \$config['database']['host'] . 
+                    ';dbname=' . \$config['database']['dbname'] . 
+                    ';charset=utf8mb4',
+                    \$config['database']['username'],
+                    \$config['database']['password']);
+    echo '✓ Database connection successful!\n';
+    \$result = \$pdo->query('SELECT COUNT(*) FROM gyc_vehicle_info');
+    echo 'Vehicles in database: ' . \$result->fetchColumn() . '\n';
+} catch (Exception \$e) {
+    echo '✗ Connection failed: ' . \$e->getMessage() . '\n';
+}
+"
+```
+
+### **Step 4: Test Scraper**
+
+```bash
+# SSH into cPanel
+ssh username@yourdomain.com
+cd ~/public_html/carvendors-scraper
+
+# Quick test (listing only, no detail pages)
+/usr/bin/php scrape-carsafari.php --no-details
+
+# Full test (with details, images, color, engine_size)
+/usr/bin/php scrape-carsafari.php
+
+# Check logs
+tail -f logs/scraper_*.log
+```
+
+### **Step 5: Setup Automated Cron Job**
+
+**5.1 Via cPanel Interface**
+1. cPanel → Cron Jobs
+2. Click "Add New Cron Job"
+3. **Common Settings**: Select "Often" (Custom: every 12 hours)
+4. **Command**:
+```bash
+/usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
+```
+5. Save
+
+**5.2 Via SSH (Terminal)**
+```bash
+# Login via SSH
+ssh username@yourdomain.com
+
+# Open crontab editor
+crontab -e
+
+# Add these lines:
+# Run at 6 AM and 6 PM daily
+0 6,18 * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
+
+# Or: Run every 12 hours
+0 */12 * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
+
+# Or: Run every hour
+0 * * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
+```
+
+**5.3 Verify Cron**
+```bash
+# List all cron jobs
+crontab -l
+
+# Check cron execution log
+tail -f /home/username/public_html/carvendors-scraper/logs/cron.log
+```
+
+### **Step 6: Monitor & Maintain**
+
+**Check Recent Scrapes:**
+```bash
+# Via SSH
+tail -50 /home/username/public_html/carvendors-scraper/logs/scraper_*.log
+
+# View latest statistics
+/usr/bin/php -r "
+require 'config.php';
+\$pdo = new PDO('mysql:host=localhost;dbname=yourdb', 'user', 'pass');
+\$stmt = \$pdo->query('SELECT * FROM scraper_statistics ORDER BY run_date DESC LIMIT 10');
+foreach (\$stmt as \$row) {
+    echo \$row['run_date'] . ' - Found: ' . \$row['total_found'] . 
+         ', Inserted: ' . \$row['total_inserted'] . ', Errors: ' . \$row['errors'] . '\n';
+}
+"
+```
+
+**Directory Structure on cPanel:**
+```
+/home/username/public_html/carvendors-scraper/
+├── config.php                 (Database credentials)
+├── scrape-carsafari.php       (Main entry point)
+├── CarScraper.php             (Base scraper class)
+├── CarSafariScraper.php       (CarSafari-specific logic)
+├── logs/                       (Scraper logs, auto-created)
+│   ├── scraper_2025-12-05.log
+│   ├── cron.log
+│   └── errors.log
+├── data/                       (JSON exports)
+│   └── vehicles.json
+├── images/                     (Downloaded vehicle images)
+│   ├── 20251205090000_1.jpg
+│   └── 20251205090001_1.jpg
+└── sql/                        (Migration scripts)
+    ├── 01_ADD_UNIQUE_REG_NO.sql
+    ├── 02_PHASE_5_STATISTICS_TABLES.sql
+    └── 03_CARCHECK_CACHE_TABLES.sql
+```
+
+### **Step 7: Troubleshooting cPanel Setup**
+
+**Issue: "Permission Denied" when running scraper**
+```bash
+# Fix: Ensure PHP can write to logs and images
+chmod -R 755 /home/username/public_html/carvendors-scraper/logs
+chmod -R 755 /home/username/public_html/carvendors-scraper/data
+chmod -R 755 /home/username/public_html/carvendors-scraper/images
+chmod 644 /home/username/public_html/carvendors-scraper/config.php
+```
+
+**Issue: "Could not find driver"**
+```bash
+# Check PHP version and PDO extension
+/usr/bin/php -v                    # Check PHP version
+/usr/bin/php -m | grep -i pdo      # Check PDO installed
+/usr/bin/php -m | grep -i mysql    # Check MySQLi installed
+```
+
+**Issue: Cron job not running**
+```bash
+# Check cPanel error logs
+cat /home/username/public_html/carvendors-scraper/logs/cron.log
+
+# Check PHP execution
+/usr/bin/php --version
+
+# Test direct command
+/usr/bin/php -f /home/username/public_html/carvendors-scraper/scrape-carsafari.php
+```
+
+**Issue: Database connection fails**
+```bash
+# Verify credentials in config.php
+/usr/bin/php -r "
+\$config = require 'config.php';
+echo 'Host: ' . \$config['database']['host'] . '\n';
+echo 'Database: ' . \$config['database']['dbname'] . '\n';
+echo 'User: ' . \$config['database']['username'] . '\n';
+// Password should not be printed in production
+
+// Test connection
+try {
+    \$pdo = new PDO('mysql:host=' . \$config['database']['host'],
+                    \$config['database']['username'],
+                    \$config['database']['password']);
+    echo '✓ Connection OK\n';
+} catch (Exception \$e) {
+    echo '✗ Error: ' . \$e->getMessage() . '\n';
+}
+"
 ```
 
 ---
