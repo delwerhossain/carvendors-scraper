@@ -325,7 +325,7 @@ class CarSafariScraper extends CarScraper
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
             $vehicle['colour'],                                         // 6: color
             $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
-            $vehicle['title'],                                          // 8: attention_grabber
+            $vehicle['attention_grabber'] ?? $vehicle['title'],        // 8: attention_grabber (use short subtitle if available, else title)
             $this->vendorId,                                            // 9: vendor_id
             // 10: v_condition='USED' (hardcoded)
             // 11: active_status='1' (hardcoded)
@@ -848,7 +848,7 @@ class CarSafariScraper extends CarScraper
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
             $vehicle['colour'],                                         // 6: color
             $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
-            $vehicle['title'],                                          // 8: attention_grabber
+            $vehicle['attention_grabber'] ?? $vehicle['title'],        // 8: attention_grabber (use short subtitle if available, else title)
             $this->vendorId,                                            // 9: vendor_id
             // 10: v_condition='USED' (hardcoded)
             // 11: active_status='1' (hardcoded)

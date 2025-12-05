@@ -420,6 +420,16 @@ class CarScraper
             $year = (int)$matches[0];
         }
 
+        // Extract attention_grabber (short subtitle like "SAT NAV-2KEYS-P.SENSRS-FSH-DAB")
+        $attentionGrabber = null;
+        if (preg_match('/<div[^>]*class="vd-dweb-subtitle"[^>]*>([^<]+)</i', $cardHtml, $matches)) {
+            $attentionGrabber = $this->cleanText(trim($matches[1]));
+            // Only keep if it's a meaningful short description (not just whitespace)
+            if (strlen($attentionGrabber) < 5) {
+                $attentionGrabber = null;
+            }
+        }
+
         return [
             'external_id' => $externalId,
             'title' => $title,
@@ -433,6 +443,7 @@ class CarScraper
             'fuel_type' => $details['fuel_type'] ?? null,
             'body_style' => $details['body_style'] ?? null,
             'first_reg_date' => $details['first_reg_date'] ?? null,
+            'attention_grabber' => $attentionGrabber,
             'description_short' => $descriptionShort,
             'description_full' => null, // Will be filled from detail page
             'image_url' => $imageUrl,  // Primary image
@@ -764,13 +775,15 @@ class CarScraper
                     $this->log("    Found VRM: {$details['vrm']}");
                 }
                 
-                // CRITICAL: Merge all images from detail page
+                // CRITICAL: Merge and clean all images from detail page
                 if (!empty($details['all_images'])) {
-                    // Combine with existing images, remove duplicates
+                    // Combine with existing images, remove duplicates, and clean invalid URLs
                     $existingImages = $vehicle['image_urls'] ?? [];
                     $allImages = array_unique(array_merge($existingImages, $details['all_images']));
-                    $vehicle['image_urls'] = array_values($allImages);
-                    $this->log("    Found " . count($details['all_images']) . " images (total: " . count($vehicle['image_urls']) . ")");
+                    // Clean images: remove duplicates (prefer large over medium), remove incomplete URLs
+                    $cleanedImages = $this->cleanImageUrls(array_values($allImages));
+                    $vehicle['image_urls'] = $cleanedImages;
+                    $this->log("    Found " . count($details['all_images']) . " images (cleaned to: " . count($vehicle['image_urls']) . ")");
                 }
                 
                 // Log what we found for debugging
@@ -1152,6 +1165,52 @@ class CarScraper
         $text = trim($text);
 
         return $text;
+    }
+
+    /**
+     * Clean and deduplicate image URLs
+     * 
+     * Rules:
+     * - Remove duplicate images (same photo in different sizes: medium vs large)
+     * - Remove incomplete/invalid URLs (must end with .jpg, .jpeg, .png, .webp)
+     * - Preserve order (cleaner, more complete URLs first)
+     */
+    protected function cleanImageUrls(array $urls): array
+    {
+        $cleaned = [];
+        $seenImages = [];  // Track base image names to avoid medium/large duplicates
+
+        foreach ($urls as $url) {
+            // Skip empty or whitespace-only URLs
+            if (empty(trim($url))) {
+                continue;
+            }
+
+            // CRITICAL: Validate URL has proper image extension at the end
+            if (!preg_match('/\.(jpg|jpeg|png|webp)$/i', $url)) {
+                // URL is incomplete or invalid (like: "...large/927b10d538cf6e8fa0ac30b8374cb3")
+                continue;
+            }
+
+            // Extract base image filename (e.g., "213f63cf1426f08db53b6382d7a2ee63" from both
+            // "large/213f63cf1426f08db53b6382d7a2ee63.jpg" and "medium/213f63cf...jpg")
+            if (preg_match('/([a-f0-9]{32})\.(jpg|jpeg|png|webp)$/i', $url, $matches)) {
+                $baseImage = strtolower($matches[1]);
+
+                // If we've already seen this image, skip it (prefer first occurrence, usually large)
+                if (isset($seenImages[$baseImage])) {
+                    continue;
+                }
+
+                // Mark this image as seen
+                $seenImages[$baseImage] = true;
+            }
+
+            // All validations passed, add to cleaned list
+            $cleaned[] = $url;
+        }
+
+        return $cleaned;
     }
 
     /**
