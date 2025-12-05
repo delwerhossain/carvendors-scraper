@@ -1,1677 +1,491 @@
 # 🚗 CarVendors Scraper
 
-**Auto-publish vehicle listings from dealer websites directly to CarSafari database with intelligent deduplication, data enrichment, and full validation.**
+**Auto-publish used vehicle listings from dealer websites directly to CarSafari database with intelligent deduplication, data normalization, and full image management.**
 
 ---
 
-## 📋 Project Overview
+## 📋 Quick Overview
 
-**Purpose**: Scrape used vehicle listings from dealer websites (currently systonautosltd.co.uk) and automatically publish them to CarSafari database with clean, normalized data and full image management.
-
-**Status**: ✅ **PRODUCTION READY** (82 vehicles, 100% color extraction, 100% engine_size extraction)
-
-**Technology Stack**: 
-- **Language**: PHP 8.3.14 (or 7.4+)
-- **Database**: MySQL 5.7+ or MariaDB (PDO)
-- **HTTP**: cURL with headers & timeout handling
-- **Parsing**: DOMDocument + XPath
-- **Data**: JSON exports + database auto-sync
-- **Scheduling**: Cron jobs for automated runs
-
-**Target Database**: CarSafari (customizable in config.php)
-- `gyc_vehicle_info` — Main vehicle data (82 records)
-- `gyc_vehicle_attribute` — Specifications with engine_size
-- `gyc_product_images` — Image URLs & serials
-- `scraper_statistics` — Performance tracking (optional)
-
-**Key Achievement**: 100% accurate color & engine_size extraction with intelligent deduplication.
+| Aspect | Details |
+|--------|---------|
+| **Purpose** | Scrape vehicle listings from systonautosltd.co.uk and auto-publish to CarSafari DB |
+| **Language** | PHP 8.3.14+ |
+| **Database** | MySQL 5.7+ or MariaDB |
+| **Vehicles** | 81 listings with 5,553 images |
+| **Status** | ✅ Production Ready |
 
 ---
 
-## 📚 Documentation Quick Links
+## 🚀 Quick Start (5 Minutes)
 
-| Guide | Purpose | For |
-|-------|---------|-----|
-| **[cPanel Full Setup Guide](#-cpanel-full-setup-guide)** | Complete cPanel deployment from scratch | Hosting users |
-| **[CPANEL_QUICK_REFERENCE.md](CPANEL_QUICK_REFERENCE.md)** | Fast commands & troubleshooting | Experienced users |
-| **[SQL_CHANGES.md](SQL_CHANGES.md)** | All database migrations & changes | Database admins |
-| **[CLAUDE.md](CLAUDE.md)** | Implementation details & history | Developers |
+### 1. Setup Database
+```bash
+# Connect to MySQL
+mysql -u root tst-car
+
+# Run initial setup
+mysql -u root tst-car < sql/01_INITIAL_SETUP.sql
+```
+
+### 2. Configure Settings
+```bash
+# Edit config.php with your database credentials
+nano config.php
+```
+
+### 3. Run Scraper
+```bash
+# From local Windows
+c:\wamp64\bin\php\php8.3.14\php.exe scrape-carsafari.php
+
+# From cPanel/Linux
+php /home/username/carvendors-scraper/scrape-carsafari.php
+```
+
+### 4. Check Results
+```bash
+# View latest log
+tail -50 logs/scraper_2025-12-05.log
+
+# View exported data
+cat data/vehicles.json
+```
 
 ---
 
-## ✨ 8 Key Improvements Implemented
+## 📁 Project Structure
 
-### 1. ✅ Intelligent Deduplication (162 → 81 Vehicles)
-**Problem**: Website shows 81 vehicles, but scraper was counting 162 raw HTML card elements (duplicates in DOM).  
-**Solution**: Added `$processedIds` tracking array to prevent duplicate counting.  
-**Result**: **100% accurate vehicle count**, no duplicates in database.
+```
+carvendors-scraper/
+├── scrape-carsafari.php     ← MAIN ENTRY POINT (run this)
+├── CarScraper.php            ← Base scraper class (listing + detail parsing)
+├── CarSafariScraper.php      ← CarSafari-specific database integration
+├── config.php                ← Database credentials & settings
+│
+├── data/
+│   └── vehicles.json         ← Vehicle export (auto-generated)
+│
+├── logs/
+│   └── scraper_YYYY-MM-DD.log ← Execution logs (auto-created)
+│
+├── sql/
+│   ├── 01_INITIAL_SETUP.sql  ← Run ONCE on fresh database
+│   └── 02_MIGRATIONS.sql     ← Optional updates
+│
+└── README.md                 ← This file
+```
 
+**That's it! Only 4 PHP files + config.**
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- PHP 8.3.14 (or 7.4+)
+- MySQL 5.7+ or MariaDB
+- cURL enabled
+- Write access to `logs/` and `data/` directories
+
+### Step 1: Database Setup (First Time Only)
+
+```bash
+# On fresh database, run:
+mysql -u root -p tst-car < sql/01_INITIAL_SETUP.sql
+```
+
+**This creates:**
+- `gyc_vehicle_info` — Main vehicle records
+- `gyc_vehicle_attribute` — Specifications (make, model, year, fuel, transmission)
+- `gyc_product_images` — Image URLs with serial numbers
+- `scraper_statistics` — Performance tracking
+
+### Step 2: Configuration
+
+Edit `config.php`:
 ```php
-// In CarScraper.php, parseListingPage()
-protected function parseListingPage(string $html): array
-{
-    $vehicles = [];
-    $processedIds = [];  // Track processed vehicle IDs
-    
-    foreach ($cards as $card) {
-        $vehicle = $this->parseVehicleCard($card, $xpath);
-        
-        // Skip if already processed
-        if ($vehicle && !isset($processedIds[$vehicle['external_id']])) {
-            $vehicles[] = $vehicle;
-            $processedIds[$vehicle['external_id']] = true;
-        }
-    }
-    return $vehicles;
-}
-```
-
-**Verification**: ✅ Found: 81 vehicles (not 162)
-
----
-
-### 2. ✅ Enhanced Field Parsing (Doors, Plate Year, Drive System)
-**Problem**: Vehicle specifications in titles weren't being extracted.  
-**Solution**: Added regex patterns to parse structured data from vehicle titles.  
-**Result**: **100% doors** (81/81), **100% plate year** (81/81), **~80% drive system**.
-
-```php
-// In CarScraper.php, parseVehicleCard()
-
-// Extract doors: "5dr" → 5
-if (preg_match('/(\d)dr\b/i', $title, $matches)) {
-    $vehicle['doors'] = (int)$matches[1];
-}
-
-// Extract plate year: "(66 plate)" → 66
-if (preg_match('/\((\d{2})\s*plate\)/i', $title, $matches)) {
-    $vehicle['registration_plate'] = $matches[1];
-}
-
-// Extract drive system: "4WD", "AWD", "xDrive", etc.
-if (preg_match('/\b(4WD|AWD|2WD|xDrive|sDrive|ALL4)\b/i', $title, $matches)) {
-    $vehicle['drive_system'] = strtoupper($matches[1]);
-}
-```
-
-**Example**: `Volvo V40 2.0 D4 5dr - 2016 (66 plate)` → doors=5, plate=66, year=2016 ✅
-
----
-
-### 3. ✅ Engine Size Extraction (67/81 = 83%)
-**Problem**: Engine displacement wasn't being captured from detail pages.  
-**Solution**: Added regex to extract engine size from detail page HTML.  
-**Result**: **83% coverage** (67 of 81 vehicles have engine_size).
-
-```php
-// In CarScraper.php, enrichWithDetailPages()
-if (preg_match('/Engine\s*Size[:\s]*([0-9,]+)/i', $detailHtml, $matches)) {
-    $vehicle['engine_size'] = str_replace(',', '', $matches[1]);
-}
-```
-
-**Examples**: "1,598 cc" → 1598, "2.0 L" → 2000 ✅
-
----
-
-### 4. ✅ Specification Storage in Attributes Table (161 Records)
-**Problem**: transmission, fuel_type, body_style were scraped but not saved to `gyc_vehicle_attribute`.  
-**Solution**: Properly mapped fields to attribute table insert statement.  
-**Result**: **100% of specifications** properly stored in database.
-
-```php
-// In CarSafariScraper.php, createNewAttribute()
-$sql = "INSERT INTO gyc_vehicle_attribute (
-    category_id, make_id, model, year,
-    fuel_type, transmission, body_style,
-    active_status, created_at
-) VALUES (...)";
-
-// Sample data in database:
-// transmission: Manual | Diesel | Diesel | Manual | CVT...
-// fuel_type: Diesel | Petrol | Hybrid | Electric...
-// body_style: Hatchback | Sedan | SUV | Coupe...
-```
-
-**Database Check**: ✅ 161 transmission records, 161 fuel types, 143 body styles
-
----
-
-### 5. ✅ Hardcoded Dealer Information (100% Coverage)
-**Problem**: Postcode and address fields were NULL for all vehicles.  
-**Solution**: Hardcoded dealer info directly in INSERT statement.  
-**Result**: **100% of vehicles** have proper dealer location.
-
-```php
-// In CarSafariScraper.php, saveVehiclesToCarSafari()
-$sql = "INSERT INTO gyc_vehicle_info (
-    ..., post_code, address, drive_position, ...
-) VALUES (
-    ..., 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ...
-)";
-```
-
-**Dealer Info** (systonautosltd.co.uk):
-- **Name**: Systonautos Ltd
-- **Postcode**: LE7 1NS ✅
-- **Address**: Unit 10 Mill Lane, Syston, Leicester, LE7 1NS ✅
-- **Drive Position**: Right (UK standard) ✅
-
----
-
-### 6. ✅ Image URL Storage (633 URLs, 0 Downloads)
-**Problem**: Previous implementation downloaded all images (~500MB disk space).  
-**Solution**: Changed to store image URLs only (can fetch on-demand).  
-**Result**: **Minimal disk usage**, faster scraping, images always current.
-
-```php
-// In CarSafariScraper.php, saveVehicleImages()
-// BEFORE: Downloaded each image to disk
-// AFTER: Store URL in gyc_product_images.file_name
-
-$sql = "INSERT INTO gyc_product_images (
-    vehicle_info_id, file_name, serial, cratead_at
-) VALUES (?, ?, ?, NOW())";
-
-$stmt->execute([$vehicleId, $imageUrl, $serial]);
-```
-
-**Results**:
-- ✅ 633 image URLs stored
-- ✅ 0 disk files downloaded
-- ✅ Multiple images per vehicle (serial: 1, 2, 3...)
-- ✅ URLs ready for lazy-loading on CarSafari website
-
-**Example URLs**:
-```
-https://systonautosltd.co.uk/image/vehicle/volvo-v40_001.jpg
-https://systonautosltd.co.uk/image/vehicle/volvo-v40_002.jpg
-https://systonautosltd.co.uk/image/vehicle/volvo-v40_003.jpg
-```
-
----
-
-### 7. ✅ Vendor ID Tracking (Default: 432)
-**Problem**: Wrong vendor ID (1) was preventing proper tracking of scraped vehicles.  
-**Solution**: Changed default vendor_id to 432 (systonautosltd).  
-**Result**: **All 81 vehicles properly tagged** for this dealer source.
-
-```php
-// In scrape-carsafari.php
-private int $vendorId = 432;  // systonautosltd.co.uk
-
-// In database:
-// SELECT COUNT(*) FROM gyc_vehicle_info WHERE vendor_id = 432;
-// Result: 81 ✅
-```
-
-**Benefits**:
-- Easy filtering by source: `WHERE vendor_id = 432`
-- Supports multiple dealers (vendor_id = 1, 2, 3, etc.)
-- Automatic tracking of which dealer each vehicle came from
-
----
-
-### 8. ✅ Valid Colour Whitelist (No Garbage Data)
-**Problem**: Invalid values like "TOUCHSCREEN" being saved as colours.  
-**Solution**: Implemented whitelist validation (50+ valid car colors only).  
-**Result**: **Zero invalid colours** in database.
-
-```php
-// In CarScraper.php, parseVehicleCard()
-private $validColors = [
-    'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green',
-    'brown', 'beige', 'cream', 'ivory', 'orange', 'yellow', 'pink',
-    'purple', 'metallic', 'pearl', 'gunmetal', 'charcoal', ...
-];
-
-// Validation
-if ($color && in_array(strtolower($color), $this->validColors)) {
-    $vehicle['color'] = $color;  // Only store if valid
-}
-```
-
-**Database Check**:
-```sql
-SELECT DISTINCT color FROM gyc_vehicle_info WHERE vendor_id = 432 ORDER BY color;
-Result: black, blue, brown, gold, green, grey, orange, red, silver, white ✅
-```
-
----
-
-### 9. ✅ UTF-8 Garbage Cleanup (7-Step Process)
-**Problem**: Broken UTF-8 sequences like "â¦", "â€™", "â€œ" appearing in descriptions.  
-**Solution**: Implemented comprehensive 7-step cleanup pipeline.  
-**Result**: **Zero broken characters** in database.
-
-```php
-// In CarScraper.php, cleanText()
-private function cleanText(string $text): string
-{
-    // Step 1: Remove control characters
-    $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/', '', $text);
-    
-    // Step 2: Remove broken UTF-8 sequences
-    $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/', '', $text);
-    
-    // Step 3: Decode HTML entities
-    $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-    
-    // Step 4: Replace known broken sequences
-    $text = str_replace(['â¦', 'â€™', 'â€œ', 'â€'], ['...', "'", '"', ''], $text);
-    
-    // Step 5: Remove non-ASCII bytes
-    $text = preg_replace('/[^\x20-\x7E\n\r\t]/', '', $text);
-    
-    // Step 6: Normalize whitespace
-    $text = preg_replace('/\s+/', ' ', $text);
-    
-    // Step 7: Trim
-    return trim($text);
-}
-```
-
-**Before/After Example**:
-- **Before**: `"Great car, recently serviced â¦ very reliableâ€"`
-- **After**: `"Great car, recently serviced ... very reliable"` ✅
-
----
-
-### 10. ✅ Auto-Publishing to CarSafari (active_status=1)
-**Problem**: Vehicles weren't being automatically published to CarSafari website.  
-**Solution**: Set `active_status=1` for all scraped vehicles.  
-**Result**: **100% of vehicles automatically live** on CarSafari website.
-
-```php
-// In CarSafariScraper.php, saveVehiclesToCarSafari()
-$sql = "INSERT INTO gyc_vehicle_info (
-    ..., active_status, ...
-) VALUES (
-    ..., '1', ...  // ← 1 = LIVE on website
-)";
-
-// Verification:
-// SELECT COUNT(*) FROM gyc_vehicle_info 
-// WHERE vendor_id = 432 AND active_status = 1;
-// Result: 81 ✅ (all published)
-```
-
-**Status Values**:
-- 0 = Draft
-- 1 = **LIVE** ✅
-- 2 = Sold
-- 3 = Archived
-- 4 = Inactive
-
----
-
-## 📊 Complete Data Coverage Summary
-
-| Field | Coverage | Quality | Source |
-|-------|----------|---------|--------|
-| **Title/Model** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Listing page |
-| **Year** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Parsed from title |
-| **Plate Year** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Parsed from "(66 plate)" |
-| **Doors** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Parsed from "5dr" |
-| **Selling Price** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Price element |
-| **Mileage** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Mileage field |
-| **Colour** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Whitelist validated |
-| **Description** | 81/81 (100%) | ⭐⭐⭐⭐⭐ | Full page + UTF-8 cleaned |
-| **Transmission** | 161/161 (100%) | ⭐⭐⭐⭐⭐ | Specs section → Attributes |
-| **Fuel Type** | 161/161 (100%) | ⭐⭐⭐⭐⭐ | Fuel field → Attributes |
-| **Body Style** | 143/161 (89%) | ⭐⭐⭐⭐ | Body specs → Attributes |
-| **Drive System** | ~65/81 (80%) | ⭐⭐⭐⭐ | Parsed from title (if present) |
-| **Engine Size** | 67/81 (83%) | ⭐⭐⭐⭐ | Detail page specs |
-| **Postcode** | 81/81 (100%) | ℹ️ | Hardcoded (LE7 1NS) |
-| **Address** | 81/81 (100%) | ℹ️ | Hardcoded (Unit 10 Mill Lane) |
-| **Image URLs** | 633 total | ⭐⭐⭐⭐⭐ | From all images on page |
-| **Published** | 81/81 (100%) | ✅ | active_status=1 |
-
-**Overall Data Quality**: 📊 **95% Complete** with zero invalid entries
-
----
-
-## 🔄 Data Extraction Process (Step-by-Step)
-
-### Complete Data Flow
-
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                       SCRAPER DATA FLOW                                   │
-├──────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  1. LISTING PAGE (systonautosltd.co.uk/vehicle/search/)                  │
-│     ↓                                                                    │
-│     • Parse 82 vehicle cards                                             │
-│     • Extract: title, price, mileage, image_url                         │
-│     • Deduplicate: 162 raw → 82 unique vehicles                         │
-│                                                                          │
-│  2. DETAIL PAGES (82 individual vehicle pages)                           │
-│     ↓                                                                    │
-│     • Fetch: https://systonautosltd.co.uk/vehicle/name/{slug}/          │
-│     • Extract VRM: <input name="vrm" value="WP66UEX"/>                  │
-│     • Extract colour: <span class="vd-detail-value">Silver</span>       │
-│     • Extract engine_size: Engine Size: 1,969 cc                        │
-│     • Extract transmission: Transmission: Manual                         │
-│     • Extract all images: 60-90+ images per vehicle from CDN            │
-│                                                                          │
-│  3. DATABASE SAVE (gyc_vehicle_info + gyc_vehicle_attribute)            │
-│     ↓                                                                    │
-│     • reg_no = UK VRM (e.g., "WP66UEX") - NOT URL slug                  │
-│     • Hash-based change detection (only update if data changed)         │
-│     • Auto-publish: active_status = 1                                   │
-│                                                                          │
-│  4. IMAGE STORAGE (gyc_product_images)                                   │
-│     ↓                                                                    │
-│     • Store all image URLs with serial numbers                          │
-│     • 60-90 images per vehicle (from aacarsdna.com CDN)                │
-│     • No disk downloads - just URL references                           │
-│                                                                          │
-│  5. JSON EXPORT (data/vehicles.json)                                     │
-│     ↓                                                                    │
-│     • Complete vehicle data in JSON format                              │
-│     • Statistics: vehicles, colors, images, etc.                        │
-│     • Used for API endpoints or backup                                  │
-│                                                                          │
-└──────────────────────────────────────────────────────────────────────────┘
-```
-
-### Key Data Sources
-
-| Data Field | Source Location | Extraction Method |
-|------------|-----------------|-------------------|
-| **VRM (reg_no)** | Hidden input: `<input name="vrm" value="...">` | Regex from detail page |
-| **Colour** | `<span class="vd-detail-value">Silver</span>` | XPath + whitelist validation |
-| **Engine Size** | `Engine Size: 1,969 cc` | Regex (numeric extraction) |
-| **Transmission** | `<span class="vd-detail-value">Manual</span>` | XPath from specs section |
-| **Images** | `aacarsdna.com/images/vehicles/...` | All img src matching CDN pattern |
-| **Price** | `£5,490` on listing card | Regex (£ followed by numbers) |
-| **Mileage** | Mileage field on card | Numeric extraction |
-
-### VRM Extraction (Critical Fix)
-
-**Before**: reg_no was URL slug like `"volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr"`  
-**After**: reg_no is actual UK VRM like `"WP66UEX"`
-
-```php
-// Extraction patterns in CarScraper.php extractVehicleDetails()
-
-// Pattern 1: Hidden input field (primary source)
-'/<input[^>]*name=["\']vrm["\'][^>]*value=["\']([A-Z0-9]+)["\']/'
-// Example: <input type="hidden" name="vrm" value="WP66UEX"/>
-
-// Pattern 2: JavaScript variable (fallback)
-'/vrn["\']?\s*[:=]\s*["\']([A-Z0-9]+)["\']/''
-// Example: var VC_SETTINGS = { data: { vehicle: { vrn: 'WP66UEX' } } }
-```
-
-### Image Extraction (Multi-Image Support)
-
-**Before**: Only 1 image per vehicle  
-**After**: 60-90+ images per vehicle from gallery
-
-```php
-// Extraction patterns in CarScraper.php extractVehicleDetails()
-
-// Pattern 1: aacarsdna.com CDN images (primary source)
-'/src=["\']([^"\']*aacarsdna\.com\/images\/vehicles[^"\']+\.(?:jpg|jpeg|png|webp))/'
-
-// Pattern 2: Stock images with /stock/ path
-'/src=["\']([^"\']*\/stock\/[^"\']+\.(?:jpg|jpeg|png|webp))/'
-
-// Pattern 3: Lazy-loaded images (data-src)
-'/data-src=["\']([^"\']+\.(?:jpg|jpeg|png|webp))/'
-```
-
-**Example Output**:
-```
-Found VRM: WP66UEX
-Found 72 images (total: 73)
-Found colour: Silver
-Found engine_size: 1969
-Found transmission: Manual
-```
-
-### Colour Whitelist Validation
-
-All extracted colours are validated against a whitelist of 50+ valid car colours:
-
-```php
-$validColors = [
-    'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green',
-    'brown', 'beige', 'gold', 'orange', 'yellow', 'purple', 'pink',
-    'maroon', 'navy', 'turquoise', 'bronze', 'cream', 'ivory', 'pearl',
-    'metallic', 'gunmetal', 'charcoal', 'graphite', 'midnight', ...
+$config = [
+    'database' => [
+        'host' => 'localhost',
+        'dbname' => 'tst-car',
+        'username' => 'root',
+        'password' => 'your_password',
+        'charset' => 'utf8mb4',
+    ],
+    'scraper' => [
+        'listing_url' => 'https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/',
+        'fetch_detail_pages' => true,      // Get full specs from detail pages
+        'request_delay' => 1.5,             // Seconds between requests (politeness)
+        'timeout' => 30,                    // HTTP timeout in seconds
+        'verify_ssl' => false,              // Set to true in production
+    ],
+    'output' => [
+        'json_path' => 'data/vehicles.json',
+        'log_path' => 'logs/',
+    ],
 ];
 ```
 
-Invalid values like "TOUCHSCREEN" or "LEATHER SEATS" are rejected.
+### Step 3: Run the Scraper
 
-### Change Detection (Hash-Based)
-
-To avoid unnecessary database updates:
-
-```php
-// Calculate data hash from key fields
-$hash = md5(json_encode([
-    $vehicle['title'],
-    $vehicle['price'],
-    $vehicle['mileage'],
-    $vehicle['colour'],
-    $vehicle['description_full']
-]));
-
-// Compare with stored hash
-if ($currentHash === $storedHash) {
-    // Skip - no changes
-} else {
-    // Update vehicle data
-}
-```
-
----
-
-
-## 🚀 How to Run the Scraper
-
-### 🔹 Quick Start (Local - Windows WAMP)
-
-**1. Navigate to project directory:**
-```bash
-cd c:\wamp64\www\carvendors-scraper
-```
-
-**2. Run scraper (listing pages only - ~2 minutes):**
-```bash
-c:\wamp64\bin\php\php8.3.14\php.exe scrape-carsafari.php --no-details
-```
-
-**3. View results:**
-```bash
-# Check last log entry
-tail -20 logs/scraper_2025-12-04.log
-
-# Verify database
-php check_results.php
-
-# View JSON export
-cat data/vehicles.json | head -50
-```
-
-**Expected Output**:
-```
-Found: 81 vehicles
-Published: 81 vehicles
-Stored image URLs: 633 images
-JSON snapshot: Saved successfully
-Status: COMPLETED SUCCESSFULLY ✅
-```
-
----
-
-### 🔹 Full Scrape (With Detail Pages - ~8-10 minutes)
-
-Fetch full vehicle specifications from detail pages:
-
+**Local (Windows WAMP):**
 ```bash
 c:\wamp64\bin\php\php8.3.14\php.exe scrape-carsafari.php
 ```
 
-**Includes**: Everything above + engine size, full description, transmission, fuel type
-
----
-
-### 🔹 Scraper Options
-
+**cPanel/Linux (via SSH):**
 ```bash
-# Skip detail page fetching (faster)
+php scrape-carsafari.php
+```
+
+**With Options:**
+```bash
+# Skip detail page fetching (faster, but less data)
 php scrape-carsafari.php --no-details
 
-# Skip JSON export generation
+# Skip JSON export
 php scrape-carsafari.php --no-json
 
-# Combine options
-php scrape-carsafari.php --no-details --no-json
-
-# Use custom vendor ID (override default 432)
+# Use different vendor ID
 php scrape-carsafari.php --vendor=2
-
-# Get help
-php scrape-carsafari.php --help
 ```
 
 ---
 
-## 🌐 cPanel Full Setup Guide
+## 📊 What Gets Extracted
 
-### **Step 1: Upload Project to cPanel**
+### Vehicle Core Data
+- **reg_no** — UK registration number (e.g., `WP66UEX`)
+- **title** — Vehicle name and specs (e.g., `Volvo V40 2.0 D4 5dr`)
+- **selling_price** — Numeric price (e.g., `8990`)
+- **mileage** — Numeric mileage (e.g., `75000`)
+- **description** — Full vehicle description
+- **vehicle_url** — Direct link to detail page
 
-**Option A: Via File Manager**
-1. Login to cPanel → File Manager
-2. Navigate to `public_html/`
-3. Create folder: `carvendors-scraper`
-4. Upload all project files (keep directory structure)
-5. Set permissions: `755` (folders), `644` (files)
+### Specifications (stored in `gyc_vehicle_attribute`)
+- **colour** — Car color (whitelist validated)
+- **transmission** — Manual / Automatic
+- **fuel_type** — Diesel / Petrol / Hybrid / Electric
+- **body_style** — Hatchback / Sedan / SUV / Coupe / etc.
+- **engine_size** — Engine displacement in CC (e.g., `1969`)
+- **year** — Registration year
+- **doors** — Number of doors
 
-**Option B: Via SSH/Git**
-```bash
-cd ~/public_html
-git clone https://github.com/delwerhossain/carvendors-scraper.git
-cd carvendors-scraper
-chmod -R 755 logs/ data/ images/
-chmod 644 config.php
+### Images
+- **Multiple images per vehicle** — Average 60-90 per vehicle
+- **Image URLs stored** — No disk files, URLs only
+- **Serial numbering** — Multiple images linked via serial (1, 2, 3...)
+
+### Data Quality
+- **100% registration numbers** — Actual UK VRM, not URL slugs
+- **100% colours** — Whitelist validated (50+ valid colors)
+- **100% transmission** — Manual/Automatic extraction
+- **99% engine sizes** — Extracted from detail pages
+- **Zero invalid data** — All fields validated
+
+---
+
+## 🔄 How It Works (Data Flow)
+
+```
+Step 1: LISTING PAGE (systonautosltd.co.uk/vehicle/search/)
+        ↓
+        → Fetch listing HTML
+        → Parse 82 vehicle cards
+        → Extract: title, price, mileage, primary image
+        
+Step 2: DETAIL PAGES (82 individual vehicle pages)
+        ↓
+        → Fetch each vehicle detail page
+        → Extract VRM from <input name="vrm" value="WP66UEX"/>
+        → Extract specs: colour, transmission, fuel, engine_size
+        → Extract all images (60-90+ per vehicle)
+        → Extract full description
+        
+Step 3: CHANGE DETECTION
+        ↓
+        → Calculate data hash from vehicle info
+        → Compare with stored hash in database
+        → Skip if no changes (saves DB operations)
+        
+Step 4: DATABASE SAVE
+        ↓
+        → Insert/Update vehicle in gyc_vehicle_info
+        → Save specs in gyc_vehicle_attribute
+        → Store image URLs in gyc_product_images
+        
+Step 5: AUTO-PUBLISH
+        ↓
+        → Set active_status = 1 (live on CarSafari)
+        
+Step 6: JSON EXPORT
+        ↓
+        → Export all vehicles to data/vehicles.json
+        → Statistics: total count, image count, data coverage
 ```
 
-### **Step 2: Database Setup**
+---
 
-**2.1 Create Database in cPanel**
-1. cPanel → MySQL Databases
-2. Database name: `yourprefix_carsafari` (e.g., `user_carsafari`)
-3. Create user: `yourprefix_caruser` (e.g., `user_caruser`)
-4. Set password (strong, 16+ chars)
-5. Add user to database with ALL privileges
-6. Note the database name and credentials
+## 📈 Typical Output
 
-**2.2 Apply Required SQL Changes**
-
-Run these queries in phpMyAdmin (cPanel → MySQL Database → phpMyAdmin):
-
-#### **SQL Change #1: Add data_hash & Unique Index**
-```sql
--- Add change-detection column
-ALTER TABLE gyc_vehicle_info 
-ADD COLUMN data_hash VARCHAR(32) AFTER vendor_id,
-ADD UNIQUE INDEX unique_reg_no (reg_no),
-ADD INDEX idx_vendor_id (vendor_id),
-ADD INDEX idx_active_status (active_status);
-
--- Result: Prevents duplicate vehicle reg numbers, improves query performance
 ```
+==============================================
+CarSafari Scraper - 2025-12-05 12:45:48
+==============================================
 
-#### **SQL Change #2: Create Statistics Table (Optional)**
-```sql
-CREATE TABLE IF NOT EXISTS scraper_statistics (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    run_date DATE NOT NULL,
-    source VARCHAR(50),
-    total_found INT DEFAULT 0,
-    total_inserted INT DEFAULT 0,
-    total_updated INT DEFAULT 0,
-    total_skipped INT DEFAULT 0,
-    images_stored INT DEFAULT 0,
-    errors INT DEFAULT 0,
-    execution_time DECIMAL(10,2),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE INDEX unique_run (run_date, source)
-);
-
--- Result: Tracks scraper performance over time
-```
-
-#### **SQL Change #3: Create Error Log Table (Optional)**
-```sql
-CREATE TABLE IF NOT EXISTS scraper_error_log (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    error_type VARCHAR(100),
-    error_message TEXT,
-    vehicle_url VARCHAR(500),
-    scraper_source VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_created_at (created_at),
-    INDEX idx_source (scraper_source)
-);
-
--- Result: Debug scraper issues
-```
-
-**Verify Installation:**
-```sql
--- Check columns added
-SHOW COLUMNS FROM gyc_vehicle_info WHERE Field='data_hash';
-
--- Check indexes
-SHOW INDEX FROM gyc_vehicle_info;
-
--- Check new tables
-SHOW TABLES LIKE 'scraper_%';
-```
-
-### **Step 3: Configure for cPanel**
-
-Edit `config.php` and update database credentials:
-
-```php
-'database' => [
-    'host'     => 'localhost',                    // Always localhost on cPanel
-    'dbname'   => 'yourprefix_carsafari',         // Your database name
-    'username' => 'yourprefix_caruser',           // Your database user
-    'password' => 'your_strong_password_here',    // Your database password
-    'charset'  => 'utf8mb4',
-],
-
-'scraper' => [
-    'fetch_detail_pages' => true,                 // true = complete data, slower
-    'request_delay'      => 1.5,                  // seconds between requests
-    'timeout'            => 30,                   // seconds per request
-    'verify_ssl'         => true,                 // true for production
-],
-```
-
-**Verify Database Connection:**
-```bash
-# SSH into cPanel server
-ssh username@yourdomain.com
-cd ~/public_html/carvendors-scraper
-
-# Test connection
-/usr/bin/php -r "
-require 'config.php';
-try {
-    \$pdo = new PDO('mysql:host=' . \$config['database']['host'] . 
-                    ';dbname=' . \$config['database']['dbname'] . 
-                    ';charset=utf8mb4',
-                    \$config['database']['username'],
-                    \$config['database']['password']);
-    echo '✓ Database connection successful!\n';
-    \$result = \$pdo->query('SELECT COUNT(*) FROM gyc_vehicle_info');
-    echo 'Vehicles in database: ' . \$result->fetchColumn() . '\n';
-} catch (Exception \$e) {
-    echo '✗ Connection failed: ' . \$e->getMessage() . '\n';
+[2025-12-05 12:45:48] Found 82 vehicles
+[2025-12-05 12:45:50] Fetching detail pages...
+[2025-12-05 12:45:52]   Processing 1/82: Volvo V40
+[2025-12-05 12:45:52]     Found VRM: WP66UEX
+[2025-12-05 12:45:52]     Found 72 images (total: 73)
+[2025-12-05 12:45:52]     Found colour: Silver
+[2025-12-05 12:45:52]     Found engine_size: 1969
+[2025-12-05 12:45:52]     Found transmission: Manual
+...
+[2025-12-05 12:55:15] CarSafari scrape completed successfully!
+[2025-12-05 12:55:15] Stats: {
+  "found": 82,
+  "inserted": 81,
+  "updated": 1,
+  "skipped": 0,
+  "images_stored": 5553
 }
-"
-```
-
-### **Step 4: Test Scraper**
-
-```bash
-# SSH into cPanel
-ssh username@yourdomain.com
-cd ~/public_html/carvendors-scraper
-
-# Quick test (listing only, no detail pages)
-/usr/bin/php scrape-carsafari.php --no-details
-
-# Full test (with details, images, color, engine_size)
-/usr/bin/php scrape-carsafari.php
-
-# Check logs
-tail -f logs/scraper_*.log
-```
-
-### **Step 5: Setup Automated Cron Job**
-
-**5.1 Via cPanel Interface**
-1. cPanel → Cron Jobs
-2. Click "Add New Cron Job"
-3. **Common Settings**: Select "Often" (Custom: every 12 hours)
-4. **Command**:
-```bash
-/usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
-```
-5. Save
-
-**5.2 Via SSH (Terminal)**
-```bash
-# Login via SSH
-ssh username@yourdomain.com
-
-# Open crontab editor
-crontab -e
-
-# Add these lines:
-# Run at 6 AM and 6 PM daily
-0 6,18 * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
-
-# Or: Run every 12 hours
-0 */12 * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
-
-# Or: Run every hour
-0 * * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
-```
-
-**5.3 Verify Cron**
-```bash
-# List all cron jobs
-crontab -l
-
-# Check cron execution log
-tail -f /home/username/public_html/carvendors-scraper/logs/cron.log
-```
-
-### **Step 6: Monitor & Maintain**
-
-**Check Recent Scrapes:**
-```bash
-# Via SSH
-tail -50 /home/username/public_html/carvendors-scraper/logs/scraper_*.log
-
-# View latest statistics
-/usr/bin/php -r "
-require 'config.php';
-\$pdo = new PDO('mysql:host=localhost;dbname=yourdb', 'user', 'pass');
-\$stmt = \$pdo->query('SELECT * FROM scraper_statistics ORDER BY run_date DESC LIMIT 10');
-foreach (\$stmt as \$row) {
-    echo \$row['run_date'] . ' - Found: ' . \$row['total_found'] . 
-         ', Inserted: ' . \$row['total_inserted'] . ', Errors: ' . \$row['errors'] . '\n';
-}
-"
-```
-
-**Directory Structure on cPanel:**
-```
-/home/username/public_html/carvendors-scraper/
-├── config.php                 (Database credentials)
-├── scrape-carsafari.php       (Main entry point)
-├── CarScraper.php             (Base scraper class)
-├── CarSafariScraper.php       (CarSafari-specific logic)
-├── logs/                       (Scraper logs, auto-created)
-│   ├── scraper_2025-12-05.log
-│   ├── cron.log
-│   └── errors.log
-├── data/                       (JSON exports)
-│   └── vehicles.json
-├── images/                     (Downloaded vehicle images)
-│   ├── 20251205090000_1.jpg
-│   └── 20251205090001_1.jpg
-└── sql/                        (Migration scripts)
-    ├── 01_ADD_UNIQUE_REG_NO.sql
-    ├── 02_PHASE_5_STATISTICS_TABLES.sql
-    └── 03_CARCHECK_CACHE_TABLES.sql
-```
-
-### **Step 7: Troubleshooting cPanel Setup**
-
-**Issue: "Permission Denied" when running scraper**
-```bash
-# Fix: Ensure PHP can write to logs and images
-chmod -R 755 /home/username/public_html/carvendors-scraper/logs
-chmod -R 755 /home/username/public_html/carvendors-scraper/data
-chmod -R 755 /home/username/public_html/carvendors-scraper/images
-chmod 644 /home/username/public_html/carvendors-scraper/config.php
-```
-
-**Issue: "Could not find driver"**
-```bash
-# Check PHP version and PDO extension
-/usr/bin/php -v                    # Check PHP version
-/usr/bin/php -m | grep -i pdo      # Check PDO installed
-/usr/bin/php -m | grep -i mysql    # Check MySQLi installed
-```
-
-**Issue: Cron job not running**
-```bash
-# Check cPanel error logs
-cat /home/username/public_html/carvendors-scraper/logs/cron.log
-
-# Check PHP execution
-/usr/bin/php --version
-
-# Test direct command
-/usr/bin/php -f /home/username/public_html/carvendors-scraper/scrape-carsafari.php
-```
-
-**Issue: Database connection fails**
-```bash
-# Verify credentials in config.php
-/usr/bin/php -r "
-\$config = require 'config.php';
-echo 'Host: ' . \$config['database']['host'] . '\n';
-echo 'Database: ' . \$config['database']['dbname'] . '\n';
-echo 'User: ' . \$config['database']['username'] . '\n';
-// Password should not be printed in production
-
-// Test connection
-try {
-    \$pdo = new PDO('mysql:host=' . \$config['database']['host'],
-                    \$config['database']['username'],
-                    \$config['database']['password']);
-    echo '✓ Connection OK\n';
-} catch (Exception \$e) {
-    echo '✗ Error: ' . \$e->getMessage() . '\n';
-}
-"
+[2025-12-05 12:55:15] ✓ Complete JSON saved to: data/vehicles.json
 ```
 
 ---
 
-### 🔹 Production (Linux/cPanel - Automated Cron Job)
+## 🗄️ Database Schema
 
-**For daily automatic scraping at 6 AM and 6 PM:**
-
-1. **SSH into your server:**
-```bash
-ssh username@yourdomain.com
-```
-
-2. **Open crontab editor:**
-```bash
-crontab -e
-```
-
-3. **Add this line:**
-```bash
-0 6,18 * * * /usr/bin/php /home/username/public_html/carvendors-scraper/scrape-carsafari.php >> /home/username/public_html/carvendors-scraper/logs/cron.log 2>&1
-```
-
-This runs at 6 AM and 6 PM every day, auto-publishes new vehicles to CarSafari.
-
-4. **Save and exit** (Ctrl+X, then Y, then Enter)
-
-5. **Verify cron job:**
-```bash
-crontab -l
-```
-
-**Cron Log Location**: `/home/username/public_html/carvendors-scraper/logs/cron.log`
-
----
-
-### 🔹 Docker Deployment (Optional)
-
-```dockerfile
-FROM php:8.3-cli
-RUN apt-get update && apt-get install -y curl
-COPY . /scraper
-WORKDIR /scraper
-CMD ["php", "scrape-carsafari.php"]
-```
-
-**Run**:
-```bash
-docker build -t carvendors-scraper .
-docker run --rm carvendors-scraper
-```
-
----
-
-## ⚙️ How It Works (Complete Pipeline)
-
-### **Phase 1: Fetch Listing Page** (10-15 seconds)
-
-```
-GET https://systonautosltd.co.uk/vehicle/search/...
-    ↓
-Find all vehicle cards in DOM via XPath
-    ↓
-Extract basic vehicle info per card:
-├─ Title: "Volvo V40 2.0 D4 R-Design Nav Plus..."
-├─ Price: "£8,990"
-├─ Mileage: "80,000"
-├─ Colour: "Green"
-├─ URL: "https://systonautosltd.co.uk/vehicle/volvo-v40/..."
-└─ First image URL
-
-Deduplication check:
-├─ If vehicle already processed → SKIP
-└─ If new vehicle → ADD to array
-
-Result: Array of 81 unique vehicles (not 162 duplicates) ✅
-```
-
-**Code Location**: `CarScraper.php:parseListingPage()` + deduplication in line 196-210
-
----
-
-### **Phase 2: Parse Vehicle Card** (Per Vehicle)
-
-```
-For each vehicle card in HTML:
-    ↓
-Extract from vehicle title:
-├─ Doors: regex match "5dr" → doors=5 ✅
-├─ Plate Year: regex match "(66 plate)" → plate=66 ✅
-├─ Drive System: regex match "4WD|AWD|xDrive" → if found ✅
-└─ Year: regex match "2016|2015|..." → year ✅
-
-Example:
-  Input: "Volvo V40 2.0 D4 R-Design Nav Plus (s/s) 5dr - 2016 (66 plate)"
-  Output: {
-    title: "Volvo V40 2.0 D4 R-Design Nav Plus",
-    doors: 5,
-    plate_year: 66,
-    year: 2016,
-    drive_system: null (not in title)
-  }
-```
-
-**Code Location**: `CarScraper.php:parseVehicleCard()` lines 440-445
-
----
-
-### **Phase 3: Enrich with Detail Pages** (Optional, ~6-8 minutes)
-
-```
-For each vehicle (if --no-details flag not used):
-    ↓
-GET {vehicle_url}  [+1.5 second delay for politeness]
-    ↓
-Parse detail page HTML:
-├─ Engine Size: regex "Engine.*Size.*([0-9,]+)" → engine_size
-├─ All images: extract all <img src=> URLs from page
-│  └─ Store as: https://systonautosltd.co.uk/image/vehicle/volvo-v40_001.jpg
-│                https://systonautosltd.co.uk/image/vehicle/volvo-v40_002.jpg
-│                ... (up to 30 images per vehicle)
-├─ Transmission: from specs dropdown
-├─ Fuel Type: from fuel section
-├─ Body Style: from body type dropdown
-└─ Full Description: all text + UTF-8 cleanup
-
-Cleanup Description (7 steps):
-  1. Remove control chars (invisible characters)
-  2. Remove broken UTF-8 (â¦, â€™, etc.)
-  3. Decode HTML entities (&amp; → &)
-  4. Replace known broken sequences
-  5. Remove non-ASCII bytes
-  6. Normalize whitespace
-  7. Trim
-
-Example description:
-  BEFORE: "Great car, serviced â¦ very reliable, no issuesâ€"
-  AFTER:  "Great car, serviced ... very reliable, no issues" ✅
-
-Result: Enhanced vehicle object with full specs ✅
-```
-
-**Code Location**: 
-- `CarScraper.php:enrichWithDetailPages()` lines 160-190
-- `CarScraper.php:cleanText()` lines 783-813
-
----
-
-### **Phase 4: Validate & Normalize Data**
-
-```
-For each field, validate against rules:
-
-Colour Validation:
-  Input: "Green"
-  Check: Is "Green" in whitelist? → YES ✅
-  Result: colour = "Green"
-  
-  Input: "TOUCHSCREEN"
-  Check: Is "TOUCHSCREEN" in whitelist? → NO ❌
-  Result: colour = NULL (rejected)
-
-Price Normalization:
-  Input: "£5,490"
-  Regex: Extract number → "5490"
-  Result: selling_price = 549000 (in pence)
-
-Mileage Normalization:
-  Input: "80,000 miles"
-  Regex: Extract number → "80000"
-  Result: mileage = 80000
-
-Body Style Validation:
-  Input: "Hatchback"
-  Result: body_style = "Hatchback" ✅
-  
-  Input: "Unknown"
-  Result: body_style = NULL (not in specs list)
-
-Year Extraction:
-  Input: "2016"
-  Result: year = 2016 ✅
-
-Result: Clean, validated data ready for database ✅
-```
-
-**Code Location**: `CarScraper.php:parseVehicleCard()` lines 420-480
-
----
-
-### **Phase 5: Create Attribute Record** (Database Insert)
-
-```
-For each vehicle:
-    ↓
-INSERT INTO gyc_vehicle_attribute:
-├─ category_id: 1 (hardcoded)
-├─ make_id: 1 (hardcoded - should be dynamic)
-├─ model: "Volvo V40"
-├─ year: 2016
-├─ fuel_type: "Diesel"
-├─ transmission: "Manual"
-├─ body_style: "Hatchback"
-├─ active_status: 1
-└─ created_at: NOW()
-
-Result: attr_id = 748 (foreign key for main vehicle)
-
-Database example:
-  SELECT * FROM gyc_vehicle_attribute WHERE id = 748;
-  ┌─────┬─────────────┬─────────┬──────┬─────────────┬────────────┬────────────┬────────────┬─────────────────────┐
-  │ id  │ category_id │ make_id │ year │ fuel_type   │ body_style │ model      │ created_at │ active_status       │
-  ├─────┼─────────────┼─────────┼──────┼─────────────┼────────────┼────────────┼────────────┼─────────────────────┤
-  │ 748 │ 1           │ 1       │ 2016 │ Diesel      │ Hatchback  │ Volvo V40  │ 2025-12... │ 1                   │
-  └─────┴─────────────┴─────────┴──────┴─────────────┴────────────┴────────────┴────────────┴─────────────────────┘
-```
-
-**Code Location**: `CarSafariScraper.php:createNewAttribute()` lines 280-310
-
----
-
-### **Phase 6: Create Main Vehicle Record** (Database Insert)
-
-```
-For each vehicle (using attr_id from Phase 5):
-    ↓
-INSERT INTO gyc_vehicle_info:
-├─ attr_id: 748 (FK to gyc_vehicle_attribute)
-├─ reg_no: "volvo-v40-2-0-d4-r-design-nav-plus..." (from URL slug)
-├─ vendor_id: 432 (systonautosltd)
-├─ vehicle_url: "https://systonautosltd.co.uk/vehicle/volvo-v40/..."
-├─ color: "Green"
-├─ selling_price: 899000 (in pence = £8,990)
-├─ mileage: 80000
-├─ description: "Great car, full service history..."
-├─ attention_grabber: "Volvo V40 2.0 D4 R-Design"
-├─ doors: 5
-├─ registration_plate: "66"
-├─ drive_system: NULL (not in title)
-├─ post_code: "LE7 1NS" (hardcoded)
-├─ address: "Unit 10 Mill Lane Syston, Leicester, LE7 1NS" (hardcoded)
-├─ drive_position: "Right" (UK default)
-├─ v_condition: "USED"
-├─ active_status: 1 (LIVE)
-├─ publish_date: TODAY
-├─ created_at: NOW()
-└─ updated_at: NOW()
-
-PDO prepared statement with parameter binding:
-  (?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10...', 'Right', ?, ?)
-  ↓ Parameters:
-  [748, "volvo-v40...", 8990, 8990, 80000, "Green", "Great car...", "Volvo V40", 432, "https://...", 5, "66", null, "2025-12-04", "2025-12-04"]
-
-Result: vehicle_info_id = 12345 (for image linking)
-```
-
-**Code Location**: `CarSafariScraper.php:saveVehiclesToCarSafari()` lines 201-244
-
----
-
-### **Phase 7: Store Image URLs** (Database Insert)
-
-```
-For each image URL found on detail page:
-    ↓
-FOR each image in vehicle['images']:
-    ↓
-INSERT INTO gyc_product_images:
-├─ vehicle_info_id: 12345 (FK to gyc_vehicle_info)
-├─ file_name: "https://systonautosltd.co.uk/image/vehicle/volvo-v40_001.jpg"
-├─ serial: 1 (first image)
-└─ cratead_at: NOW()
-
-Next image:
-├─ vehicle_info_id: 12345
-├─ file_name: "https://systonautosltd.co.uk/image/vehicle/volvo-v40_002.jpg"
-├─ serial: 2
-└─ cratead_at: NOW()
-
-... (repeat for all 8-10 images per vehicle)
-
-Result: 633 total image URL records across 81 vehicles ✅
-
-Database example:
-  SELECT COUNT(*) FROM gyc_product_images WHERE vehicle_info_id = 12345;
-  Result: 8 images for this vehicle
-
-  SELECT * FROM gyc_product_images WHERE vehicle_info_id = 12345 ORDER BY serial;
-  ┌────┬─────────────────┬────────────────────────────────────────────────┬────────┐
-  │ id │ vehicle_info_id │ file_name                                      │ serial │
-  ├────┼─────────────────┼────────────────────────────────────────────────┼────────┤
-  │ 1  │ 12345           │ https://systonautosltd.co.uk/.../volvo_001.jpg │ 1      │
-  │ 2  │ 12345           │ https://systonautosltd.co.uk/.../volvo_002.jpg │ 2      │
-  │ 3  │ 12345           │ https://systonautosltd.co.uk/.../volvo_003.jpg │ 3      │
-  │... │ ...             │ ...                                            │ ...    │
-  │ 8  │ 12345           │ https://systonautosltd.co.uk/.../volvo_008.jpg │ 8      │
-  └────┴─────────────────┴────────────────────────────────────────────────┴────────┘
-```
-
-**Code Location**: `CarSafariScraper.php:saveVehicleImages()` lines 320-345
-
----
-
-### **Phase 8: Auto-Publish to CarSafari** (Live on Website)
-
-```
-For all scraped vehicle IDs:
-    ↓
-UPDATE gyc_vehicle_info SET active_status = '1' WHERE id IN (...)
-    ↓
-Result: All 81 vehicles are now LIVE on CarSafari website ✅
-
-Status values:
-  0 = Draft (not published)
-  1 = LIVE ✅ (visible to customers)
-  2 = Sold
-  3 = Archived
-  4 = Inactive
-
-Verification:
-  SELECT COUNT(*) FROM gyc_vehicle_info 
-  WHERE vendor_id = 432 AND active_status = 1;
-  Result: 81 vehicles LIVE ✅
-```
-
-**Code Location**: `CarSafariScraper.php:autoPublishVehicles()` lines 350-365
-
----
-
-### **Phase 9: Generate JSON Export** (Snapshot)
-
-```
-For all vehicles in database (vendor_id = 432):
-    ↓
-SELECT * FROM gyc_vehicle_info + JOIN gyc_vehicle_attribute
-    ↓
-Convert to JSON array:
-[
-  {
-    "id": 12345,
-    "title": "Volvo V40 2.0 D4 R-Design Nav Plus Euro 6 (s/s) 5dr",
-    "year": 2016,
-    "plate": "66",
-    "price": 8990,
-    "mileage": 80000,
-    "colour": "Green",
-    "transmission": "Manual",
-    "fuel_type": "Diesel",
-    "body_style": "Hatchback",
-    "doors": 5,
-    "engine_size": 1598,
-    "postcode": "LE7 1NS",
-    "address": "Unit 10 Mill Lane Syston, Leicester, LE7 1NS",
-    "description": "Great car, full service history...",
-    "images": 8,
-    "url": "https://systonautosltd.co.uk/vehicle/volvo-v40/...",
-    "published": true,
-    "created_at": "2025-12-04T13:07:00Z"
-  },
-  ...
-]
-    ↓
-Save to data/vehicles.json
-
-Result: JSON snapshot ready for REST API or external integrations ✅
-```
-
-**Code Location**: `CarSafariScraper.php` lines 370-400 + `check_results.php`
-
----
-
-### **Summary: The Complete Flow**
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ USER RUNS: php scrape-carsafari.php --no-details               │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 1: Fetch Listing Page (systonautosltd.co.uk)             │
-│ ✓ Find 162 raw vehicle cards                                    │
-│ ✓ Deduplicate to 81 unique vehicles                             │
-│ ✓ Extract: title, price, mileage, color, URL, image            │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 2: Parse Vehicle Cards                                    │
-│ ✓ Extract doors, plate year, drive system from title            │
-│ ✓ Validate color against whitelist                              │
-│ ✓ Normalize price & mileage                                     │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 3: Fetch Detail Pages (if --no-details not used)         │
-│ ✓ Extract engine size, transmission, fuel type, body style      │
-│ ✓ Get ALL image URLs (up to 30 per vehicle)                     │
-│ ✓ Extract full description + UTF-8 cleanup                      │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 4: Validate & Normalize All Data                          │
-│ ✓ Remove broken UTF-8 characters (7-step cleanup)               │
-│ ✓ Validate all fields                                           │
-│ ✓ Apply defaults (postcode=LE7 1NS, vendor=432)                │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 5: INSERT to gyc_vehicle_attribute (Specs)               │
-│ ✓ Create 81 attribute records                                   │
-│ ✓ Store: transmission, fuel_type, body_style, year              │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 6: INSERT to gyc_vehicle_info (Main Data)                │
-│ ✓ Create 81 vehicle records                                     │
-│ ✓ Link to attributes via FK attr_id                             │
-│ ✓ Set vendor_id=432, active_status=1                            │
-│ ✓ Store: price, mileage, doors, plates, postcode, address       │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 7: INSERT to gyc_product_images (Image URLs)             │
-│ ✓ Store 633 image URLs (8-10 per vehicle)                       │
-│ ✓ Link to vehicles via FK vehicle_info_id                       │
-│ ✓ Serial number each image (1, 2, 3...)                         │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 8: Auto-Publish to CarSafari Website                      │
-│ ✓ SET active_status = 1 for all 81 vehicles                     │
-│ ✓ Vehicles now LIVE and visible to customers ✅                 │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ PHASE 9: Generate JSON Export                                   │
-│ ✓ Create data/vehicles.json snapshot                            │
-│ ✓ Ready for REST APIs and external systems                      │
-└─────────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────────┐
-│ RESULT: 81 vehicles published, 633 images linked, ✅ SUCCESS    │
-│                                                                  │
-│ OUTPUT:                                                          │
-│ ✓ Found: 81 vehicles                                            │
-│ ✓ Published: 81 vehicles (active_status=1)                      │
-│ ✓ Image URLs: 633                                               │
-│ ✓ JSON: data/vehicles.json                                      │
-│ ✓ Duration: ~2-3 minutes (--no-details)                         │
-│          ~8-10 minutes (full scrape)                            │
-│ ✓ Logs: logs/scraper_2025-12-04.log                             │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-
-
----
-
-## 📄 All Data Fields Extracted
-
-| Field | Example | Type | Coverage | Source | Validation |
-|-------|---------|------|----------|--------|-----------|
-| **ID** | 12345 | INT | 81/81 | Database | Primary key auto-increment |
-| **Title** | Volvo V40 2.0 D4 R-Design | VARCHAR(500) | 81/81 | Listing page | Required, non-empty |
-| **Year** | 2016 | INT | 81/81 | Parsed from title | 4-digit year |
-| **Plate Year** | 66 | VARCHAR(10) | 81/81 | Parsed from "(66 plate)" | Whitelist: 10-99 |
-| **Doors** | 5 | INT | 81/81 | Parsed from "5dr" | Whitelist: 2,3,4,5 |
-| **Engine Size** | 1598 | VARCHAR(20) | 67/81 | Detail page | Numeric only, cc/ml |
-| **Drive System** | AWD | VARCHAR(50) | ~65/81 | Parsed from title | Whitelist: 4WD,AWD,etc. |
-| **Transmission** | Manual | VARCHAR(100) | 161/161 | Specs table | Whitelist: Manual, Auto, CVT |
-| **Fuel Type** | Diesel | VARCHAR(100) | 161/161 | Fuel section | Whitelist: Petrol, Diesel, Electric, Hybrid |
-| **Body Style** | Hatchback | VARCHAR(100) | 143/161 | Body specs | Whitelist: Sedan, SUV, Hatchback, etc. |
-| **Colour** | Green | VARCHAR(100) | 81/81 | Colour field | Whitelist: 50+ valid colors |
-| **Price** | 8990 | INT | 81/81 | Price element | Numeric, in pence |
-| **Mileage** | 80000 | INT | 81/81 | Mileage field | Numeric, in miles |
-| **Description** | Full text... | TEXT | 81/81 | Full page | UTF-8 cleaned (7-step) |
-| **Postcode** | LE7 1NS | VARCHAR(10) | 81/81 | Hardcoded | UK postcode format |
-| **Address** | Unit 10 Mill Lane... | VARCHAR(500) | 81/81 | Hardcoded | Dealer address |
-| **Drive Position** | Right | VARCHAR(20) | 81/81 | Hardcoded | UK standard: Right |
-| **Registration** | volvo-v40-2... | VARCHAR(255) | 81/81 | URL slug | Unique constraint |
-| **Vehicle URL** | https://systonauto... | VARCHAR(500) | 81/81 | Listing page | Full original URL |
-| **Images** | Multiple URLs | TEXT | 633 total | Detail page | All image URLs stored |
-| **Vendor ID** | 432 | INT | 81/81 | Hardcoded | systonautosltd.co.uk |
-| **Condition** | USED | ENUM | 81/81 | Hardcoded | Fixed: USED |
-| **Published** | 1 | ENUM | 81/81 | Auto-set | 1=Live on website ✅ |
-
----
-
-## 🗂️ Complete Database Schema
-
-### gyc_vehicle_info (Main Vehicle Records)
+### gyc_vehicle_info (Main vehicle records)
 ```sql
-CREATE TABLE gyc_vehicle_info (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  attr_id INT,                              -- FK to gyc_vehicle_attribute
-  reg_no VARCHAR(255) UNIQUE,               -- Vehicle registration/ID
-  vendor_id INT DEFAULT 432,                -- Dealer source (432=systonautosltd)
-  vehicle_url VARCHAR(500),                 -- Original listing URL
-  color VARCHAR(100),                       -- Whitelist validated
-  transmission VARCHAR(100),                -- Manual/Auto/CVT (deprecated, use attr_id)
-  fuel_type VARCHAR(100),                   -- Petrol/Diesel/Electric (deprecated)
-  body_style VARCHAR(100),                  -- Sedan/SUV/Hatchback (deprecated)
-  selling_price INT,                        -- Price in pence (£8,990 = 899000)
-  regular_price INT,                        -- Regular price in pence
-  mileage INT,                              -- Mileage in miles
-  description LONGTEXT,                     -- Full vehicle description (UTF-8 cleaned)
-  attention_grabber VARCHAR(255),           -- Title/headline
-  v_condition ENUM('USED','NEW'),           -- Condition (always 'USED')
-  active_status ENUM('0','1','2','3','4'),  -- 1=LIVE, 0=Draft, 2=Sold, 3=Archived, 4=Inactive
-  doors INT,                                -- Number of doors (2,3,4,5)
-  registration_plate VARCHAR(10),           -- Plate year (e.g., "66")
-  drive_system VARCHAR(50),                 -- AWD, 4WD, 2WD, xDrive, etc.
-  post_code VARCHAR(10),                    -- Dealer postcode (LE7 1NS)
-  address VARCHAR(500),                     -- Dealer full address
-  drive_position VARCHAR(20) DEFAULT 'Right', -- UK standard: Right
-  publish_date DATE,                        -- Publication date (TODAY)
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  INDEX idx_vendor_id (vendor_id),
-  INDEX idx_active_status (active_status),
-  INDEX idx_vehicle_url (vehicle_url)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-Current Records: 81 vehicles (all vendor_id=432, active_status=1) ✅
+id (PK)              — Auto-increment ID
+reg_no (UNIQUE)      — UK registration number (WP66UEX)
+attr_id (FK)         — Link to gyc_vehicle_attribute
+vendor_id            — 432 = Systonautos Ltd
+selling_price        — Numeric price
+mileage              — Numeric mileage
+color                — Car colour
+description          — Full description
+vehicle_url          — Link to detail page
+doors                — Number of doors
+transmission         — Manual/Automatic
+fuel_type            — Diesel/Petrol/etc
+body_style           — Hatchback/Sedan/etc
+engine_size          — CC displacement
+active_status        — 0/1 (0=draft, 1=live)
+created_at           — Timestamp
+updated_at           — Timestamp
+data_hash            — Change detection
 ```
 
-### gyc_vehicle_attribute (Vehicle Specifications)
+### gyc_vehicle_attribute (Specifications)
 ```sql
-CREATE TABLE gyc_vehicle_attribute (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  category_id INT DEFAULT 1,                -- Vehicle category (1=cars)
-  make_id INT DEFAULT 1,                    -- Make/Brand ID (should be dynamic)
-  model VARCHAR(255),                       -- Vehicle model (e.g., "Volvo V40")
-  year INT,                                 -- Model year (2016)
-  fuel_type VARCHAR(100),                   -- Petrol, Diesel, Electric, Hybrid
-  transmission VARCHAR(100),                -- Manual, Automatic, CVT
-  body_style VARCHAR(100),                  -- Sedan, SUV, Hatchback, Coupe, etc.
-  active_status ENUM('0','1') DEFAULT '1', -- 1=Active
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_model (model),
-  INDEX idx_year (year)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-Current Records: 161 attributes ✅
-Sample Data:
-  model='Volvo V40', year=2016, fuel_type='Diesel', 
-  transmission='Manual', body_style='Hatchback' ✅
+id (PK)              — Auto-increment
+category_id          — Vehicle category
+make_id              — Make ID
+model                — Vehicle model
+year                 — Year
+transmission         — Manual/Automatic
+fuel_type            — Fuel type
+body_style           — Body type
+engine_size          — CC displacement
+active_status        — 0/1
+created_at           — Timestamp
 ```
 
 ### gyc_product_images (Image URLs)
 ```sql
-CREATE TABLE gyc_product_images (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  vehicle_info_id INT,                      -- FK to gyc_vehicle_info
-  file_name VARCHAR(500),                   -- Image URL (https://systonautosltd.co.uk/...)
-  serial INT,                               -- Image sequence (1,2,3...)
-  cratead_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_vehicle_info_id (vehicle_info_id),
-  INDEX idx_serial (serial),
-  FOREIGN KEY (vehicle_info_id) REFERENCES gyc_vehicle_info(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-Current Records: 633 image URLs ✅
-Sample Data:
-  vehicle_info_id=12345, serial=1, 
-  file_name='https://systonautosltd.co.uk/image/vehicle/volvo-v40_001.jpg' ✅
+id (PK)              — Auto-increment
+vehicle_info_id (FK) — Link to gyc_vehicle_info
+file_name            — Full image URL
+serial               — 1, 2, 3, ... (multiple images per vehicle)
+created_at           — Timestamp
 ```
 
 ---
 
-## ⚙️ Configuration & Setup
+## 🔧 Common Tasks
 
-### config.php (Database & Scraper Settings)
-
-```php
-<?php
-return [
-    // DATABASE CONFIGURATION
-    'database' => [
-        'host'     => 'localhost',           // MySQL host
-        'dbname'   => 'tst-car',             // Database name
-        'username' => 'root',                // MySQL user
-        'password' => '',                    // MySQL password
-        'charset'  => 'utf8mb4',             // UTF-8 support
-    ],
-
-    // SCRAPER CONFIGURATION
-    'scraper' => [
-        'source'               => 'systonautosltd',
-        'base_url'             => 'https://systonautosltd.co.uk',
-        'listing_url'          => 'https://systonautosltd.co.uk/vehicle/search/...',
-        
-        // BEHAVIOR
-        'fetch_detail_pages'   => true,      // true=get engine_size, full description, all images
-                                             // false=listing only, faster
-        'request_delay'        => 1.5,       // Seconds between HTTP requests (politeness)
-        'timeout'              => 30,        // cURL timeout in seconds
-        'verify_ssl'           => false,     // false=WAMP (self-signed), true=production
-        
-        // OUTPUT
-        'output_json'          => true,      // Generate data/vehicles.json
-        'log_file'             => 'logs/scraper_%s.log',  // %s = date (YYYY-MM-DD)
-    ],
-];
-?>
-```
-
-### How to Change Configuration
-
-**For Local Testing**:
-```php
-// config.php
-'database' => [
-    'host'     => 'localhost',
-    'dbname'   => 'tst-car',      // Your local test database
-    'username' => 'root',
-    'password' => '',
-],
-'scraper' => [
-    'verify_ssl' => false,         // WAMP doesn't have valid SSL
-    'timeout'    => 30,
-],
-```
-
-**For Production (cPanel)**:
-```php
-// config.php
-'database' => [
-    'host'     => 'localhost',     // Usually localhost on cPanel
-    'dbname'   => 'yourcp_carsafari',  // cPanel adds prefix
-    'username' => 'yourcp_user',
-    'password' => 'your_password',
-],
-'scraper' => [
-    'verify_ssl' => true,          // Production needs valid SSL
-    'timeout'    => 30,
-    'fetch_detail_pages' => true,  // Can be slower on shared hosting
-],
-```
-
----
-
-## 🔧 Key Classes & Methods
-
-### CarScraper.php (Base Scraping Class)
-**Purpose**: Core functionality for fetching HTML, parsing vehicles, extracting data, text cleaning.
-
-| Method | Lines | Purpose |
-|--------|-------|---------|
-| `fetchUrl()` | 50-80 | Download page via cURL with headers |
-| `parseListingPage()` | 85-230 | Extract vehicle cards + deduplication |
-| `parseVehicleCard()` | 235-490 | Parse single vehicle from card HTML |
-| `enrichWithDetailPages()` | 495-650 | Fetch detail pages for specs & images |
-| `extractVehicleDetails()` | 655-750 | Parse detail page HTML for engine size |
-| `cleanText()` | 783-813 | **7-step UTF-8 cleanup pipeline** |
-| `saveVehicles()` | 815-850 | Save to generic database |
-
-**Key Features**:
-- ✅ Deduplication with `$processedIds` array
-- ✅ Field parsing with regex (doors, plates, drive system)
-- ✅ UTF-8 garbage cleanup (7 steps)
-- ✅ Colour whitelist validation (50+ colors)
-- ✅ Error handling with logging
-
----
-
-### CarSafariScraper.php (CarSafari-Specific Class)
-**Purpose**: CarSafari database schema, image management, vendor tracking, auto-publishing.
-
-| Method | Lines | Purpose |
-|--------|-------|---------|
-| `runWithCarSafari()` | 30-50 | Main entry point (extends run()) |
-| `saveVehiclesToCarSafari()` | 201-244 | Loop vehicles, save attributes & main record |
-| `createNewAttribute()` | 280-310 | INSERT into gyc_vehicle_attribute |
-| `saveVehicleInfo()` | 315-340 | INSERT into gyc_vehicle_info |
-| `saveVehicleImages()` | 345-365 | INSERT image URLs into gyc_product_images |
-| `autoPublishVehicles()` | 370-390 | SET active_status=1 (LIVE) |
-
-**Key Features**:
-- ✅ Extends CarScraper for reusability
-- ✅ PDO prepared statements (secure, no SQL injection)
-- ✅ Foreign key linking (attr_id, vehicle_info_id)
-- ✅ Vendor ID tracking (432=systonautosltd)
-- ✅ Hardcoded dealer info (postcode, address)
-- ✅ Auto-publishing (active_status=1)
-
----
-
-### scrape-carsafari.php (CLI Entry Point)
-**Purpose**: Command-line interface, argument parsing, main controller.
-
-| Feature | Default | Override |
-|---------|---------|----------|
-| **Vendor ID** | 432 | `--vendor=2` |
-| **Detail Pages** | true | `--no-details` |
-| **JSON Export** | true | `--no-json` |
-| **Memory Limit** | 512MB | `ini_set('memory_limit', '1024M')` |
-
-**Usage**:
+### Run Once Per Day
 ```bash
-php scrape-carsafari.php [options]
-php scrape-carsafari.php --no-details
-php scrape-carsafari.php --vendor=2 --no-json
+# cPanel Cron (runs at 6 AM daily)
+0 6 * * * /usr/bin/php /home/username/carvendors-scraper/scrape-carsafari.php >> logs/cron.log 2>&1
+```
+
+### Run Twice Daily
+```bash
+# cPanel Cron (runs at 6 AM and 6 PM)
+0 6,18 * * * /usr/bin/php /home/username/carvendors-scraper/scrape-carsafari.php >> logs/cron.log 2>&1
+```
+
+### Check Latest Results
+```bash
+# View last 50 lines of today's log
+tail -50 logs/scraper_*.log
+
+# Check database count
+mysql -u root tst-car -e "SELECT COUNT(*) FROM gyc_vehicle_info WHERE vendor_id = 432;"
+
+# Export to CSV
+mysql -u root tst-car -e "SELECT reg_no, color, transmission FROM gyc_vehicle_info WHERE vendor_id = 432;" > vehicles.csv
+```
+
+### Manual Database Reset
+```bash
+# Delete old data
+mysql -u root tst-car -e "
+DELETE pi FROM gyc_product_images pi 
+  JOIN gyc_vehicle_info vi ON pi.vehicle_info_id = vi.id 
+  WHERE vi.vendor_id = 432;
+DELETE FROM gyc_vehicle_attribute WHERE id IN (
+  SELECT attr_id FROM gyc_vehicle_info WHERE vendor_id = 432
+);
+DELETE FROM gyc_vehicle_info WHERE vendor_id = 432;
+"
 ```
 
 ---
 
-## 📊 Performance & Metrics
+## 📋 New Database Installation (Fresh Start)
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| **Vehicles Per Run** | 81 | Systonautosltd.co.uk |
-| **Unique Count** | 81 | After deduplication (raw: 162) |
-| **Processing Time** | 2-3 min (no-details) | 8-10 min (full scrape) |
-| **Requests Per Vehicle** | 1-2 | 1=listing, 2=detail page |
-| **Politeness Delay** | 1.5s | Per HTTP request |
-| **Average Images Per Vehicle** | 8-10 | Total: 633 images |
-| **Max Images Per Vehicle** | 29 | Some vehicles have many shots |
-| **Database Inserts** | ~1,000 | 81 vehicles + 161 attributes + 633 images |
-| **Success Rate** | 100% | All vehicles published |
-| **Data Completeness** | 95% | Missing: real reg numbers, seats, MOT dates |
+If you're setting up on a **brand new database**, run:
+
+```bash
+mysql -u root -p your_db_name < sql/01_INITIAL_SETUP.sql
+```
+
+This creates all required tables:
+- `gyc_vehicle_info`
+- `gyc_vehicle_attribute`
+- `gyc_product_images`
+- `scraper_statistics`
+
+If tables already exist but you need to add new columns:
+
+```bash
+mysql -u root -p your_db_name < sql/02_MIGRATIONS.sql
+```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Problem: "No vehicles found"
-
-**Check 1**: Network connectivity
+### "Configuration file not found"
 ```bash
-curl -I https://systonautosltd.co.uk
-# Should return HTTP 200
+# Make sure config.php exists in root directory
+ls -la config.php
+
+# If missing, create it from template:
+cat config.php.example > config.php
+nano config.php  # Edit with your credentials
 ```
 
-**Check 2**: Database connection
+### "Could not connect to database"
 ```bash
-php -r "
-try {
-    \$pdo = new PDO('mysql:host=localhost;dbname=tst-car', 'root', '');
-    echo 'Database connection: OK ✅';
-} catch (PDOException \$e) {
-    echo 'Database error: ' . \$e->getMessage();
-}
-"
+# Check MySQL is running
+# Check credentials in config.php
+# Verify database exists
+mysql -u root -e "SHOW DATABASES;" | grep tst-car
 ```
 
-**Check 3**: Log file
+### "No vehicles found"
 ```bash
-tail -50 logs/scraper_2025-12-04.log
-# Look for errors or parsing issues
+# Check if dealer website URL is correct in config.php
+# Verify site structure hasn't changed (they update HTML sometimes)
+# Check internet connectivity: curl -I https://systonautosltd.co.uk
 ```
 
-**Check 4**: XPath selectors (website HTML changed?)
-- Open https://systonautosltd.co.uk in browser
-- Right-click → Inspect Element
-- Find vehicle card HTML structure
-- Update XPath in CarScraper.php:parseListingPage()
+### "Images not saving"
+```bash
+# Ensure data/ and logs/ directories are writable
+chmod 755 data/ logs/
+# Check logs for specific errors
+tail -100 logs/scraper_*.log | grep -i error
+```
 
----
-
-### Problem: "Database error: Invalid parameter number"
-
-**Cause**: Mismatch between SQL placeholders (?) and execute() parameters
-
-**Fix**: Count placeholders vs parameters in CarSafariScraper.php line 201-244
-```php
-// SQL has 15 placeholders (?)
-// execute() must have exactly 15 parameters
-// Hardcoded values ('USED', '1', etc.) don't count
-
-// WRONG:
-$stmt->execute([attr_id, reg_no, ...]);  // 13 params but 15 placeholders ❌
-
-// CORRECT:
-$stmt->execute([attr_id, reg_no, price, regular_price, mileage, color, ...]);  // 15 params ✅
+### "Memory limit exceeded"
+```bash
+# Increase in config.php or script:
+ini_set('memory_limit', '1024M');  # Increase to 1GB
 ```
 
 ---
 
-### Problem: "Memory exhausted"
+## 📊 Key Statistics (Latest Run)
 
-**Increase Memory Limit**:
-```php
-// In scrape-carsafari.php, top of file
-ini_set('memory_limit', '1024M');  // Increase from 512MB
+```
+Found Vehicles:     82
+Inserted:           81
+Updated:            1
+Skipped:            0
+Total Images:       5,553
+Images Per Vehicle: ~68 average
+
+Data Coverage:
+- With registration:  81/81 (100%)
+- With colour:        81/81 (100%)
+- With transmission:  81/81 (100%)
+- With engine size:   ~66/81 (82%)
 ```
 
 ---
 
-### Problem: "UTF-8 garbage still in descriptions (â¦, â€™)"
+## ✨ Key Features
 
-**Already Handled**: 7-step cleanup in CarScraper.php:cleanText()
-- If still seeing garbage, database charset might be wrong
+✅ **Automatic VRM Extraction**
+- Extracts real UK registration numbers (WP66UEX) from hidden input fields
+- Not URL slugs, actual registration plates
 
-**Check**:
-```sql
--- Check database charset
-SHOW CREATE DATABASE tst-car;
--- Should show: ... CHARACTER SET utf8mb4 ...
+✅ **Multi-Image Support**
+- 60-90+ images per vehicle from aacarsdna.com CDN
+- Serial-numbered image URLs stored in database
+- No disk files, just URLs
 
--- Check table charset
-SHOW CREATE TABLE gyc_vehicle_info;
--- Should show: ... CHARSET=utf8mb4 ...
+✅ **Intelligent Deduplication**
+- Hash-based change detection
+- Skips unchanged vehicles
+- Only updates when data actually changes
 
--- If wrong, fix with:
-ALTER DATABASE tst-car CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE gyc_vehicle_info CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+✅ **Complete Data Validation**
+- Whitelist validation for colors (50+ valid colors)
+- Numeric price and mileage extraction
+- All fields validated before database save
 
----
-
-## 📁 Project Files
-
-| File | Purpose | Key Lines |
-|------|---------|-----------|
-| `scrape-carsafari.php` | CLI entry point, main controller | 1-100 |
-| `CarScraper.php` | Base scraping class | 1-850 |
-| `CarSafariScraper.php` | CarSafari-specific class | 1-400 |
-| `config.php` | Database & scraper settings | 1-50 |
-| `check_results.php` | Verify scrape results | 1-150 |
-| `data/vehicles.json` | JSON export snapshot | (generated) |
-| `logs/scraper_*.log` | Daily scraper logs | (auto-created) |
-| `sql/carsafari.sql` | Database schema | (reference) |
-| `sql/ALTER_DB_ADD_URL.sql` | Migration script | (one-time) |
-| `README.md` | This documentation | (you are here) |
-| `PLAN_AND_EXECUTION.md` | Complete implementation guide | (reference) |
+✅ **Zero Configuration for Running**
+- Just edit config.php with your DB credentials
+- Run single command
+- That's it!
 
 ---
 
-## 🚀 Production Deployment Checklist
+## 📞 Support
 
-- [ ] Database created: `tst-car` or `carsafari`
-- [ ] Database user created with proper permissions
-- [ ] config.php updated with correct credentials
-- [ ] SSL certificate valid (verify_ssl=true)
-- [ ] Test run successful: `php scrape-carsafari.php --no-details`
-- [ ] Verify: 81 vehicles in database
-- [ ] Verify: All vehicles have active_status=1 (LIVE)
-- [ ] Cron job set up: `0 6,18 * * * /usr/bin/php .../scrape-carsafari.php`
-- [ ] Cron log location verified
-- [ ] Backup database before first production run
-- [ ] Monitor logs for first week of cron runs
-- [ ] Alert system set up (email on errors)
-- [ ] Document credentials & access info
+For issues:
+1. Check `logs/scraper_*.log` for detailed error messages
+2. Verify `config.php` has correct database credentials
+3. Ensure MySQL is running and database exists
+4. Check that `data/` and `logs/` directories are writable
+
+---
+
+## 📄 File Reference
+
+| File | Purpose |
+|------|---------|
+| `scrape-carsafari.php` | Main entry point - run this |
+| `CarScraper.php` | Base scraper (listing + detail parsing) |
+| `CarSafariScraper.php` | CarSafari database integration |
+| `config.php` | Database credentials & settings |
+| `data/vehicles.json` | Auto-generated vehicle export |
+| `logs/scraper_*.log` | Execution logs (auto-created) |
+| `sql/01_INITIAL_SETUP.sql` | Database initialization (run once) |
+| `sql/02_MIGRATIONS.sql` | Optional database updates |
+
+---
+
+**Last Updated**: December 5, 2025  
+**Status**: ✅ Production Ready  
+**Vehicles**: 81 | **Images**: 5,553 | **Data Coverage**: 95%
 
 
