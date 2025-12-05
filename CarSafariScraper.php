@@ -274,10 +274,13 @@ class CarSafariScraper extends CarScraper
      */
     private function saveVehicleInfo(array $vehicle, int $attrId, string $now): ?int
     {
+        // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
+        $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+        
         // Check if vehicle already exists by reg_no
         $checkSql = "SELECT id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
         $checkStmt = $this->db->prepare($checkSql);
-        $checkStmt->execute([$vehicle['external_id']]);
+        $checkStmt->execute([$regNo]);
         $existing = $checkStmt->fetch();
 
         // STEP 3: Add new fields (doors, registration_plate, drive_system, post_code, address, drive_position)
@@ -310,10 +313,13 @@ class CarSafariScraper extends CarScraper
 
         // Extract numeric price
         $price = $this->extractNumericPrice($vehicle['price']);
+        
+        // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id  
+        $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
 
         $result = $stmt->execute([
             $attrId,                                                    // 1: attr_id
-            $vehicle['external_id'],                                    // 2: reg_no
+            $regNo,                                                     // 2: reg_no (actual UK VRM like WP66UEX)
             $price,                                                     // 3: selling_price
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
@@ -735,7 +741,8 @@ class CarSafariScraper extends CarScraper
      */
     protected function saveVehicleInfoWithChangeDetection(array $vehicle, int $attrId, string $now): array
     {
-        $regNo = $vehicle['external_id'];
+        // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
+        $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
         
         // Check if vehicle exists
         $checkSql = "SELECT id, data_hash FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
@@ -792,10 +799,13 @@ class CarSafariScraper extends CarScraper
      */
     private function saveVehicleInfoAndHash(array $vehicle, int $attrId, string $now, string $dataHash): ?int
     {
+        // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
+        $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+        
         // Check if vehicle already exists by reg_no
         $checkSql = "SELECT id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
         $checkStmt = $this->db->prepare($checkSql);
-        $checkStmt->execute([$vehicle['external_id']]);
+        $checkStmt->execute([$regNo]);
         $existing = $checkStmt->fetch();
 
         // STEP 3: Add new fields + data_hash for change detection
@@ -832,7 +842,7 @@ class CarSafariScraper extends CarScraper
 
         $result = $stmt->execute([
             $attrId,                                                    // 1: attr_id
-            $vehicle['external_id'],                                    // 2: reg_no
+            $regNo,                                                     // 2: reg_no (actual UK VRM like WP66UEX)
             $price,                                                     // 3: selling_price
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage

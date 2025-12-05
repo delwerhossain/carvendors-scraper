@@ -329,6 +329,147 @@ $sql = "INSERT INTO gyc_vehicle_info (
 
 **Overall Data Quality**: 📊 **95% Complete** with zero invalid entries
 
+---
+
+## 🔄 Data Extraction Process (Step-by-Step)
+
+### Complete Data Flow
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                       SCRAPER DATA FLOW                                   │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│  1. LISTING PAGE (systonautosltd.co.uk/vehicle/search/)                  │
+│     ↓                                                                    │
+│     • Parse 82 vehicle cards                                             │
+│     • Extract: title, price, mileage, image_url                         │
+│     • Deduplicate: 162 raw → 82 unique vehicles                         │
+│                                                                          │
+│  2. DETAIL PAGES (82 individual vehicle pages)                           │
+│     ↓                                                                    │
+│     • Fetch: https://systonautosltd.co.uk/vehicle/name/{slug}/          │
+│     • Extract VRM: <input name="vrm" value="WP66UEX"/>                  │
+│     • Extract colour: <span class="vd-detail-value">Silver</span>       │
+│     • Extract engine_size: Engine Size: 1,969 cc                        │
+│     • Extract transmission: Transmission: Manual                         │
+│     • Extract all images: 60-90+ images per vehicle from CDN            │
+│                                                                          │
+│  3. DATABASE SAVE (gyc_vehicle_info + gyc_vehicle_attribute)            │
+│     ↓                                                                    │
+│     • reg_no = UK VRM (e.g., "WP66UEX") - NOT URL slug                  │
+│     • Hash-based change detection (only update if data changed)         │
+│     • Auto-publish: active_status = 1                                   │
+│                                                                          │
+│  4. IMAGE STORAGE (gyc_product_images)                                   │
+│     ↓                                                                    │
+│     • Store all image URLs with serial numbers                          │
+│     • 60-90 images per vehicle (from aacarsdna.com CDN)                │
+│     • No disk downloads - just URL references                           │
+│                                                                          │
+│  5. JSON EXPORT (data/vehicles.json)                                     │
+│     ↓                                                                    │
+│     • Complete vehicle data in JSON format                              │
+│     • Statistics: vehicles, colors, images, etc.                        │
+│     • Used for API endpoints or backup                                  │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+### Key Data Sources
+
+| Data Field | Source Location | Extraction Method |
+|------------|-----------------|-------------------|
+| **VRM (reg_no)** | Hidden input: `<input name="vrm" value="...">` | Regex from detail page |
+| **Colour** | `<span class="vd-detail-value">Silver</span>` | XPath + whitelist validation |
+| **Engine Size** | `Engine Size: 1,969 cc` | Regex (numeric extraction) |
+| **Transmission** | `<span class="vd-detail-value">Manual</span>` | XPath from specs section |
+| **Images** | `aacarsdna.com/images/vehicles/...` | All img src matching CDN pattern |
+| **Price** | `£5,490` on listing card | Regex (£ followed by numbers) |
+| **Mileage** | Mileage field on card | Numeric extraction |
+
+### VRM Extraction (Critical Fix)
+
+**Before**: reg_no was URL slug like `"volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr"`  
+**After**: reg_no is actual UK VRM like `"WP66UEX"`
+
+```php
+// Extraction patterns in CarScraper.php extractVehicleDetails()
+
+// Pattern 1: Hidden input field (primary source)
+'/<input[^>]*name=["\']vrm["\'][^>]*value=["\']([A-Z0-9]+)["\']/'
+// Example: <input type="hidden" name="vrm" value="WP66UEX"/>
+
+// Pattern 2: JavaScript variable (fallback)
+'/vrn["\']?\s*[:=]\s*["\']([A-Z0-9]+)["\']/''
+// Example: var VC_SETTINGS = { data: { vehicle: { vrn: 'WP66UEX' } } }
+```
+
+### Image Extraction (Multi-Image Support)
+
+**Before**: Only 1 image per vehicle  
+**After**: 60-90+ images per vehicle from gallery
+
+```php
+// Extraction patterns in CarScraper.php extractVehicleDetails()
+
+// Pattern 1: aacarsdna.com CDN images (primary source)
+'/src=["\']([^"\']*aacarsdna\.com\/images\/vehicles[^"\']+\.(?:jpg|jpeg|png|webp))/'
+
+// Pattern 2: Stock images with /stock/ path
+'/src=["\']([^"\']*\/stock\/[^"\']+\.(?:jpg|jpeg|png|webp))/'
+
+// Pattern 3: Lazy-loaded images (data-src)
+'/data-src=["\']([^"\']+\.(?:jpg|jpeg|png|webp))/'
+```
+
+**Example Output**:
+```
+Found VRM: WP66UEX
+Found 72 images (total: 73)
+Found colour: Silver
+Found engine_size: 1969
+Found transmission: Manual
+```
+
+### Colour Whitelist Validation
+
+All extracted colours are validated against a whitelist of 50+ valid car colours:
+
+```php
+$validColors = [
+    'black', 'white', 'silver', 'grey', 'gray', 'red', 'blue', 'green',
+    'brown', 'beige', 'gold', 'orange', 'yellow', 'purple', 'pink',
+    'maroon', 'navy', 'turquoise', 'bronze', 'cream', 'ivory', 'pearl',
+    'metallic', 'gunmetal', 'charcoal', 'graphite', 'midnight', ...
+];
+```
+
+Invalid values like "TOUCHSCREEN" or "LEATHER SEATS" are rejected.
+
+### Change Detection (Hash-Based)
+
+To avoid unnecessary database updates:
+
+```php
+// Calculate data hash from key fields
+$hash = md5(json_encode([
+    $vehicle['title'],
+    $vehicle['price'],
+    $vehicle['mileage'],
+    $vehicle['colour'],
+    $vehicle['description_full']
+]));
+
+// Compare with stored hash
+if ($currentHash === $storedHash) {
+    // Skip - no changes
+} else {
+    // Update vehicle data
+}
+```
+
+---
 
 
 ## 🚀 How to Run the Scraper

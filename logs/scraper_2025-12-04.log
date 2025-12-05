@@ -508,3 +508,208 @@
 [2025-12-04 14:24:37] Error generating complete JSON: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vehicle_info_id' in 'where clause'
 [2025-12-04 14:24:37] CarSafari scrape completed successfully!
 [2025-12-04 14:24:37] Stats: {"found":81,"inserted":0,"updated":0,"deactivated":0,"published":0}
+[2025-12-04 15:45:15] Starting CarSafari scrape...
+[2025-12-04 15:45:15] Cleaning up old log files...
+[2025-12-04 15:45:15] Fetching listing page...
+[2025-12-04 15:45:15]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-04 15:45:17] Parsing vehicle cards...
+[2025-12-04 15:45:17] ERROR: Invalid action: found
+[2025-12-04 15:45:17] Warning: Could not save error statistics: Failed to save statistics: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'tst-car.scraper_statistics' doesn't exist
+[2025-12-04 15:45:36] Starting CarSafari scrape...
+[2025-12-04 15:45:36] Cleaning up old log files...
+[2025-12-04 15:45:36] Fetching listing page...
+[2025-12-04 15:45:36]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-04 15:45:37] Parsing vehicle cards...
+[2025-12-04 15:45:38] ERROR: Invalid action: found
+[2025-12-04 15:45:38] Warning: Could not save error statistics: Failed to save statistics: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'tst-car.scraper_statistics' doesn't exist
+[2025-12-04 15:45:52] Starting CarSafari scrape...
+[2025-12-04 15:45:52] Cleaning up old log files...
+[2025-12-04 15:45:52] Fetching listing page...
+[2025-12-04 15:45:52]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-04 15:45:54] Parsing vehicle cards...
+[2025-12-04 15:45:54] ERROR: Invalid action: found
+[2025-12-04 15:45:54] Warning: Could not save error statistics: Failed to save statistics: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'tst-car.scraper_statistics' doesn't exist
+[2025-12-04 15:46:09] Starting CarSafari scrape...
+[2025-12-04 15:46:09] Cleaning up old log files...
+[2025-12-04 15:46:09] Fetching listing page...
+[2025-12-04 15:46:09]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-04 15:46:11] Parsing vehicle cards...
+[2025-12-04 15:46:11] Found 81 vehicles
+[2025-12-04 15:46:11] Saving to CarSafari database with change detection...
+[2025-12-04 15:46:11]   Error saving vehicle volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle nissan-micra-1-2-acenta-cvt-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle suzuki-swift-1-2-sz3-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle audi-q3-2-0-tdi-se-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle mini-hatch-1-5-cooper-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle kia-sportage-1-7-crdi-1-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c3-1-2-puretech-flair-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle suzuki-swift-1-2-sz2-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle mini-countryman-1-6-cooper-d-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle volkswagen-up-1-0-move-up-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-adam-1-4i-glam-euro-6-3dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-astra-1-4i-excite-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle peugeot-3008-1-6-hdi-allure-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle peugeot-208-1-2-vti-puretech-style-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle hyundai-i10-1-2-classic-euro-5-5dr-2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle peugeot-2008-1-2-vti-puretech-active-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle peugeot-208-1-2-vti-puretech-style-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c1-1-2-puretech-flair-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle vauxhall-meriva-1-4i-life-euro-6-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle citroen-c3-1-2-vti-vtr-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-c-max-1-8-tdci-style-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle volkswagen-golf-1-6-tdi-s-euro-5-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11]   Error saving vehicle ford-1-8-lx-5dr: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'data_hash' in 'field list'
+[2025-12-04 15:46:11] Setting auto-publish status...
+[2025-12-04 15:46:11] Saving JSON snapshot with file rotation...
+[2025-12-04 15:46:11] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-04 15:46:11]   Total vehicles: 81
+[2025-12-04 15:46:11]   With color: 0
+[2025-12-04 15:46:11]   With transmission: 81
+[2025-12-04 15:46:11]   Total images: 320
+[2025-12-04 15:46:11] CarSafari scrape completed successfully!
+[2025-12-04 15:46:11] Stats: {"found":81,"inserted":0,"updated":0,"skipped":0,"deactivated":0,"images_stored":0,"errors":81}
+[2025-12-04 15:46:11] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-04 15:46:11] Processing Efficiency:
+[2025-12-04 15:46:11]   Found:     81
+[2025-12-04 15:46:11]   Inserted:  0
+[2025-12-04 15:46:11]   Updated:   0
+[2025-12-04 15:46:11]   Skipped:   0
+[2025-12-04 15:46:11] 
+Database Operations:
+[2025-12-04 15:46:11]   Published: 
+[2025-12-04 15:46:11]   Images:    0
+[2025-12-04 15:46:11]   Errors:    81
+[2025-12-04 15:46:11] =========================================
+
+[2025-12-04 16:07:11] Starting CarSafari scrape...
+[2025-12-04 16:07:11] Cleaning up old log files...
+[2025-12-04 16:07:11] Fetching listing page...
+[2025-12-04 16:07:11]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-04 16:07:13] Parsing vehicle cards...
+[2025-12-04 16:07:13] Found 81 vehicles
+[2025-12-04 16:07:13] Fetching detail pages for full descriptions...
+[2025-12-04 16:07:13]   Processing 1/81: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-04 16:07:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-04 16:07:17]   Processing 2/81: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-04 16:07:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-04 16:07:21]   Processing 3/81: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-04 16:07:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-04 16:07:24]   Processing 4/81: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-04 16:07:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-04 16:07:27]   Processing 5/81: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-04 16:07:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-04 16:07:30]   Processing 6/81: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-04 16:07:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-04 16:07:33]   Processing 7/81: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-04 16:07:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-04 16:07:37]   Processing 8/81: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-04 16:07:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-04 16:07:39]   Processing 9/81: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-04 16:07:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-04 16:07:43]   Processing 10/81: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-04 16:07:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-04 16:07:49]   Processing 11/81: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-04 16:07:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-04 16:07:53]   Processing 12/81: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-04 16:07:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-04 16:07:58]   Processing 13/81: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-04 16:07:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-04 16:08:01]   Processing 14/81: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-04 16:08:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-04 16:08:07]   Processing 15/81: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-04 16:08:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-04 16:08:10]   Processing 16/81: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-04 16:08:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-04 16:08:14]   Processing 17/81: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-04 16:08:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-04 16:08:17]   Processing 18/81: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-04 16:08:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-04 16:08:20]   Processing 19/81: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-04 16:08:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-04 16:08:23]   Processing 20/81: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-04 16:08:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-04 16:08:27]   Processing 21/81: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-04 16:08:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-04 16:08:30]   Processing 22/81: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-04 16:08:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-04 16:08:34]   Processing 23/81: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-04 16:08:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-04 16:08:38]   Processing 24/81: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-04 16:08:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-04 16:08:42]   Processing 25/81: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-04 16:08:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-04 16:08:46]   Processing 26/81: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-04 16:08:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-04 16:08:49]   Processing 27/81: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-04 16:08:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-04 16:08:52]   Processing 28/81: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-04 16:08:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-04 16:08:55]   Processing 29/81: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-04 16:08:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-04 16:08:58]   Processing 30/81: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-04 16:08:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-04 16:09:02]   Processing 31/81: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-04 16:09:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-04 16:09:07]   Processing 32/81: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-04 16:09:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-04 16:09:10]   Processing 33/81: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-04 16:09:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/

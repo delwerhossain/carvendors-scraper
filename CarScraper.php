@@ -464,6 +464,8 @@ class CarScraper
             'first_reg_date' => null,
             'engine_size' => null,
             'drive_system' => null,
+            'vrm' => null,           // UK Vehicle Registration Mark (actual reg number)
+            'all_images' => [],      // All vehicle images from detail page
         ];
 
         // Valid car colors list (used for validation)
@@ -634,6 +636,72 @@ class CarScraper
             }
         }
 
+        // ======== VRM (UK REGISTRATION NUMBER) EXTRACTION ========
+        
+        // Pattern 1: Hidden input field - <input type="hidden" name="vrm" value="WP66UEX"/>
+        if (preg_match('/<input[^>]*name=["\']vrm["\'][^>]*value=["\']([A-Z0-9]+)["\'][^>]*>/i', $html, $matches)) {
+            $details['vrm'] = strtoupper(trim($matches[1]));
+        }
+        // Pattern 2: Alternative order - <input value="..." name="vrm">
+        elseif (preg_match('/<input[^>]*value=["\']([A-Z0-9]+)["\'][^>]*name=["\']vrm["\'][^>]*>/i', $html, $matches)) {
+            $details['vrm'] = strtoupper(trim($matches[1]));
+        }
+        // Pattern 3: JavaScript VC_SETTINGS - vrn: 'WP66UEX'
+        elseif (preg_match('/vrn["\']?\s*[:=]\s*["\']([A-Z0-9]+)["\']/i', $html, $matches)) {
+            $details['vrm'] = strtoupper(trim($matches[1]));
+        }
+        // Pattern 4: UK reg format in quoted strings (AA00 AAA or AA00AAA pattern)
+        elseif (preg_match('/["\']([A-Z]{2}[0-9]{2}\s?[A-Z]{3})["\']/i', $html, $matches)) {
+            $details['vrm'] = strtoupper(str_replace(' ', '', trim($matches[1])));
+        }
+
+        // ======== ALL IMAGES EXTRACTION (for detail page) ========
+        
+        // Pattern 1: aacarsdna.com images (common vehicle image CDN)
+        if (preg_match_all('/src=["\']([^"\']*aacarsdna\.com\/images\/vehicles[^"\']+\.(?:jpg|jpeg|png|webp))/i', $html, $matches)) {
+            foreach ($matches[1] as $imgUrl) {
+                if (!in_array($imgUrl, $details['all_images'])) {
+                    $details['all_images'][] = $imgUrl;
+                }
+            }
+        }
+        
+        // Pattern 2: Stock images with /stock/ in path
+        if (preg_match_all('/src=["\']([^"\']*\/stock\/[^"\']+\.(?:jpg|jpeg|png|webp))/i', $html, $matches)) {
+            foreach ($matches[1] as $imgUrl) {
+                if (!in_array($imgUrl, $details['all_images'])) {
+                    $details['all_images'][] = $imgUrl;
+                }
+            }
+        }
+        
+        // Pattern 3: Data-src lazy loaded images (vehicle galleries often use this)
+        if (preg_match_all('/data-src=["\']([^"\']+\.(?:jpg|jpeg|png|webp))/i', $html, $matches)) {
+            foreach ($matches[1] as $imgUrl) {
+                // Only include vehicle-related images, skip icons/logos
+                if (stripos($imgUrl, 'vehicle') !== false || 
+                    stripos($imgUrl, 'stock') !== false ||
+                    stripos($imgUrl, 'aacarsdna') !== false) {
+                    if (!in_array($imgUrl, $details['all_images'])) {
+                        $details['all_images'][] = $imgUrl;
+                    }
+                }
+            }
+        }
+        
+        // Pattern 4: Background images in style attributes
+        if (preg_match_all('/background-image:\s*url\(["\']?([^"\')\s]+\.(?:jpg|jpeg|png|webp))/i', $html, $matches)) {
+            foreach ($matches[1] as $imgUrl) {
+                if (stripos($imgUrl, 'vehicle') !== false || 
+                    stripos($imgUrl, 'stock') !== false ||
+                    stripos($imgUrl, 'aacarsdna') !== false) {
+                    if (!in_array($imgUrl, $details['all_images'])) {
+                        $details['all_images'][] = $imgUrl;
+                    }
+                }
+            }
+        }
+
         return $details;
     }
 
@@ -689,12 +757,31 @@ class CarScraper
                     }
                 }
                 
+                // CRITICAL: Use VRM as the real registration number (reg_no)
+                // This replaces the URL slug with actual UK reg like "WP66UEX"
+                if (!empty($details['vrm'])) {
+                    $vehicle['reg_no'] = $details['vrm'];
+                    $this->log("    Found VRM: {$details['vrm']}");
+                }
+                
+                // CRITICAL: Merge all images from detail page
+                if (!empty($details['all_images'])) {
+                    // Combine with existing images, remove duplicates
+                    $existingImages = $vehicle['image_urls'] ?? [];
+                    $allImages = array_unique(array_merge($existingImages, $details['all_images']));
+                    $vehicle['image_urls'] = array_values($allImages);
+                    $this->log("    Found " . count($details['all_images']) . " images (total: " . count($vehicle['image_urls']) . ")");
+                }
+                
                 // Log what we found for debugging
                 if (!empty($details['colour'])) {
                     $this->log("    Found colour: {$details['colour']}");
                 }
                 if (!empty($details['engine_size'])) {
                     $this->log("    Found engine_size: {$details['engine_size']}");
+                }
+                if (!empty($details['transmission'])) {
+                    $this->log("    Found transmission: {$details['transmission']}");
                 }
             }
             
