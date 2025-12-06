@@ -477,7 +477,17 @@ class CarScraper
             'drive_system' => null,
             'vrm' => null,           // UK Vehicle Registration Mark (actual reg number)
             'all_images' => [],      // All vehicle images from detail page
+            'attention_grabber' => null,  // Short subtitle like "SAT NAV-2KEYS-P.SENSRS-FSH-DAB"
         ];
+
+        // ======== ATTENTION GRABBER EXTRACTION ========
+        // Extract subtitle like "SAT NAV-2KEYS-P.SENSRS-FSH-DAB" from detail page
+        if (preg_match('/<div[^>]*class="[^"]*(?:dweb-)?subtitle[^"]*"[^>]*>\s*([^<]+)\s*<\/div>/i', $html, $matches)) {
+            $subtitle = trim($matches[1]);
+            if (strlen($subtitle) > 5 && strlen($subtitle) < 300) {
+                $details['attention_grabber'] = $this->cleanText($subtitle);
+            }
+        }
 
         // Valid car colors list (used for validation)
         $validColors = [
@@ -664,6 +674,17 @@ class CarScraper
         // Pattern 4: UK reg format in quoted strings (AA00 AAA or AA00AAA pattern)
         elseif (preg_match('/["\']([A-Z]{2}[0-9]{2}\s?[A-Z]{3})["\']/i', $html, $matches)) {
             $details['vrm'] = strtoupper(str_replace(' ', '', trim($matches[1])));
+        }
+
+        // Extract plate_year from VRM if found
+        // UK registration format: AA12AAA where 12 = year code (01-50 = 2001-2050, 51-99 = 1951-1999)
+        if (!empty($details['vrm']) && preg_match('/[A-Z]{2}(\d{2})[A-Z]{3}/', $details['vrm'], $matches)) {
+            $plateCode = (int)$matches[1];
+            if ($plateCode <= 49) {
+                $details['plate_year'] = 2000 + $plateCode;
+            } else {
+                $details['plate_year'] = 1900 + $plateCode;
+            }
         }
 
         // ======== ALL IMAGES EXTRACTION (for detail page) ========

@@ -6,6 +6,25 @@
 
 $config = include 'config.php';
 
+/**
+ * Calculate plate_year from UK registration plate code
+ * UK plates: AB12CD where "12" = year code
+ * 01-50: March-August (e.g., 09=2009, 50=2050)
+ * 51-99: September-February (e.g., 59=2009, 99=2049)
+ * Calculation: 01-50 use 2000+code, 51-99 use 1950+code
+ */
+function calculatePlateYear($plateCode) {
+    $code = (int)$plateCode;
+    if ($code <= 0 || $code > 99) {
+        return null;
+    }
+    if ($code <= 50) {
+        return 2000 + $code;
+    } else {
+        return 1950 + $code;
+    }
+}
+
 try {
     $pdo = new PDO(
         'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'],
@@ -19,9 +38,8 @@ try {
     // Get all vehicles with their images
     $stmt = $pdo->query("
         SELECT 
-            v.id, v.attr_id, v.reg_no, v.attention_grabber as title,
+            v.id, v.attr_id, v.reg_no, v.registration_plate, v.attention_grabber,
             a.model, a.year, a.transmission, a.fuel_type, a.body_style, a.engine_size,
-            CASE WHEN a.year THEN SUBSTR(v.reg_no, -2) ELSE NULL END as plate_year,
             v.doors, v.drive_system,
             v.selling_price, v.regular_price, v.mileage, v.color,
             v.description, v.vehicle_url,
@@ -35,23 +53,33 @@ try {
     
     $vehicles = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Get images
+        // Get images - ONLY large versions (no medium/other)
         $img_stmt = $pdo->prepare("
             SELECT file_name FROM gyc_product_images 
             WHERE vechicle_info_id = ? 
+            AND file_name LIKE '%/large/%'
             ORDER BY serial
         ");
         $img_stmt->execute([$row['id']]);
         $images = $img_stmt->fetchAll(PDO::FETCH_COLUMN);
         
+        // Build title from year + model + body_style
+        $title_parts = [];
+        if ($row['year']) $title_parts[] = $row['year'];
+        if ($row['model']) $title_parts[] = $row['model'];
+        if ($row['body_style']) $title_parts[] = $row['body_style'];
+        $title = implode(' ', $title_parts) ?: 'Vehicle';
+        
         $vehicle = [
             'id' => (int)$row['id'],
             'attr_id' => (int)$row['attr_id'],
             'reg_no' => $row['reg_no'],
-            'title' => $row['title'],
+            'registration_plate' => $row['registration_plate'],
+            'plate_year' => calculatePlateYear($row['registration_plate']),
+            'attention_grabber' => $row['attention_grabber'],
+            'title' => $title,
             'model' => $row['model'],
             'year' => $row['year'] ? (int)$row['year'] : null,
-            'plate_year' => $row['plate_year'],
             'doors' => $row['doors'] ? (int)$row['doors'] : null,
             'drive_system' => $row['drive_system'],
             'engine_size' => $row['engine_size'] ? (int)$row['engine_size'] : null,
