@@ -57,21 +57,25 @@ try {
         $img_stmt = $pdo->prepare("
             SELECT file_name FROM gyc_product_images 
             WHERE vechicle_info_id = ? 
-            AND file_name LIKE '%.jpg%'
             AND file_name LIKE '%aacarsdna%'
             ORDER BY serial
         ");
         $img_stmt->execute([$row['id']]);
         $allImages = $img_stmt->fetchAll(PDO::FETCH_COLUMN);
         
-        // Clean and prioritize: prefer large over medium, remove duplicates
+        // Clean and prioritize: prefer large over medium, remove duplicates, remove incomplete URLs
         $largeImages = [];
         $otherImages = [];
         $seenImageIds = [];
         
         foreach ($allImages as $imageUrl) {
+            // CRITICAL: Skip incomplete URLs (missing .jpg extension)
+            if (!preg_match('/\.(jpg|jpeg|png|webp)$/i', $imageUrl)) {
+                continue;  // Skip incomplete URL
+            }
+            
             // Extract image ID from URL
-            if (preg_match('/([a-f0-9]{32})\.jpg/i', $imageUrl, $matches)) {
+            if (preg_match('/([a-f0-9]{32})\.(jpg|jpeg|png|webp)$/i', $imageUrl, $matches)) {
                 $imageId = strtolower($matches[1]);
                 
                 // Skip if we've already seen this image ID
