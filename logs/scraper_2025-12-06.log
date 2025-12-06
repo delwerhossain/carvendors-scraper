@@ -13018,3 +13018,1892 @@ Database Operations:
 [2025-12-06 12:15:03]   Errors:    0
 [2025-12-06 12:15:03] =========================================
 
+[2025-12-06 12:40:24] Starting CarSafari scrape...
+[2025-12-06 12:40:24] Cleaning up old log files...
+[2025-12-06 12:40:24] Fetching listing page...
+[2025-12-06 12:40:24]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 12:40:25] Parsing vehicle cards...
+[2025-12-06 12:40:25] Found 81 vehicles
+[2025-12-06 12:40:25] Fetching detail pages for full descriptions...
+[2025-12-06 12:40:25]   Processing 1/81: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-06 12:40:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-06 12:40:26]     Found VRM: WP66UEX
+[2025-12-06 12:40:26]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:40:26]     Found colour: Silver
+[2025-12-06 12:40:26]     Found engine_size: 1969
+[2025-12-06 12:40:26]     Found transmission: Manual
+[2025-12-06 12:40:28]   Processing 2/81: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-06 12:40:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-06 12:40:29]     Found VRM: MJ64YNN
+[2025-12-06 12:40:29]     Found 58 images (cleaned to: 29)
+[2025-12-06 12:40:29]     Found colour: Green
+[2025-12-06 12:40:29]     Found engine_size: 1198
+[2025-12-06 12:40:29]     Found transmission: Automatic
+[2025-12-06 12:40:31]   Processing 3/81: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-06 12:40:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-06 12:40:32]     Found VRM: ML62YDR
+[2025-12-06 12:40:32]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:40:32]     Found colour: Black
+[2025-12-06 12:40:32]     Found engine_size: 2143
+[2025-12-06 12:40:32]     Found transmission: Automatic
+[2025-12-06 12:40:34]   Processing 4/81: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-06 12:40:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-06 12:40:35]     Found VRM: NA17HSD
+[2025-12-06 12:40:35]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:40:35]     Found colour: Red
+[2025-12-06 12:40:35]     Found engine_size: 1598
+[2025-12-06 12:40:35]     Found transmission: Manual
+[2025-12-06 12:40:36]   Processing 5/81: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-06 12:40:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-06 12:40:37]     Found VRM: EX62WJV
+[2025-12-06 12:40:37]     Found 64 images (cleaned to: 32)
+[2025-12-06 12:40:37]     Found colour: Red
+[2025-12-06 12:40:37]     Found engine_size: 2179
+[2025-12-06 12:40:37]     Found transmission: Manual
+[2025-12-06 12:40:39]   Processing 6/81: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-06 12:40:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-06 12:40:40]     Found VRM: FV63ZXU
+[2025-12-06 12:40:40]     Found 96 images (cleaned to: 48)
+[2025-12-06 12:40:40]     Found colour: Blue
+[2025-12-06 12:40:40]     Found engine_size: 1995
+[2025-12-06 12:40:40]     Found transmission: Manual
+[2025-12-06 12:40:42]   Processing 7/81: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-06 12:40:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-06 12:40:43]     Found VRM: DV64MYP
+[2025-12-06 12:40:43]     Found 84 images (cleaned to: 42)
+[2025-12-06 12:40:43]     Found colour: White
+[2025-12-06 12:40:43]     Found engine_size: 1242
+[2025-12-06 12:40:43]     Found transmission: Manual
+[2025-12-06 12:40:44]   Processing 8/81: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-06 12:40:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-06 12:40:45]     Found VRM: BN64WZZ
+[2025-12-06 12:40:45]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:40:45]     Found colour: Red
+[2025-12-06 12:40:45]     Found engine_size: 1956
+[2025-12-06 12:40:45]     Found transmission: Manual
+[2025-12-06 12:40:47]   Processing 9/81: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-06 12:40:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-06 12:40:48]     Found VRM: RJ15JPF
+[2025-12-06 12:40:48]     Found 66 images (cleaned to: 33)
+[2025-12-06 12:40:48]     Found colour: Black
+[2025-12-06 12:40:48]     Found engine_size: 1968
+[2025-12-06 12:40:48]     Found transmission: Manual
+[2025-12-06 12:40:50]   Processing 10/81: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-06 12:40:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-06 12:40:52]     Found VRM: CE14RUH
+[2025-12-06 12:40:52]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:40:52]     Found colour: White
+[2025-12-06 12:40:52]     Found engine_size: 1968
+[2025-12-06 12:40:52]     Found transmission: Manual
+[2025-12-06 12:40:53]   Processing 11/81: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-06 12:40:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-06 12:40:55]     Found VRM: FP15LPK
+[2025-12-06 12:40:55]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:40:55]     Found colour: Grey
+[2025-12-06 12:40:55]     Found engine_size: 1956
+[2025-12-06 12:40:55]     Found transmission: Manual
+[2025-12-06 12:40:56]   Processing 12/81: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-06 12:40:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-06 12:40:58]     Found VRM: AU12UUS
+[2025-12-06 12:40:58]     Found 54 images (cleaned to: 27)
+[2025-12-06 12:40:58]     Found colour: Silver
+[2025-12-06 12:40:58]     Found engine_size: 2179
+[2025-12-06 12:40:58]     Found transmission: Automatic
+[2025-12-06 12:40:59]   Processing 13/81: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-06 12:40:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-06 12:41:01]     Found VRM: DE17XYP
+[2025-12-06 12:41:01]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:41:01]     Found colour: White
+[2025-12-06 12:41:01]     Found engine_size: 898
+[2025-12-06 12:41:01]     Found transmission: Manual
+[2025-12-06 12:41:02]   Processing 14/81: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-06 12:41:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-06 12:41:03]     Found VRM: N20JBJ
+[2025-12-06 12:41:03]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:41:03]     Found colour: White
+[2025-12-06 12:41:03]     Found engine_size: 1995
+[2025-12-06 12:41:03]     Found transmission: Manual
+[2025-12-06 12:41:05]   Processing 15/81: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-06 12:41:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-06 12:41:06]     Found VRM: AJ17YMS
+[2025-12-06 12:41:06]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:41:06]     Found colour: Black
+[2025-12-06 12:41:06]     Found engine_size: 1969
+[2025-12-06 12:41:06]     Found transmission: Manual
+[2025-12-06 12:41:08]   Processing 16/81: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-06 12:41:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-06 12:41:09]     Found VRM: LR14VTO
+[2025-12-06 12:41:09]     Found 88 images (cleaned to: 44)
+[2025-12-06 12:41:09]     Found colour: Silver
+[2025-12-06 12:41:09]     Found engine_size: 1995
+[2025-12-06 12:41:09]     Found transmission: Manual
+[2025-12-06 12:41:10]   Processing 17/81: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-06 12:41:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-06 12:41:12]     Found VRM: YY17JMX
+[2025-12-06 12:41:12]     Found 60 images (cleaned to: 30)
+[2025-12-06 12:41:12]     Found colour: Grey
+[2025-12-06 12:41:12]     Found engine_size: 1499
+[2025-12-06 12:41:12]     Found transmission: Manual
+[2025-12-06 12:41:14]   Processing 18/81: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-06 12:41:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-06 12:41:15]     Found VRM: BG66HJY
+[2025-12-06 12:41:15]     Found 54 images (cleaned to: 27)
+[2025-12-06 12:41:15]     Found colour: Blue
+[2025-12-06 12:41:15]     Found engine_size: 1685
+[2025-12-06 12:41:15]     Found transmission: Manual
+[2025-12-06 12:41:16]   Processing 19/81: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-06 12:41:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-06 12:41:18]     Found VRM: DK15VOY
+[2025-12-06 12:41:18]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:41:18]     Found colour: Blue
+[2025-12-06 12:41:18]     Found engine_size: 1597
+[2025-12-06 12:41:18]     Found transmission: Manual
+[2025-12-06 12:41:19]   Processing 20/81: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-06 12:41:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-06 12:41:20]     Found VRM: MJ67RTX
+[2025-12-06 12:41:20]     Found 82 images (cleaned to: 41)
+[2025-12-06 12:41:20]     Found colour: White
+[2025-12-06 12:41:20]     Found engine_size: 1199
+[2025-12-06 12:41:20]     Found transmission: Manual
+[2025-12-06 12:41:22]   Processing 21/81: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-06 12:41:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-06 12:41:23]     Found VRM: WO16GKA
+[2025-12-06 12:41:23]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:41:23]     Found colour: White
+[2025-12-06 12:41:23]     Found engine_size: 1364
+[2025-12-06 12:41:23]     Found transmission: Manual
+[2025-12-06 12:41:24]   Processing 22/81: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-06 12:41:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-06 12:41:26]     Found VRM: LN17UUG
+[2025-12-06 12:41:26]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:41:26]     Found colour: White
+[2025-12-06 12:41:26]     Found engine_size: 1598
+[2025-12-06 12:41:26]     Found transmission: Manual
+[2025-12-06 12:41:27]   Processing 23/81: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 12:41:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 12:41:28]     Found VRM: LK66ZSW
+[2025-12-06 12:41:28]     Found 78 images (cleaned to: 39)
+[2025-12-06 12:41:28]     Found colour: Black
+[2025-12-06 12:41:28]     Found engine_size: 1461
+[2025-12-06 12:41:28]     Found transmission: Manual
+[2025-12-06 12:41:30]   Processing 24/81: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-06 12:41:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-06 12:41:31]     Found VRM: CE67JXW
+[2025-12-06 12:41:31]     Found 22 images (cleaned to: 11)
+[2025-12-06 12:41:31]     Found colour: Black
+[2025-12-06 12:41:31]     Found engine_size: 1461
+[2025-12-06 12:41:31]     Found transmission: Manual
+[2025-12-06 12:41:33]   Processing 25/81: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-06 12:41:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-06 12:41:34]     Found VRM: N121OAK
+[2025-12-06 12:41:34]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:41:34]     Found colour: Blue
+[2025-12-06 12:41:34]     Found engine_size: 1598
+[2025-12-06 12:41:34]     Found transmission: Manual
+[2025-12-06 12:41:35]   Processing 26/81: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-06 12:41:35]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-06 12:41:36]     Found VRM: FL64SWZ
+[2025-12-06 12:41:36]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:41:36]     Found colour: Red
+[2025-12-06 12:41:36]     Found engine_size: 1242
+[2025-12-06 12:41:36]     Found transmission: Manual
+[2025-12-06 12:41:38]   Processing 27/81: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-06 12:41:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-06 12:41:39]     Found VRM: BC16MLU
+[2025-12-06 12:41:39]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:41:39]     Found colour: White
+[2025-12-06 12:41:39]     Found engine_size: 1197
+[2025-12-06 12:41:39]     Found transmission: Manual
+[2025-12-06 12:41:41]   Processing 28/81: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-06 12:41:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-06 12:41:42]     Found VRM: SN14LUZ
+[2025-12-06 12:41:42]     Found colour: Silver
+[2025-12-06 12:41:42]     Found engine_size: 1997
+[2025-12-06 12:41:42]     Found transmission: Automatic
+[2025-12-06 12:41:43]   Processing 29/81: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-06 12:41:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-06 12:41:45]     Found VRM: GU15HYS
+[2025-12-06 12:41:45]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:41:45]     Found colour: Black
+[2025-12-06 12:41:45]     Found engine_size: 1591
+[2025-12-06 12:41:45]     Found transmission: Manual
+[2025-12-06 12:41:46]   Processing 30/81: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-06 12:41:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-06 12:41:47]     Found VRM: BF15XML
+[2025-12-06 12:41:47]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:41:47]     Found colour: Grey
+[2025-12-06 12:41:47]     Found engine_size: 1368
+[2025-12-06 12:41:47]     Found transmission: Manual
+[2025-12-06 12:41:49]   Processing 31/81: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-06 12:41:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-06 12:41:50]     Found VRM: KR65YCU
+[2025-12-06 12:41:50]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:41:50]     Found colour: Grey
+[2025-12-06 12:41:50]     Found engine_size: 1395
+[2025-12-06 12:41:50]     Found transmission: Manual
+[2025-12-06 12:41:52]   Processing 32/81: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-06 12:41:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-06 12:41:53]     Found VRM: FD64TYK
+[2025-12-06 12:41:53]     Found 66 images (cleaned to: 33)
+[2025-12-06 12:41:53]     Found colour: Green
+[2025-12-06 12:41:53]     Found engine_size: 1598
+[2025-12-06 12:41:53]     Found transmission: Manual
+[2025-12-06 12:41:54]   Processing 33/81: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-06 12:41:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-06 12:41:56]     Found VRM: HT15YKC
+[2025-12-06 12:41:56]     Found 86 images (cleaned to: 43)
+[2025-12-06 12:41:56]     Found colour: Orange
+[2025-12-06 12:41:56]     Found engine_size: 898
+[2025-12-06 12:41:56]     Found transmission: Manual
+[2025-12-06 12:41:57]   Processing 34/81: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-06 12:41:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-06 12:41:58]     Found VRM: NG14HUH
+[2025-12-06 12:41:58]     Found 84 images (cleaned to: 42)
+[2025-12-06 12:41:58]     Found colour: White
+[2025-12-06 12:41:58]     Found engine_size: 1995
+[2025-12-06 12:41:58]     Found transmission: Manual
+[2025-12-06 12:42:00]   Processing 35/81: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-06 12:42:00]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-06 12:42:01]     Found VRM: FH14RZA
+[2025-12-06 12:42:01]     Found 66 images (cleaned to: 33)
+[2025-12-06 12:42:01]     Found colour: Silver
+[2025-12-06 12:42:01]     Found engine_size: 1997
+[2025-12-06 12:42:01]     Found transmission: Manual
+[2025-12-06 12:42:02]   Processing 36/81: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-06 12:42:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-06 12:42:04]     Found VRM: MK67VMU
+[2025-12-06 12:42:04]     Found 52 images (cleaned to: 26)
+[2025-12-06 12:42:04]     Found colour: Red
+[2025-12-06 12:42:04]     Found engine_size: 1199
+[2025-12-06 12:42:04]     Found transmission: Manual
+[2025-12-06 12:42:06]   Processing 37/81: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-06 12:42:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-06 12:42:07]     Found VRM: HF15XHH
+[2025-12-06 12:42:07]     Found 48 images (cleaned to: 24)
+[2025-12-06 12:42:07]     Found colour: Blue
+[2025-12-06 12:42:07]     Found engine_size: 1329
+[2025-12-06 12:42:07]     Found transmission: Manual
+[2025-12-06 12:42:08]   Processing 38/81: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-06 12:42:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-06 12:42:09]     Found VRM: NK14YTP
+[2025-12-06 12:42:09]     Found 90 images (cleaned to: 45)
+[2025-12-06 12:42:09]     Found colour: Beige
+[2025-12-06 12:42:09]     Found engine_size: 898
+[2025-12-06 12:42:09]     Found transmission: Manual
+[2025-12-06 12:42:11]   Processing 39/81: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-06 12:42:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-06 12:42:13]     Found VRM: DP66UWT
+[2025-12-06 12:42:13]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:42:13]     Found colour: Blue
+[2025-12-06 12:42:13]     Found engine_size: 1598
+[2025-12-06 12:42:13]     Found transmission: Manual
+[2025-12-06 12:42:14]   Processing 40/81: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-06 12:42:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-06 12:42:15]     Found VRM: KM16FWT
+[2025-12-06 12:42:15]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:42:15]     Found colour: Grey
+[2025-12-06 12:42:15]     Found engine_size: 1560
+[2025-12-06 12:42:15]     Found transmission: Manual
+[2025-12-06 12:42:17]   Processing 41/81: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-06 12:42:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-06 12:42:18]     Found VRM: YK14FFS
+[2025-12-06 12:42:18]     Found 76 images (cleaned to: 38)
+[2025-12-06 12:42:18]     Found colour: Silver
+[2025-12-06 12:42:18]     Found engine_size: 1997
+[2025-12-06 12:42:18]     Found transmission: Manual
+[2025-12-06 12:42:19]   Processing 42/81: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-06 12:42:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-06 12:42:21]     Found VRM: WF16NLK
+[2025-12-06 12:42:21]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:42:21]     Found colour: Black
+[2025-12-06 12:42:21]     Found engine_size: 999
+[2025-12-06 12:42:21]     Found transmission: Manual
+[2025-12-06 12:42:22]   Processing 43/81: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 12:42:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 12:42:23]     Found VRM: DL15ZNW
+[2025-12-06 12:42:23]     Found 78 images (cleaned to: 39)
+[2025-12-06 12:42:23]     Found colour: Blue
+[2025-12-06 12:42:23]     Found engine_size: 1461
+[2025-12-06 12:42:23]     Found transmission: Manual
+[2025-12-06 12:42:25]   Processing 44/81: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-06 12:42:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-06 12:42:26]     Found VRM: MC65FUH
+[2025-12-06 12:42:26]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:42:26]     Found colour: Grey
+[2025-12-06 12:42:26]     Found engine_size: 999
+[2025-12-06 12:42:26]     Found transmission: Manual
+[2025-12-06 12:42:28]   Processing 45/81: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-06 12:42:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-06 12:42:29]     Found VRM: KU64WPF
+[2025-12-06 12:42:29]     Found 64 images (cleaned to: 32)
+[2025-12-06 12:42:29]     Found colour: Black
+[2025-12-06 12:42:29]     Found engine_size: 1197
+[2025-12-06 12:42:29]     Found transmission: Manual
+[2025-12-06 12:42:31]   Processing 46/81: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-06 12:42:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-06 12:42:32]     Found VRM: SA17TVT
+[2025-12-06 12:42:32]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:42:32]     Found colour: Grey
+[2025-12-06 12:42:32]     Found engine_size: 1199
+[2025-12-06 12:42:32]     Found transmission: Manual
+[2025-12-06 12:42:34]   Processing 47/81: smart-forfour-1-0-passion-euro-6-s-s-5dr
+[2025-12-06 12:42:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/smart-forfour-1-0-passion-euro-6-s-s-5dr/
+[2025-12-06 12:42:36]     Found VRM: BU16YOA
+[2025-12-06 12:42:36]     Found colour: Red
+[2025-12-06 12:42:36]     Found engine_size: 999
+[2025-12-06 12:42:36]     Found transmission: Manual
+[2025-12-06 12:42:38]   Processing 48/81: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-06 12:42:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-06 12:42:39]     Found VRM: RA17JUK
+[2025-12-06 12:42:39]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:42:39]     Found colour: Grey
+[2025-12-06 12:42:39]     Found engine_size: 1597
+[2025-12-06 12:42:39]     Found transmission: Manual
+[2025-12-06 12:42:40]   Processing 49/81: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-06 12:42:40]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-06 12:42:42]     Found VRM: LG62KNR
+[2025-12-06 12:42:42]     Found 56 images (cleaned to: 28)
+[2025-12-06 12:42:42]     Found colour: White
+[2025-12-06 12:42:42]     Found engine_size: 2231
+[2025-12-06 12:42:42]     Found transmission: Manual
+[2025-12-06 12:42:43]   Processing 50/81: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-06 12:42:43]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-06 12:42:44]     Found VRM: MV62XWA
+[2025-12-06 12:42:44]     Found 78 images (cleaned to: 39)
+[2025-12-06 12:42:44]     Found colour: Blue
+[2025-12-06 12:42:44]     Found engine_size: 1995
+[2025-12-06 12:42:44]     Found transmission: Manual
+[2025-12-06 12:42:46]   Processing 51/81: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-06 12:42:46]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-06 12:42:47]     Found VRM: DS64RUW
+[2025-12-06 12:42:47]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:42:47]     Found colour: White
+[2025-12-06 12:42:47]     Found engine_size: 1686
+[2025-12-06 12:42:47]     Found transmission: Manual
+[2025-12-06 12:42:48]   Processing 52/81: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-06 12:42:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-06 12:42:50]     Found VRM: DP65YVL
+[2025-12-06 12:42:50]     Found 100 images (cleaned to: 50)
+[2025-12-06 12:42:50]     Found colour: Silver
+[2025-12-06 12:42:50]     Found engine_size: 1598
+[2025-12-06 12:42:50]     Found transmission: Manual
+[2025-12-06 12:42:51]   Processing 53/81: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-06 12:42:51]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-06 12:42:52]     Found VRM: RX15XKW
+[2025-12-06 12:42:52]     Found 80 images (cleaned to: 40)
+[2025-12-06 12:42:52]     Found colour: White
+[2025-12-06 12:42:52]     Found engine_size: 1997
+[2025-12-06 12:42:52]     Found transmission: Manual
+[2025-12-06 12:42:54]   Processing 54/81: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-06 12:42:54]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-06 12:42:55]     Found VRM: GD65KRE
+[2025-12-06 12:42:55]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:42:55]     Found colour: Red
+[2025-12-06 12:42:55]     Found engine_size: 1398
+[2025-12-06 12:42:55]     Found transmission: Manual
+[2025-12-06 12:42:57]   Processing 55/81: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-06 12:42:57]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-06 12:42:58]     Found VRM: VX64ZNJ
+[2025-12-06 12:42:58]     Found 46 images (cleaned to: 23)
+[2025-12-06 12:42:58]     Found colour: Grey
+[2025-12-06 12:42:58]     Found engine_size: 2231
+[2025-12-06 12:42:58]     Found transmission: Manual
+[2025-12-06 12:42:59]   Processing 56/81: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-06 12:42:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-06 12:43:01]     Found VRM: DE14YRC
+[2025-12-06 12:43:01]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:43:01]     Found colour: Green
+[2025-12-06 12:43:01]     Found engine_size: 1956
+[2025-12-06 12:43:01]     Found transmission: Manual
+[2025-12-06 12:43:02]   Processing 57/81: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-06 12:43:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-06 12:43:03]     Found VRM: SA14NWJ
+[2025-12-06 12:43:03]     Found 56 images (cleaned to: 28)
+[2025-12-06 12:43:03]     Found colour: Black
+[2025-12-06 12:43:03]     Found engine_size: 1461
+[2025-12-06 12:43:03]     Found transmission: Manual
+[2025-12-06 12:43:05]   Processing 58/81: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-06 12:43:05]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-06 12:43:06]     Found VRM: DW16DGZ
+[2025-12-06 12:43:06]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:43:06]     Found colour: Red
+[2025-12-06 12:43:06]     Found engine_size: 1398
+[2025-12-06 12:43:06]     Found transmission: Manual
+[2025-12-06 12:43:08]   Processing 59/81: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-06 12:43:08]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-06 12:43:09]     Found VRM: LJ14OGA
+[2025-12-06 12:43:09]     Found 96 images (cleaned to: 48)
+[2025-12-06 12:43:09]     Found colour: Red
+[2025-12-06 12:43:09]     Found engine_size: 1461
+[2025-12-06 12:43:09]     Found transmission: Manual
+[2025-12-06 12:43:10]   Processing 60/81: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-06 12:43:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-06 12:43:12]     Found VRM: KE15ZFJ
+[2025-12-06 12:43:12]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:43:12]     Found colour: Red
+[2025-12-06 12:43:12]     Found engine_size: 1398
+[2025-12-06 12:43:12]     Found transmission: Manual
+[2025-12-06 12:43:13]   Processing 61/81: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-06 12:43:13]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-06 12:43:14]     Found VRM: EF14HHU
+[2025-12-06 12:43:14]     Found 66 images (cleaned to: 33)
+[2025-12-06 12:43:14]     Found colour: Blue
+[2025-12-06 12:43:14]     Found engine_size: 1685
+[2025-12-06 12:43:14]     Found transmission: Manual
+[2025-12-06 12:43:16]   Processing 62/81: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-06 12:43:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-06 12:43:17]     Found VRM: CU63GKF
+[2025-12-06 12:43:17]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:43:17]     Found colour: Black
+[2025-12-06 12:43:17]     Found engine_size: 1461
+[2025-12-06 12:43:17]     Found transmission: Manual
+[2025-12-06 12:43:18]   Processing 63/81: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-06 12:43:18]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-06 12:43:20]     Found VRM: AE64OOV
+[2025-12-06 12:43:20]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:43:20]     Found colour: Grey
+[2025-12-06 12:43:20]     Found engine_size: 1560
+[2025-12-06 12:43:20]     Found transmission: Manual
+[2025-12-06 12:43:21]   Processing 64/81: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-06 12:43:21]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-06 12:43:22]     Found VRM: EX65HDH
+[2025-12-06 12:43:22]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:43:22]     Found colour: Grey
+[2025-12-06 12:43:22]     Found engine_size: 1229
+[2025-12-06 12:43:22]     Found transmission: Manual
+[2025-12-06 12:43:24]   Processing 65/81: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-06 12:43:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-06 12:43:25]     Found VRM: LS64XRC
+[2025-12-06 12:43:25]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:43:25]     Found colour: Grey
+[2025-12-06 12:43:25]     Found engine_size: 1199
+[2025-12-06 12:43:25]     Found transmission: Manual
+[2025-12-06 12:43:27]   Processing 66/81: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-06 12:43:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-06 12:43:28]     Found VRM: YO66AKG
+[2025-12-06 12:43:28]     Found 84 images (cleaned to: 42)
+[2025-12-06 12:43:28]     Found colour: Red
+[2025-12-06 12:43:28]     Found engine_size: 999
+[2025-12-06 12:43:28]     Found transmission: Manual
+[2025-12-06 12:43:29]   Processing 67/81: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-06 12:43:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-06 12:43:31]     Found VRM: DN66UZH
+[2025-12-06 12:43:31]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:43:31]     Found colour: Silver
+[2025-12-06 12:43:31]     Found engine_size: 1398
+[2025-12-06 12:43:31]     Found transmission: Manual
+[2025-12-06 12:43:32]   Processing 68/81: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 12:43:32]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 12:43:34]     Found VRM: WL16HYZ
+[2025-12-06 12:43:34]     Found 82 images (cleaned to: 41)
+[2025-12-06 12:43:34]     Found colour: Grey
+[2025-12-06 12:43:34]     Found engine_size: 1461
+[2025-12-06 12:43:34]     Found transmission: Manual
+[2025-12-06 12:43:36]   Processing 69/81: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-06 12:43:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-06 12:43:37]     Found VRM: AY62WME
+[2025-12-06 12:43:37]     Found 62 images (cleaned to: 31)
+[2025-12-06 12:43:37]     Found colour: Red
+[2025-12-06 12:43:37]     Found engine_size: 1248
+[2025-12-06 12:43:37]     Found transmission: Manual
+[2025-12-06 12:43:38]   Processing 70/81: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-06 12:43:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-06 12:43:39]     Found VRM: LF63CRK
+[2025-12-06 12:43:39]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:43:39]     Found colour: Silver
+[2025-12-06 12:43:39]     Found engine_size: 999
+[2025-12-06 12:43:39]     Found transmission: Manual
+[2025-12-06 12:43:41]   Processing 71/81: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-06 12:43:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-06 12:43:42]     Found VRM: DK65LFS
+[2025-12-06 12:43:42]     Found 64 images (cleaned to: 32)
+[2025-12-06 12:43:42]     Found colour: Black
+[2025-12-06 12:43:42]     Found engine_size: 1199
+[2025-12-06 12:43:42]     Found transmission: Manual
+[2025-12-06 12:43:44]   Processing 72/81: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-06 12:43:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-06 12:43:45]     Found VRM: KP64VAE
+[2025-12-06 12:43:45]     Found 68 images (cleaned to: 34)
+[2025-12-06 12:43:45]     Found colour: Black
+[2025-12-06 12:43:45]     Found engine_size: 1199
+[2025-12-06 12:43:45]     Found transmission: Manual
+[2025-12-06 12:43:47]   Processing 73/81: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-06 12:43:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-06 12:43:51]     Found VRM: WV12RZN
+[2025-12-06 12:43:51]     Found 72 images (cleaned to: 36)
+[2025-12-06 12:43:51]     Found colour: Red
+[2025-12-06 12:43:51]     Found engine_size: 1956
+[2025-12-06 12:43:51]     Found transmission: Manual
+[2025-12-06 12:43:52]   Processing 74/81: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-06 12:43:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-06 12:43:53]     Found VRM: FX65OTT
+[2025-12-06 12:43:53]     Found 82 images (cleaned to: 41)
+[2025-12-06 12:43:53]     Found colour: White
+[2025-12-06 12:43:53]     Found engine_size: 1199
+[2025-12-06 12:43:53]     Found transmission: Manual
+[2025-12-06 12:43:55]   Processing 75/81: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-06 12:43:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-06 12:43:57]     Found VRM: AF64OFR
+[2025-12-06 12:43:57]     Found 66 images (cleaned to: 33)
+[2025-12-06 12:43:57]     Found colour: Blue
+[2025-12-06 12:43:57]     Found engine_size: 1598
+[2025-12-06 12:43:57]     Found transmission: Manual
+[2025-12-06 12:43:59]   Processing 76/81: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-06 12:43:59]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-06 12:44:00]     Found VRM: GD65RPZ
+[2025-12-06 12:44:00]     Found 70 images (cleaned to: 35)
+[2025-12-06 12:44:00]     Found colour: Blue
+[2025-12-06 12:44:00]     Found engine_size: 1398
+[2025-12-06 12:44:00]     Found transmission: Manual
+[2025-12-06 12:44:02]   Processing 77/81: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-06 12:44:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-06 12:44:03]     Found VRM: DN16JFZ
+[2025-12-06 12:44:03]     Found 86 images (cleaned to: 43)
+[2025-12-06 12:44:03]     Found colour: Grey
+[2025-12-06 12:44:03]     Found engine_size: 1461
+[2025-12-06 12:44:03]     Found transmission: Manual
+[2025-12-06 12:44:04]   Processing 78/81: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-06 12:44:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-06 12:44:05]     Found VRM: LS64VPE
+[2025-12-06 12:44:05]     Found 32 images (cleaned to: 16)
+[2025-12-06 12:44:05]     Found colour: Blue
+[2025-12-06 12:44:05]     Found engine_size: 1199
+[2025-12-06 12:44:05]     Found transmission: Manual
+[2025-12-06 12:44:07]   Processing 79/81: ford-c-max-1-8-tdci-style-5dr
+[2025-12-06 12:44:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-06 12:44:08]     Found VRM: AK09UED
+[2025-12-06 12:44:08]     Found 74 images (cleaned to: 37)
+[2025-12-06 12:44:08]     Found colour: Grey
+[2025-12-06 12:44:08]     Found engine_size: 1753
+[2025-12-06 12:44:08]     Found transmission: Manual
+[2025-12-06 12:44:10]   Processing 80/81: ford-1-8-lx-5dr
+[2025-12-06 12:44:10]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-06 12:44:11]     Found VRM: FN05XKK
+[2025-12-06 12:44:11]     Found 58 images (cleaned to: 29)
+[2025-12-06 12:44:11]     Found colour: Silver
+[2025-12-06 12:44:11]     Found engine_size: 1798
+[2025-12-06 12:44:11]     Found transmission: Manual
+[2025-12-06 12:44:12]   Processing 81/81: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-06 12:44:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-06 12:44:13]     Found VRM: AK59NYY
+[2025-12-06 12:44:13]     Found 48 images (cleaned to: 24)
+[2025-12-06 12:44:13]     Found colour: Silver
+[2025-12-06 12:44:13]     Found engine_size: 1598
+[2025-12-06 12:44:13]     Found transmission: Manual
+[2025-12-06 12:44:13] Saving to CarSafari database with change detection...
+[2025-12-06 12:44:13]   [SKIP] Vehicle WP66UEX - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle MJ64YNN - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle ML62YDR - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle NA17HSD - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle EX62WJV - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle FV63ZXU - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DV64MYP - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle BN64WZZ - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle RJ15JPF - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle CE14RUH - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle FP15LPK - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle AU12UUS - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DE17XYP - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle N20JBJ - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle AJ17YMS - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle LR14VTO - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle YY17JMX - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle BG66HJY - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DK15VOY - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle MJ67RTX - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle WO16GKA - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle LN17UUG - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle LK66ZSW - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle CE67JXW - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle N121OAK - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle FL64SWZ - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle BC16MLU - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle SN14LUZ - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle GU15HYS - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle BF15XML - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle KR65YCU - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle FD64TYK - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle HT15YKC - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle NG14HUH - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle FH14RZA - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle MK67VMU - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle HF15XHH - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle NK14YTP - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DP66UWT - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle KM16FWT - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle YK14FFS - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle WF16NLK - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DL15ZNW - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle MC65FUH - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle KU64WPF - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle SA17TVT - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle BU16YOA - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle RA17JUK - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle LG62KNR - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle MV62XWA - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DS64RUW - no changes detected
+[2025-12-06 12:44:13]   [SKIP] Vehicle DP65YVL - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle RX15XKW - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle GD65KRE - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle VX64ZNJ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle DE14YRC - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle SA14NWJ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle DW16DGZ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle LJ14OGA - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle KE15ZFJ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle EF14HHU - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle CU63GKF - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle AE64OOV - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle EX65HDH - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle LS64XRC - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle YO66AKG - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle DN66UZH - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle WL16HYZ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle AY62WME - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle LF63CRK - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle DK65LFS - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle KP64VAE - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle WV12RZN - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle FX65OTT - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle AF64OFR - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle GD65RPZ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle DN16JFZ - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle LS64VPE - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle AK09UED - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle FN05XKK - no changes detected
+[2025-12-06 12:44:14]   [SKIP] Vehicle AK59NYY - no changes detected
+[2025-12-06 12:44:14] Setting auto-publish status...
+[2025-12-06 12:44:14] Published 0 vehicles
+[2025-12-06 12:44:14] Saving JSON snapshot with file rotation...
+[2025-12-06 12:44:14] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 12:44:14]   Total vehicles: 81
+[2025-12-06 12:44:14]   With color: 81
+[2025-12-06 12:44:14]   With transmission: 81
+[2025-12-06 12:44:14]   Total images: 2737
+[2025-12-06 12:44:14] CarSafari scrape completed successfully!
+[2025-12-06 12:44:14] Stats: {"found":81,"inserted":0,"updated":0,"skipped":81,"deactivated":0,"images_stored":0,"errors":0,"published":0}
+[2025-12-06 12:44:14] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 12:44:14] Processing Efficiency:
+[2025-12-06 12:44:14]   Found:     81
+[2025-12-06 12:44:14]   Inserted:  0
+[2025-12-06 12:44:14]   Updated:   0
+[2025-12-06 12:44:14]   Skipped:   81
+[2025-12-06 12:44:14]   Skip Rate: 100%
+[2025-12-06 12:44:14] 
+Database Operations:
+[2025-12-06 12:44:14]   Published: 0
+[2025-12-06 12:44:14]   Images:    0
+[2025-12-06 12:44:14]   Errors:    0
+[2025-12-06 12:44:14] =========================================
+
+[2025-12-06 13:17:04] Starting CarSafari scrape...
+[2025-12-06 13:17:04] Cleaning up old log files...
+[2025-12-06 13:17:04] Fetching listing page...
+[2025-12-06 13:17:04]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 13:17:05] Parsing vehicle cards...
+[2025-12-06 13:17:05] Found 81 vehicles
+[2025-12-06 13:17:05] Saving to CarSafari database with change detection...
+[2025-12-06 13:17:05]   [inserted] Vehicle volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr - Hash: 05c8b80e090069e85d64e94404c0efe5
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1631
+[2025-12-06 13:17:05]   [inserted] Vehicle nissan-micra-1-2-acenta-cvt-euro-5-5dr - Hash: e436fa0835c7dd62636c6035031819c8
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1632
+[2025-12-06 13:17:05]   [inserted] Vehicle mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr - Hash: 6d46aae019e1f309f2390f285e384e0e
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1633
+[2025-12-06 13:17:05]   [inserted] Vehicle vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr - Hash: a2ada6b5fad64c1af4323a7410dbc548
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1634
+[2025-12-06 13:17:05]   [inserted] Vehicle suzuki-swift-1-2-sz3-euro-5-5dr - Hash: 48944177954ae256b9a9b64c1a4bb2cb
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1635
+[2025-12-06 13:17:05]   [inserted] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr - Hash: b007182874461a48f9e1547f2c00392f
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1636
+[2025-12-06 13:17:05]   [inserted] Vehicle land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr - Hash: c2844df0be2b43230ef775f1d4dc2017
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1637
+[2025-12-06 13:17:05]   [inserted] Vehicle hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3 - Hash: daae2bca3b4a1c7e7e54d770232372e5
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1638
+[2025-12-06 13:17:05]   [inserted] Vehicle audi-q3-2-0-tdi-se-euro-6-s-s-5dr - Hash: 7525bf363f430b6eb70639c8199a7411
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1639
+[2025-12-06 13:17:05]   [inserted] Vehicle audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr - Hash: 791c90051d49062d94fa0395bee96921
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1640
+[2025-12-06 13:17:05]   [inserted] Vehicle jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr - Hash: 4952b542417b5b2fab20cbac6b56b03c
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1641
+[2025-12-06 13:17:05]   [inserted] Vehicle jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr - Hash: f4304b1a9152d6f4cffa5d641e221e14
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1642
+[2025-12-06 13:17:05]   [inserted] Vehicle nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr - Hash: 2b976757272fc56973614dba05fb17a8
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1643
+[2025-12-06 13:17:05]   [inserted] Vehicle bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr - Hash: 6e3840a6674e136327ba140d07e7b3b0
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1644
+[2025-12-06 13:17:05]   [inserted] Vehicle volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr - Hash: cc751ab7fd0ea032b4d34e008e4ebe53
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1645
+[2025-12-06 13:17:05]   [inserted] Vehicle kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr - Hash: 1b7310202913f0e2b1b72813b9ef5155
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1646
+[2025-12-06 13:17:05]   [inserted] Vehicle mini-hatch-1-5-cooper-euro-6-s-s-5dr - Hash: af7cbf6db91d241fa502fb080f617037
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1647
+[2025-12-06 13:17:05]   [inserted] Vehicle kia-sportage-1-7-crdi-1-euro-6-s-s-5dr - Hash: 878e55096330e8d9f699c9a64f9360b1
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1648
+[2025-12-06 13:17:05]   [inserted] Vehicle honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr - Hash: b1e1924e81c217dfe89ba412bd531df3
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1649
+[2025-12-06 13:17:05]   [inserted] Vehicle citroen-c3-1-2-puretech-flair-euro-6-5dr - Hash: e528b852d027c31ebc7e3f3e3e743b67
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1650
+[2025-12-06 13:17:05]   [inserted] Vehicle vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr - Hash: 6b03867d41505e606f79da5dc3bb52d8
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1651
+[2025-12-06 13:17:05]   [inserted] Vehicle renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr - Hash: 613a112b67c085f91c21ec0fc7488c98
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1652
+[2025-12-06 13:17:05]   [inserted] Vehicle renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr - Hash: 3fed731fd62365947d3439db348515e7
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1653
+[2025-12-06 13:17:05]   [inserted] Vehicle alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr - Hash: d2a3089b851520d8d24c17575136862c
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1654
+[2025-12-06 13:17:05]   [inserted] Vehicle vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr - Hash: 761739e9e18dd457f6a291ddd0a7bc02
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1655
+[2025-12-06 13:17:05]   [inserted] Vehicle suzuki-swift-1-2-sz2-euro-5-5dr - Hash: 1686a70a064b6968b1c794f9399c6a4f
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1656
+[2025-12-06 13:17:05]   [inserted] Vehicle seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr - Hash: 5119dc64474c93e59866f44e69fa655d
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1657
+[2025-12-06 13:17:05]   [inserted] Vehicle ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr - Hash: d4292584d083bd83e33909108a820044
+[2025-12-06 13:17:05]   [inserted] Vehicle kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr - Hash: ed4f560094bc3b8ab74a717c450d8ea7
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1659
+[2025-12-06 13:17:05]   [inserted] Vehicle seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr - Hash: f9be5ec212919c067ca2d62e3760a5b2
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1660
+[2025-12-06 13:17:05]   [inserted] Vehicle jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr - Hash: 05dc602071505a8efe2955ef6fca8c05
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1661
+[2025-12-06 13:17:05]   [inserted] Vehicle mini-countryman-1-6-cooper-d-euro-5-s-s-5dr - Hash: 3f64e753ab4b7e0cb612dfcba366fc9d
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1662
+[2025-12-06 13:17:05]   [inserted] Vehicle renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr - Hash: 99126dc2326be6446247cb629a4ac32f
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1663
+[2025-12-06 13:17:05]   [inserted] Vehicle bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr - Hash: 69fe1735bf53d913e371068db886f4d6
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1664
+[2025-12-06 13:17:05]   [inserted] Vehicle citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr - Hash: ec9126dffb40b994c0eea62c47325f0d
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1665
+[2025-12-06 13:17:05]   [inserted] Vehicle ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr - Hash: ed4cc7b9afa32394f4e60c504565c4a9
+[2025-12-06 13:17:05]   Stored image URL #1 for vehicle 1666
+[2025-12-06 13:17:06]   [inserted] Vehicle toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5 - Hash: 45256e3f72bdc327445ffb49ed0d0d44
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1667
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr - Hash: 5d9a384d5d51f37e037fb18d3b1e251e
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1668
+[2025-12-06 13:17:06]   [inserted] Vehicle peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr - Hash: 06564de11014e328acdb35c32056776a
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1669
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr - Hash: 3ba0b8c6a09caa58334ca0657aecbdd9
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1670
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr - Hash: c39a843f0b29f26f9d13d03f493fca4e
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1671
+[2025-12-06 13:17:06]   [inserted] Vehicle volkswagen-up-1-0-move-up-euro-6-5dr - Hash: 2e16e7f4823e0e375bf2dc5d3c6776a9
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1672
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - Hash: a394cc3b31ed2e242d1bf1a08b25a1d1
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1673
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr - Hash: 99eed9afe3228be915b8302693ef5c85
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1674
+[2025-12-06 13:17:06]   [inserted] Vehicle nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2 - Hash: 2f0970182b55f8d6f605e41df8b6e36d
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1675
+[2025-12-06 13:17:06]   [inserted] Vehicle smart-forfour-1-0-passion-euro-6-s-s-5dr - Hash: 48d7e92678d9631fa105537c46419c6f
+[2025-12-06 13:17:06]   [inserted] Vehicle citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr - Hash: 278ed5fd0157174da5ceaecddb615fb0
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1677
+[2025-12-06 13:17:06]   [inserted] Vehicle ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr - Hash: 7ccc6636326e30a3f9fb8a6708c5de23
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1678
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - Hash: 2f4ac59ec892a6d130c4b799ec1ffcb9
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1679
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr - Hash: 47cb76c5398f282e432a7bddfea7bcbf
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1680
+[2025-12-06 13:17:06]   [inserted] Vehicle mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr - Hash: 88e5e558c4858c9cae969675243946ce
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1681
+[2025-12-06 13:17:06]   [inserted] Vehicle citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr - Hash: 4c1ccdfedc2da7aee0d6a77afb19d1fc
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1682
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-adam-1-4i-glam-euro-6-3dr - Hash: 4d6890b6adac7b8414ea63150ce0616c
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1683
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr - Hash: a76b9477c56c4cc90d426b748e762708
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1684
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - Hash: b478f20a89a9e01d09a852fa8daaa622
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1685
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps - Hash: 503ce3f047eace7bee5e6fa99162712e
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1686
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr - Hash: ccccf45e68f5c551c19d6ee4025b29b4
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1687
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c - Hash: 8d9f43238bf6ae9c6cd3e6d232ccd6b3
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1688
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr - Hash: 7dd75dd82d67b172a42c774e55bd1ed2
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1689
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-astra-1-4i-excite-euro-6-5dr - Hash: a9b601e922b20a29fe518938fb9cac7b
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1690
+[2025-12-06 13:17:06]   [inserted] Vehicle hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr - Hash: bed0aaef5ee01999e182e93af44e0c2a
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1691
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3 - Hash: e1eeb415260f5730690bbe1853ffbef3
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1692
+[2025-12-06 13:17:06]   [inserted] Vehicle peugeot-3008-1-6-hdi-allure-euro-5-5dr - Hash: 1a54747453dc427093c101253766d2a4
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1693
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c - Hash: 3375b180fb7a715421a7f307d09c0b44
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1694
+[2025-12-06 13:17:06]   [inserted] Vehicle peugeot-208-1-2-vti-puretech-style-euro-5-5dr - Hash: 5f246297711920c20785744c721b2872
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1695
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps - Hash: 7dcaa17ef120ff265773bc2dc3f2d06c
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1696
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr - Hash: cc1c68c8c6ae97b5377b7bce26bdc1e0
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1697
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - Hash: 6a6f946be30017ceb05e2df8d007c337
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1698
+[2025-12-06 13:17:06]   [inserted] Vehicle hyundai-i10-1-2-classic-euro-5-5dr-2 - Hash: b09e029fc10fb6927e837a9aac53b6ed
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1699
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3 - Hash: b2f19c2011f6ef5e35071eb538ceb7b3
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1700
+[2025-12-06 13:17:06]   [inserted] Vehicle citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6 - Hash: d74e2723193b41a259bf85babd677f00
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1701
+[2025-12-06 13:17:06]   [inserted] Vehicle peugeot-2008-1-2-vti-puretech-active-euro-5-5dr - Hash: 1932adc6ff7f1d6607cd4fe318b7a9c8
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1702
+[2025-12-06 13:17:06]   [inserted] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr - Hash: 6038da688f5008e40d7f793d15f71a55
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1703
+[2025-12-06 13:17:06]   [inserted] Vehicle citroen-c1-1-2-puretech-flair-euro-6-5dr - Hash: 25789473ad6b2dfd16aa3136a216fc2c
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1704
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr - Hash: bbb513878b07a86128f067bdf5ad871b
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1705
+[2025-12-06 13:17:06]   [inserted] Vehicle vauxhall-meriva-1-4i-life-euro-6-5dr - Hash: 3d15821cfca187ffa192f420fae5dc58
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1706
+[2025-12-06 13:17:06]   [inserted] Vehicle renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr - Hash: 53d006dc9c3c9f21601dda77db380d35
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1707
+[2025-12-06 13:17:06]   [inserted] Vehicle citroen-c3-1-2-vti-vtr-euro-5-5dr - Hash: c0d8bb70c6b492922167d315d8bf956c
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1708
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-c-max-1-8-tdci-style-5dr - Hash: 26cc8eac51c725a853b07e40a0f7edaf
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1709
+[2025-12-06 13:17:06]   [inserted] Vehicle volkswagen-golf-1-6-tdi-s-euro-5-5dr - Hash: 467ea9a45c980fbd17fa0dca5878c30c
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1710
+[2025-12-06 13:17:06]   [inserted] Vehicle ford-1-8-lx-5dr - Hash: 37c586b4623b16e690967ade8be71976
+[2025-12-06 13:17:06]   Stored image URL #1 for vehicle 1711
+[2025-12-06 13:17:06] Setting auto-publish status...
+[2025-12-06 13:17:06] Published 0 vehicles
+[2025-12-06 13:17:06] Saving JSON snapshot with file rotation...
+[2025-12-06 13:17:06] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 13:17:06]   Total vehicles: 162
+[2025-12-06 13:17:06]   With color: 81
+[2025-12-06 13:17:06]   With transmission: 162
+[2025-12-06 13:17:06]   Total images: 2816
+[2025-12-06 13:17:06] CarSafari scrape completed successfully!
+[2025-12-06 13:17:06] Stats: {"found":81,"inserted":81,"updated":0,"skipped":0,"deactivated":0,"images_stored":79,"errors":0,"published":0}
+[2025-12-06 13:17:06] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 13:17:06] Processing Efficiency:
+[2025-12-06 13:17:06]   Found:     81
+[2025-12-06 13:17:06]   Inserted:  81
+[2025-12-06 13:17:06]   Updated:   0
+[2025-12-06 13:17:06]   Skipped:   0
+[2025-12-06 13:17:06]   Skip Rate: 0%
+[2025-12-06 13:17:06] 
+Database Operations:
+[2025-12-06 13:17:06]   Published: 0
+[2025-12-06 13:17:06]   Images:    79
+[2025-12-06 13:17:06]   Errors:    0
+[2025-12-06 13:17:06] =========================================
+
+[2025-12-06 13:22:44] Starting CarSafari scrape...
+[2025-12-06 13:22:44] Cleaning up old log files...
+[2025-12-06 13:22:44] Fetching listing page...
+[2025-12-06 13:22:44]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 13:22:45] Parsing vehicle cards...
+[2025-12-06 13:22:46] Found 81 vehicles
+[2025-12-06 13:22:46] Saving to CarSafari database with change detection...
+[2025-12-06 13:22:46]   [SKIP] Vehicle volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle nissan-micra-1-2-acenta-cvt-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle suzuki-swift-1-2-sz3-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle audi-q3-2-0-tdi-se-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle kia-sportage-1-7-crdi-1-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle mini-hatch-1-5-cooper-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c3-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle suzuki-swift-1-2-sz2-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle mini-countryman-1-6-cooper-d-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle volkswagen-up-1-0-move-up-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle smart-forfour-1-0-passion-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-adam-1-4i-glam-euro-6-3dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-astra-1-4i-excite-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle peugeot-208-1-2-vti-puretech-style-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle peugeot-3008-1-6-hdi-allure-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle hyundai-i10-1-2-classic-euro-5-5dr-2 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle peugeot-2008-1-2-vti-puretech-active-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c1-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle vauxhall-meriva-1-4i-life-euro-6-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle citroen-c3-1-2-vti-vtr-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-c-max-1-8-tdci-style-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle ford-1-8-lx-5dr - no changes detected
+[2025-12-06 13:22:46]   [SKIP] Vehicle volkswagen-golf-1-6-tdi-s-euro-5-5dr - no changes detected
+[2025-12-06 13:22:46] Setting auto-publish status...
+[2025-12-06 13:22:46] Published 0 vehicles
+[2025-12-06 13:22:46] Saving JSON snapshot with file rotation...
+[2025-12-06 13:22:46] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 13:22:46]   Total vehicles: 162
+[2025-12-06 13:22:46]   With color: 81
+[2025-12-06 13:22:46]   With transmission: 162
+[2025-12-06 13:22:46]   Total images: 2816
+[2025-12-06 13:22:46] CarSafari scrape completed successfully!
+[2025-12-06 13:22:46] Stats: {"found":81,"inserted":0,"updated":0,"skipped":81,"deactivated":0,"images_stored":0,"errors":0,"published":0}
+[2025-12-06 13:22:46] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 13:22:46] Processing Efficiency:
+[2025-12-06 13:22:46]   Found:     81
+[2025-12-06 13:22:46]   Inserted:  0
+[2025-12-06 13:22:46]   Updated:   0
+[2025-12-06 13:22:46]   Skipped:   81
+[2025-12-06 13:22:46]   Skip Rate: 100%
+[2025-12-06 13:22:46] 
+Database Operations:
+[2025-12-06 13:22:46]   Published: 0
+[2025-12-06 13:22:46]   Images:    0
+[2025-12-06 13:22:46]   Errors:    0
+[2025-12-06 13:22:46] =========================================
+
+[2025-12-06 13:24:04] Starting CarSafari scrape...
+[2025-12-06 13:24:04] Cleaning up old log files...
+[2025-12-06 13:24:04] Fetching listing page...
+[2025-12-06 13:24:04]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 13:24:05] Parsing vehicle cards...
+[2025-12-06 13:24:05] Found 81 vehicles
+[2025-12-06 13:24:05] Saving to CarSafari database with change detection...
+[2025-12-06 13:24:05]   [SKIP] Vehicle volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle nissan-micra-1-2-acenta-cvt-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle suzuki-swift-1-2-sz3-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle audi-q3-2-0-tdi-se-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle mini-hatch-1-5-cooper-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle kia-sportage-1-7-crdi-1-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c3-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle suzuki-swift-1-2-sz2-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle mini-countryman-1-6-cooper-d-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle volkswagen-up-1-0-move-up-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle smart-forfour-1-0-passion-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-adam-1-4i-glam-euro-6-3dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-astra-1-4i-excite-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle peugeot-3008-1-6-hdi-allure-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle peugeot-208-1-2-vti-puretech-style-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle hyundai-i10-1-2-classic-euro-5-5dr-2 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6 - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle peugeot-2008-1-2-vti-puretech-active-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c1-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle vauxhall-meriva-1-4i-life-euro-6-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle citroen-c3-1-2-vti-vtr-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-c-max-1-8-tdci-style-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle volkswagen-golf-1-6-tdi-s-euro-5-5dr - no changes detected
+[2025-12-06 13:24:05]   [SKIP] Vehicle ford-1-8-lx-5dr - no changes detected
+[2025-12-06 13:24:05] Setting auto-publish status...
+[2025-12-06 13:24:05] Published 0 vehicles
+[2025-12-06 13:24:05] Saving JSON snapshot with file rotation...
+[2025-12-06 13:24:06] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 13:24:06]   Total vehicles: 162
+[2025-12-06 13:24:06]   With color: 81
+[2025-12-06 13:24:06]   With transmission: 162
+[2025-12-06 13:24:06]   Total images: 2816
+[2025-12-06 13:24:06] CarSafari scrape completed successfully!
+[2025-12-06 13:24:06] Stats: {"found":81,"inserted":0,"updated":0,"skipped":81,"deactivated":0,"images_stored":0,"errors":0,"published":0}
+[2025-12-06 13:24:06] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 13:24:06] Processing Efficiency:
+[2025-12-06 13:24:06]   Found:     81
+[2025-12-06 13:24:06]   Inserted:  0
+[2025-12-06 13:24:06]   Updated:   0
+[2025-12-06 13:24:06]   Skipped:   81
+[2025-12-06 13:24:06]   Skip Rate: 100%
+[2025-12-06 13:24:06] 
+Database Operations:
+[2025-12-06 13:24:06]   Published: 0
+[2025-12-06 13:24:06]   Images:    0
+[2025-12-06 13:24:06]   Errors:    0
+[2025-12-06 13:24:06] =========================================
+
+[2025-12-06 13:29:15] Starting CarSafari scrape...
+[2025-12-06 13:29:15] Cleaning up old log files...
+[2025-12-06 13:29:15] Fetching listing page...
+[2025-12-06 13:29:15]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 13:29:16] Parsing vehicle cards...
+[2025-12-06 13:29:16] Found 81 vehicles
+[2025-12-06 13:29:16] Fetching detail pages for full descriptions...
+[2025-12-06 13:29:16]   Processing 1/81: volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr
+[2025-12-06 13:29:16]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr/
+[2025-12-06 13:29:17]     Found VRM: WP66UEX
+[2025-12-06 13:29:17]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:29:17]     Found colour: Silver
+[2025-12-06 13:29:17]     Found engine_size: 1969
+[2025-12-06 13:29:17]     Found transmission: Manual
+[2025-12-06 13:29:19]   Processing 2/81: nissan-micra-1-2-acenta-cvt-euro-5-5dr
+[2025-12-06 13:29:19]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-1-2-acenta-cvt-euro-5-5dr/
+[2025-12-06 13:29:20]     Found VRM: MJ64YNN
+[2025-12-06 13:29:20]     Found 58 images (cleaned to: 29)
+[2025-12-06 13:29:20]     Found colour: Green
+[2025-12-06 13:29:20]     Found engine_size: 1198
+[2025-12-06 13:29:20]     Found transmission: Automatic
+[2025-12-06 13:29:22]   Processing 3/81: mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr
+[2025-12-06 13:29:22]   Fetching: https://systonautosltd.co.uk/vehicle/name/mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr/
+[2025-12-06 13:29:23]     Found VRM: ML62YDR
+[2025-12-06 13:29:23]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:29:23]     Found colour: Black
+[2025-12-06 13:29:23]     Found engine_size: 2143
+[2025-12-06 13:29:23]     Found transmission: Automatic
+[2025-12-06 13:29:24]   Processing 4/81: vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr
+[2025-12-06 13:29:24]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr/
+[2025-12-06 13:29:26]     Found VRM: NA17HSD
+[2025-12-06 13:29:26]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:29:26]     Found colour: Red
+[2025-12-06 13:29:26]     Found engine_size: 1598
+[2025-12-06 13:29:26]     Found transmission: Manual
+[2025-12-06 13:29:27]   Processing 5/81: alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr
+[2025-12-06 13:29:27]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr/
+[2025-12-06 13:29:28]     Found VRM: BN64WZZ
+[2025-12-06 13:29:28]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:29:28]     Found colour: Red
+[2025-12-06 13:29:28]     Found engine_size: 1956
+[2025-12-06 13:29:28]     Found transmission: Manual
+[2025-12-06 13:29:30]   Processing 6/81: land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr
+[2025-12-06 13:29:30]   Fetching: https://systonautosltd.co.uk/vehicle/name/land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr/
+[2025-12-06 13:29:31]     Found VRM: EX62WJV
+[2025-12-06 13:29:31]     Found 64 images (cleaned to: 32)
+[2025-12-06 13:29:31]     Found colour: Red
+[2025-12-06 13:29:31]     Found engine_size: 2179
+[2025-12-06 13:29:31]     Found transmission: Manual
+[2025-12-06 13:29:33]   Processing 7/81: hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3
+[2025-12-06 13:29:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3/
+[2025-12-06 13:29:34]     Found VRM: FV63ZXU
+[2025-12-06 13:29:34]     Found 96 images (cleaned to: 48)
+[2025-12-06 13:29:34]     Found colour: Blue
+[2025-12-06 13:29:34]     Found engine_size: 1995
+[2025-12-06 13:29:34]     Found transmission: Manual
+[2025-12-06 13:29:36]   Processing 8/81: suzuki-swift-1-2-sz3-euro-5-5dr
+[2025-12-06 13:29:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz3-euro-5-5dr/
+[2025-12-06 13:29:37]     Found VRM: DV64MYP
+[2025-12-06 13:29:37]     Found 84 images (cleaned to: 42)
+[2025-12-06 13:29:37]     Found colour: White
+[2025-12-06 13:29:37]     Found engine_size: 1242
+[2025-12-06 13:29:37]     Found transmission: Manual
+[2025-12-06 13:29:38]   Processing 9/81: audi-q3-2-0-tdi-se-euro-6-s-s-5dr
+[2025-12-06 13:29:38]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-se-euro-6-s-s-5dr/
+[2025-12-06 13:29:40]     Found VRM: RJ15JPF
+[2025-12-06 13:29:40]     Found 66 images (cleaned to: 33)
+[2025-12-06 13:29:40]     Found colour: Black
+[2025-12-06 13:29:40]     Found engine_size: 1968
+[2025-12-06 13:29:40]     Found transmission: Manual
+[2025-12-06 13:29:41]   Processing 10/81: audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr
+[2025-12-06 13:29:41]   Fetching: https://systonautosltd.co.uk/vehicle/name/audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr/
+[2025-12-06 13:29:42]     Found VRM: CE14RUH
+[2025-12-06 13:29:42]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:29:42]     Found colour: White
+[2025-12-06 13:29:42]     Found engine_size: 1968
+[2025-12-06 13:29:42]     Found transmission: Manual
+[2025-12-06 13:29:44]   Processing 11/81: jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr
+[2025-12-06 13:29:44]   Fetching: https://systonautosltd.co.uk/vehicle/name/jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr/
+[2025-12-06 13:29:45]     Found VRM: AU12UUS
+[2025-12-06 13:29:45]     Found 54 images (cleaned to: 27)
+[2025-12-06 13:29:45]     Found colour: Silver
+[2025-12-06 13:29:45]     Found engine_size: 2179
+[2025-12-06 13:29:45]     Found transmission: Automatic
+[2025-12-06 13:29:47]   Processing 12/81: jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr
+[2025-12-06 13:29:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr/
+[2025-12-06 13:29:48]     Found VRM: FP15LPK
+[2025-12-06 13:29:48]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:29:48]     Found colour: Grey
+[2025-12-06 13:29:48]     Found engine_size: 1956
+[2025-12-06 13:29:48]     Found transmission: Manual
+[2025-12-06 13:29:49]   Processing 13/81: nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr
+[2025-12-06 13:29:49]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr/
+[2025-12-06 13:29:51]     Found VRM: DE17XYP
+[2025-12-06 13:29:51]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:29:51]     Found colour: White
+[2025-12-06 13:29:51]     Found engine_size: 898
+[2025-12-06 13:29:51]     Found transmission: Manual
+[2025-12-06 13:29:52]   Processing 14/81: bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr
+[2025-12-06 13:29:52]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr/
+[2025-12-06 13:29:53]     Found VRM: N20JBJ
+[2025-12-06 13:29:53]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:29:53]     Found colour: White
+[2025-12-06 13:29:53]     Found engine_size: 1995
+[2025-12-06 13:29:53]     Found transmission: Manual
+[2025-12-06 13:29:55]   Processing 15/81: kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr
+[2025-12-06 13:29:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr/
+[2025-12-06 13:29:56]     Found VRM: LR14VTO
+[2025-12-06 13:29:56]     Found 88 images (cleaned to: 44)
+[2025-12-06 13:29:56]     Found colour: Silver
+[2025-12-06 13:29:56]     Found engine_size: 1995
+[2025-12-06 13:29:56]     Found transmission: Manual
+[2025-12-06 13:29:58]   Processing 16/81: volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr
+[2025-12-06 13:29:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr/
+[2025-12-06 13:30:01]     Found VRM: AJ17YMS
+[2025-12-06 13:30:01]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:30:01]     Found colour: Black
+[2025-12-06 13:30:01]     Found engine_size: 1969
+[2025-12-06 13:30:01]     Found transmission: Manual
+[2025-12-06 13:30:02]   Processing 17/81: kia-sportage-1-7-crdi-1-euro-6-s-s-5dr
+[2025-12-06 13:30:02]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-sportage-1-7-crdi-1-euro-6-s-s-5dr/
+[2025-12-06 13:30:04]     Found VRM: BG66HJY
+[2025-12-06 13:30:04]     Found 54 images (cleaned to: 27)
+[2025-12-06 13:30:04]     Found colour: Blue
+[2025-12-06 13:30:04]     Found engine_size: 1685
+[2025-12-06 13:30:04]     Found transmission: Manual
+[2025-12-06 13:30:06]   Processing 18/81: mini-hatch-1-5-cooper-euro-6-s-s-5dr
+[2025-12-06 13:30:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-hatch-1-5-cooper-euro-6-s-s-5dr/
+[2025-12-06 13:30:07]     Found VRM: YY17JMX
+[2025-12-06 13:30:07]     Found 60 images (cleaned to: 30)
+[2025-12-06 13:30:07]     Found colour: Grey
+[2025-12-06 13:30:07]     Found engine_size: 1499
+[2025-12-06 13:30:07]     Found transmission: Manual
+[2025-12-06 13:30:09]   Processing 19/81: honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr
+[2025-12-06 13:30:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr/
+[2025-12-06 13:30:10]     Found VRM: DK15VOY
+[2025-12-06 13:30:10]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:30:10]     Found colour: Blue
+[2025-12-06 13:30:10]     Found engine_size: 1597
+[2025-12-06 13:30:10]     Found transmission: Manual
+[2025-12-06 13:30:11]   Processing 20/81: citroen-c3-1-2-puretech-flair-euro-6-5dr
+[2025-12-06 13:30:11]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-puretech-flair-euro-6-5dr/
+[2025-12-06 13:30:13]     Found VRM: MJ67RTX
+[2025-12-06 13:30:13]     Found 82 images (cleaned to: 41)
+[2025-12-06 13:30:13]     Found colour: White
+[2025-12-06 13:30:13]     Found engine_size: 1199
+[2025-12-06 13:30:13]     Found transmission: Manual
+[2025-12-06 13:30:14]   Processing 21/81: vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr
+[2025-12-06 13:30:14]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr/
+[2025-12-06 13:30:15]     Found VRM: WO16GKA
+[2025-12-06 13:30:15]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:30:15]     Found colour: White
+[2025-12-06 13:30:15]     Found engine_size: 1364
+[2025-12-06 13:30:15]     Found transmission: Manual
+[2025-12-06 13:30:17]   Processing 22/81: renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-06 13:30:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-06 13:30:19]     Found VRM: CE67JXW
+[2025-12-06 13:30:19]     Found 22 images (cleaned to: 11)
+[2025-12-06 13:30:19]     Found colour: Black
+[2025-12-06 13:30:19]     Found engine_size: 1461
+[2025-12-06 13:30:19]     Found transmission: Manual
+[2025-12-06 13:30:20]   Processing 23/81: alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr
+[2025-12-06 13:30:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr/
+[2025-12-06 13:30:21]     Found VRM: N121OAK
+[2025-12-06 13:30:21]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:30:21]     Found colour: Blue
+[2025-12-06 13:30:21]     Found engine_size: 1598
+[2025-12-06 13:30:21]     Found transmission: Manual
+[2025-12-06 13:30:23]   Processing 24/81: vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr
+[2025-12-06 13:30:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr/
+[2025-12-06 13:30:24]     Found VRM: LN17UUG
+[2025-12-06 13:30:24]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:30:24]     Found colour: White
+[2025-12-06 13:30:24]     Found engine_size: 1598
+[2025-12-06 13:30:24]     Found transmission: Manual
+[2025-12-06 13:30:26]   Processing 25/81: renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 13:30:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 13:30:27]     Found VRM: LK66ZSW
+[2025-12-06 13:30:27]     Found 78 images (cleaned to: 39)
+[2025-12-06 13:30:27]     Found colour: Black
+[2025-12-06 13:30:27]     Found engine_size: 1461
+[2025-12-06 13:30:27]     Found transmission: Manual
+[2025-12-06 13:30:28]   Processing 26/81: suzuki-swift-1-2-sz2-euro-5-5dr
+[2025-12-06 13:30:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/suzuki-swift-1-2-sz2-euro-5-5dr/
+[2025-12-06 13:30:29]     Found VRM: FL64SWZ
+[2025-12-06 13:30:29]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:30:29]     Found colour: Red
+[2025-12-06 13:30:29]     Found engine_size: 1242
+[2025-12-06 13:30:29]     Found transmission: Manual
+[2025-12-06 13:30:31]   Processing 27/81: seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr
+[2025-12-06 13:30:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr/
+[2025-12-06 13:30:32]     Found VRM: BC16MLU
+[2025-12-06 13:30:32]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:30:32]     Found colour: White
+[2025-12-06 13:30:32]     Found engine_size: 1197
+[2025-12-06 13:30:32]     Found transmission: Manual
+[2025-12-06 13:30:34]   Processing 28/81: ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr
+[2025-12-06 13:30:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr/
+[2025-12-06 13:30:35]     Found VRM: SN14LUZ
+[2025-12-06 13:30:35]     Found colour: Silver
+[2025-12-06 13:30:35]     Found engine_size: 1997
+[2025-12-06 13:30:35]     Found transmission: Automatic
+[2025-12-06 13:30:36]   Processing 29/81: kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr
+[2025-12-06 13:30:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr/
+[2025-12-06 13:30:38]     Found VRM: GU15HYS
+[2025-12-06 13:30:38]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:30:38]     Found colour: Black
+[2025-12-06 13:30:38]     Found engine_size: 1591
+[2025-12-06 13:30:38]     Found transmission: Manual
+[2025-12-06 13:30:39]   Processing 30/81: seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr
+[2025-12-06 13:30:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr/
+[2025-12-06 13:30:40]     Found VRM: KR65YCU
+[2025-12-06 13:30:40]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:30:40]     Found colour: Grey
+[2025-12-06 13:30:40]     Found engine_size: 1395
+[2025-12-06 13:30:40]     Found transmission: Manual
+[2025-12-06 13:30:42]   Processing 31/81: jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr
+[2025-12-06 13:30:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr/
+[2025-12-06 13:30:43]     Found VRM: BF15XML
+[2025-12-06 13:30:43]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:30:43]     Found colour: Grey
+[2025-12-06 13:30:43]     Found engine_size: 1368
+[2025-12-06 13:30:43]     Found transmission: Manual
+[2025-12-06 13:30:45]   Processing 32/81: mini-countryman-1-6-cooper-d-euro-5-s-s-5dr
+[2025-12-06 13:30:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-1-6-cooper-d-euro-5-s-s-5dr/
+[2025-12-06 13:30:46]     Found VRM: FD64TYK
+[2025-12-06 13:30:46]     Found 66 images (cleaned to: 33)
+[2025-12-06 13:30:46]     Found colour: Green
+[2025-12-06 13:30:46]     Found engine_size: 1598
+[2025-12-06 13:30:46]     Found transmission: Manual
+[2025-12-06 13:30:47]   Processing 33/81: renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr
+[2025-12-06 13:30:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr/
+[2025-12-06 13:30:48]     Found VRM: HT15YKC
+[2025-12-06 13:30:48]     Found 86 images (cleaned to: 43)
+[2025-12-06 13:30:48]     Found colour: Orange
+[2025-12-06 13:30:48]     Found engine_size: 898
+[2025-12-06 13:30:48]     Found transmission: Manual
+[2025-12-06 13:30:50]   Processing 34/81: citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr
+[2025-12-06 13:30:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr/
+[2025-12-06 13:30:51]     Found VRM: FH14RZA
+[2025-12-06 13:30:51]     Found 66 images (cleaned to: 33)
+[2025-12-06 13:30:51]     Found colour: Silver
+[2025-12-06 13:30:51]     Found engine_size: 1997
+[2025-12-06 13:30:51]     Found transmission: Manual
+[2025-12-06 13:30:53]   Processing 35/81: bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr
+[2025-12-06 13:30:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr/
+[2025-12-06 13:30:54]     Found VRM: NG14HUH
+[2025-12-06 13:30:54]     Found 84 images (cleaned to: 42)
+[2025-12-06 13:30:54]     Found colour: White
+[2025-12-06 13:30:54]     Found engine_size: 1995
+[2025-12-06 13:30:54]     Found transmission: Manual
+[2025-12-06 13:30:56]   Processing 36/81: ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr
+[2025-12-06 13:30:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr/
+[2025-12-06 13:30:57]     Found VRM: MK67VMU
+[2025-12-06 13:30:57]     Found 52 images (cleaned to: 26)
+[2025-12-06 13:30:57]     Found colour: Red
+[2025-12-06 13:30:57]     Found engine_size: 1199
+[2025-12-06 13:30:57]     Found transmission: Manual
+[2025-12-06 13:30:58]   Processing 37/81: toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5
+[2025-12-06 13:30:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5/
+[2025-12-06 13:30:59]     Found VRM: HF15XHH
+[2025-12-06 13:30:59]     Found 48 images (cleaned to: 24)
+[2025-12-06 13:30:59]     Found colour: Blue
+[2025-12-06 13:30:59]     Found engine_size: 1329
+[2025-12-06 13:30:59]     Found transmission: Manual
+[2025-12-06 13:31:01]   Processing 38/81: renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr
+[2025-12-06 13:31:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr/
+[2025-12-06 13:31:02]     Found VRM: NK14YTP
+[2025-12-06 13:31:02]     Found 90 images (cleaned to: 45)
+[2025-12-06 13:31:02]     Found colour: Beige
+[2025-12-06 13:31:02]     Found engine_size: 898
+[2025-12-06 13:31:02]     Found transmission: Manual
+[2025-12-06 13:31:04]   Processing 39/81: ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr
+[2025-12-06 13:31:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr/
+[2025-12-06 13:31:05]     Found VRM: YK14FFS
+[2025-12-06 13:31:05]     Found 76 images (cleaned to: 38)
+[2025-12-06 13:31:05]     Found colour: Silver
+[2025-12-06 13:31:05]     Found engine_size: 1997
+[2025-12-06 13:31:05]     Found transmission: Manual
+[2025-12-06 13:31:06]   Processing 40/81: vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr
+[2025-12-06 13:31:06]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-6-cdti-ecoflex-design-euro-6-s-s-5dr/
+[2025-12-06 13:31:08]     Found VRM: DP66UWT
+[2025-12-06 13:31:08]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:31:08]     Found colour: Blue
+[2025-12-06 13:31:08]     Found engine_size: 1598
+[2025-12-06 13:31:08]     Found transmission: Manual
+[2025-12-06 13:31:09]   Processing 41/81: peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr
+[2025-12-06 13:31:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr/
+[2025-12-06 13:31:10]     Found VRM: KM16FWT
+[2025-12-06 13:31:10]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:31:10]     Found colour: Grey
+[2025-12-06 13:31:10]     Found engine_size: 1560
+[2025-12-06 13:31:10]     Found transmission: Manual
+[2025-12-06 13:31:12]   Processing 42/81: volkswagen-up-1-0-move-up-euro-6-5dr
+[2025-12-06 13:31:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-up-1-0-move-up-euro-6-5dr/
+[2025-12-06 13:31:13]     Found VRM: WF16NLK
+[2025-12-06 13:31:13]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:31:13]     Found colour: Black
+[2025-12-06 13:31:13]     Found engine_size: 999
+[2025-12-06 13:31:13]     Found transmission: Manual
+[2025-12-06 13:31:15]   Processing 43/81: renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 13:31:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 13:31:16]     Found VRM: DL15ZNW
+[2025-12-06 13:31:16]     Found 78 images (cleaned to: 39)
+[2025-12-06 13:31:16]     Found colour: Blue
+[2025-12-06 13:31:16]     Found engine_size: 1461
+[2025-12-06 13:31:16]     Found transmission: Manual
+[2025-12-06 13:31:17]   Processing 44/81: nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2
+[2025-12-06 13:31:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2/
+[2025-12-06 13:31:18]     Found VRM: KU64WPF
+[2025-12-06 13:31:18]     Found 64 images (cleaned to: 32)
+[2025-12-06 13:31:18]     Found colour: Black
+[2025-12-06 13:31:18]     Found engine_size: 1197
+[2025-12-06 13:31:18]     Found transmission: Manual
+[2025-12-06 13:31:20]   Processing 45/81: ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr
+[2025-12-06 13:31:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr/
+[2025-12-06 13:31:21]     Found VRM: MC65FUH
+[2025-12-06 13:31:21]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:31:21]     Found colour: Grey
+[2025-12-06 13:31:21]     Found engine_size: 999
+[2025-12-06 13:31:21]     Found transmission: Manual
+[2025-12-06 13:31:23]   Processing 46/81: citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr
+[2025-12-06 13:31:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr/
+[2025-12-06 13:31:24]     Found VRM: SA17TVT
+[2025-12-06 13:31:24]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:31:24]     Found colour: Grey
+[2025-12-06 13:31:24]     Found engine_size: 1199
+[2025-12-06 13:31:24]     Found transmission: Manual
+[2025-12-06 13:31:25]   Processing 47/81: smart-forfour-1-0-passion-euro-6-s-s-5dr
+[2025-12-06 13:31:25]   Fetching: https://systonautosltd.co.uk/vehicle/name/smart-forfour-1-0-passion-euro-6-s-s-5dr/
+[2025-12-06 13:31:27]     Found VRM: BU16YOA
+[2025-12-06 13:31:27]     Found colour: Red
+[2025-12-06 13:31:27]     Found engine_size: 999
+[2025-12-06 13:31:27]     Found transmission: Manual
+[2025-12-06 13:31:28]   Processing 48/81: ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr
+[2025-12-06 13:31:28]   Fetching: https://systonautosltd.co.uk/vehicle/name/ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr/
+[2025-12-06 13:31:29]     Found VRM: RA17JUK
+[2025-12-06 13:31:29]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:31:29]     Found colour: Grey
+[2025-12-06 13:31:29]     Found engine_size: 1597
+[2025-12-06 13:31:29]     Found transmission: Manual
+[2025-12-06 13:31:31]   Processing 49/81: vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-06 13:31:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-06 13:31:32]     Found VRM: LG62KNR
+[2025-12-06 13:31:32]     Found 56 images (cleaned to: 28)
+[2025-12-06 13:31:32]     Found colour: White
+[2025-12-06 13:31:32]     Found engine_size: 2231
+[2025-12-06 13:31:32]     Found transmission: Manual
+[2025-12-06 13:31:33]   Processing 50/81: vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-06 13:31:33]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-06 13:31:35]     Found VRM: DS64RUW
+[2025-12-06 13:31:35]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:31:35]     Found colour: White
+[2025-12-06 13:31:35]     Found engine_size: 1686
+[2025-12-06 13:31:35]     Found transmission: Manual
+[2025-12-06 13:31:36]   Processing 51/81: mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr
+[2025-12-06 13:31:36]   Fetching: https://systonautosltd.co.uk/vehicle/name/mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr/
+[2025-12-06 13:31:37]     Found VRM: MV62XWA
+[2025-12-06 13:31:37]     Found 78 images (cleaned to: 39)
+[2025-12-06 13:31:37]     Found colour: Blue
+[2025-12-06 13:31:37]     Found engine_size: 1995
+[2025-12-06 13:31:37]     Found transmission: Manual
+[2025-12-06 13:31:39]   Processing 52/81: citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr
+[2025-12-06 13:31:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr/
+[2025-12-06 13:31:40]     Found VRM: RX15XKW
+[2025-12-06 13:31:40]     Found 80 images (cleaned to: 40)
+[2025-12-06 13:31:40]     Found colour: White
+[2025-12-06 13:31:40]     Found engine_size: 1997
+[2025-12-06 13:31:40]     Found transmission: Manual
+[2025-12-06 13:31:42]   Processing 53/81: vauxhall-adam-1-4i-glam-euro-6-3dr
+[2025-12-06 13:31:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-adam-1-4i-glam-euro-6-3dr/
+[2025-12-06 13:31:43]     Found VRM: GD65KRE
+[2025-12-06 13:31:43]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:31:43]     Found colour: Red
+[2025-12-06 13:31:43]     Found engine_size: 1398
+[2025-12-06 13:31:43]     Found transmission: Manual
+[2025-12-06 13:31:45]   Processing 54/81: vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr
+[2025-12-06 13:31:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr/
+[2025-12-06 13:31:46]     Found VRM: DP65YVL
+[2025-12-06 13:31:46]     Found 100 images (cleaned to: 50)
+[2025-12-06 13:31:46]     Found colour: Silver
+[2025-12-06 13:31:46]     Found engine_size: 1598
+[2025-12-06 13:31:46]     Found transmission: Manual
+[2025-12-06 13:31:47]   Processing 55/81: vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav
+[2025-12-06 13:31:47]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav/
+[2025-12-06 13:31:48]     Found VRM: VX64ZNJ
+[2025-12-06 13:31:48]     Found 46 images (cleaned to: 23)
+[2025-12-06 13:31:48]     Found colour: Grey
+[2025-12-06 13:31:48]     Found engine_size: 2231
+[2025-12-06 13:31:48]     Found transmission: Manual
+[2025-12-06 13:31:50]   Processing 56/81: vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c
+[2025-12-06 13:31:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c/
+[2025-12-06 13:31:51]     Found VRM: DW16DGZ
+[2025-12-06 13:31:51]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:31:51]     Found colour: Red
+[2025-12-06 13:31:51]     Found engine_size: 1398
+[2025-12-06 13:31:51]     Found transmission: Manual
+[2025-12-06 13:31:53]   Processing 57/81: vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps
+[2025-12-06 13:31:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps/
+[2025-12-06 13:31:54]     Found VRM: DE14YRC
+[2025-12-06 13:31:54]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:31:54]     Found colour: Green
+[2025-12-06 13:31:54]     Found engine_size: 1956
+[2025-12-06 13:31:54]     Found transmission: Manual
+[2025-12-06 13:31:55]   Processing 58/81: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr
+[2025-12-06 13:31:55]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr/
+[2025-12-06 13:31:56]     Found VRM: SA14NWJ
+[2025-12-06 13:31:57]     Found 56 images (cleaned to: 28)
+[2025-12-06 13:31:57]     Found colour: Black
+[2025-12-06 13:31:57]     Found engine_size: 1461
+[2025-12-06 13:31:57]     Found transmission: Manual
+[2025-12-06 13:31:58]   Processing 59/81: renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr
+[2025-12-06 13:31:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr/
+[2025-12-06 13:31:59]     Found VRM: LJ14OGA
+[2025-12-06 13:31:59]     Found 96 images (cleaned to: 48)
+[2025-12-06 13:31:59]     Found colour: Red
+[2025-12-06 13:31:59]     Found engine_size: 1461
+[2025-12-06 13:31:59]     Found transmission: Manual
+[2025-12-06 13:32:01]   Processing 60/81: vauxhall-astra-1-4i-excite-euro-6-5dr
+[2025-12-06 13:32:01]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-astra-1-4i-excite-euro-6-5dr/
+[2025-12-06 13:32:02]     Found VRM: KE15ZFJ
+[2025-12-06 13:32:02]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:32:02]     Found colour: Red
+[2025-12-06 13:32:02]     Found engine_size: 1398
+[2025-12-06 13:32:02]     Found transmission: Manual
+[2025-12-06 13:32:04]   Processing 61/81: peugeot-3008-1-6-hdi-allure-euro-5-5dr
+[2025-12-06 13:32:04]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-3008-1-6-hdi-allure-euro-5-5dr/
+[2025-12-06 13:32:05]     Found VRM: AE64OOV
+[2025-12-06 13:32:05]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:32:05]     Found colour: Grey
+[2025-12-06 13:32:05]     Found engine_size: 1560
+[2025-12-06 13:32:05]     Found transmission: Manual
+[2025-12-06 13:32:07]   Processing 62/81: vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c
+[2025-12-06 13:32:07]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c/
+[2025-12-06 13:32:08]     Found VRM: EX65HDH
+[2025-12-06 13:32:08]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:32:08]     Found colour: Grey
+[2025-12-06 13:32:08]     Found engine_size: 1229
+[2025-12-06 13:32:08]     Found transmission: Manual
+[2025-12-06 13:32:09]   Processing 63/81: peugeot-208-1-2-vti-puretech-style-euro-5-5dr
+[2025-12-06 13:32:09]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-208-1-2-vti-puretech-style-euro-5-5dr/
+[2025-12-06 13:32:11]     Found VRM: LS64XRC
+[2025-12-06 13:32:11]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:32:11]     Found colour: Grey
+[2025-12-06 13:32:11]     Found engine_size: 1199
+[2025-12-06 13:32:11]     Found transmission: Manual
+[2025-12-06 13:32:12]   Processing 64/81: hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr
+[2025-12-06 13:32:12]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr/
+[2025-12-06 13:32:13]     Found VRM: EF14HHU
+[2025-12-06 13:32:13]     Found 66 images (cleaned to: 33)
+[2025-12-06 13:32:13]     Found colour: Blue
+[2025-12-06 13:32:13]     Found engine_size: 1685
+[2025-12-06 13:32:13]     Found transmission: Manual
+[2025-12-06 13:32:15]   Processing 65/81: renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3
+[2025-12-06 13:32:15]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3/
+[2025-12-06 13:32:16]     Found VRM: CU63GKF
+[2025-12-06 13:32:16]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:32:16]     Found colour: Black
+[2025-12-06 13:32:16]     Found engine_size: 1461
+[2025-12-06 13:32:16]     Found transmission: Manual
+[2025-12-06 13:32:17]   Processing 66/81: ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps
+[2025-12-06 13:32:17]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps/
+[2025-12-06 13:32:19]     Found VRM: YO66AKG
+[2025-12-06 13:32:19]     Found 84 images (cleaned to: 42)
+[2025-12-06 13:32:19]     Found colour: Red
+[2025-12-06 13:32:19]     Found engine_size: 999
+[2025-12-06 13:32:19]     Found transmission: Manual
+[2025-12-06 13:32:20]   Processing 67/81: vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr
+[2025-12-06 13:32:20]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr/
+[2025-12-06 13:32:21]     Found VRM: DN66UZH
+[2025-12-06 13:32:21]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:32:21]     Found colour: Silver
+[2025-12-06 13:32:21]     Found engine_size: 1398
+[2025-12-06 13:32:21]     Found transmission: Manual
+[2025-12-06 13:32:23]   Processing 68/81: renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr
+[2025-12-06 13:32:23]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr/
+[2025-12-06 13:32:24]     Found VRM: WL16HYZ
+[2025-12-06 13:32:24]     Found 82 images (cleaned to: 41)
+[2025-12-06 13:32:24]     Found colour: Grey
+[2025-12-06 13:32:24]     Found engine_size: 1461
+[2025-12-06 13:32:24]     Found transmission: Manual
+[2025-12-06 13:32:26]   Processing 69/81: hyundai-i10-1-2-classic-euro-5-5dr-2
+[2025-12-06 13:32:26]   Fetching: https://systonautosltd.co.uk/vehicle/name/hyundai-i10-1-2-classic-euro-5-5dr-2/
+[2025-12-06 13:32:27]     Found VRM: AY62WME
+[2025-12-06 13:32:27]     Found 62 images (cleaned to: 31)
+[2025-12-06 13:32:27]     Found colour: Red
+[2025-12-06 13:32:27]     Found engine_size: 1248
+[2025-12-06 13:32:27]     Found transmission: Manual
+[2025-12-06 13:32:29]   Processing 70/81: citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6
+[2025-12-06 13:32:29]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6/
+[2025-12-06 13:32:30]     Found VRM: DK65LFS
+[2025-12-06 13:32:30]     Found 64 images (cleaned to: 32)
+[2025-12-06 13:32:30]     Found colour: Black
+[2025-12-06 13:32:30]     Found engine_size: 1199
+[2025-12-06 13:32:30]     Found transmission: Manual
+[2025-12-06 13:32:31]   Processing 71/81: ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3
+[2025-12-06 13:32:31]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3/
+[2025-12-06 13:32:32]     Found VRM: LF63CRK
+[2025-12-06 13:32:32]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:32:32]     Found colour: Silver
+[2025-12-06 13:32:32]     Found engine_size: 999
+[2025-12-06 13:32:32]     Found transmission: Manual
+[2025-12-06 13:32:34]   Processing 72/81: peugeot-2008-1-2-vti-puretech-active-euro-5-5dr
+[2025-12-06 13:32:34]   Fetching: https://systonautosltd.co.uk/vehicle/name/peugeot-2008-1-2-vti-puretech-active-euro-5-5dr/
+[2025-12-06 13:32:35]     Found VRM: KP64VAE
+[2025-12-06 13:32:35]     Found 68 images (cleaned to: 34)
+[2025-12-06 13:32:35]     Found colour: Black
+[2025-12-06 13:32:35]     Found engine_size: 1199
+[2025-12-06 13:32:35]     Found transmission: Manual
+[2025-12-06 13:32:37]   Processing 73/81: alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr
+[2025-12-06 13:32:37]   Fetching: https://systonautosltd.co.uk/vehicle/name/alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr/
+[2025-12-06 13:32:38]     Found VRM: WV12RZN
+[2025-12-06 13:32:38]     Found 72 images (cleaned to: 36)
+[2025-12-06 13:32:38]     Found colour: Red
+[2025-12-06 13:32:38]     Found engine_size: 1956
+[2025-12-06 13:32:38]     Found transmission: Manual
+[2025-12-06 13:32:39]   Processing 74/81: citroen-c1-1-2-puretech-flair-euro-6-5dr
+[2025-12-06 13:32:39]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c1-1-2-puretech-flair-euro-6-5dr/
+[2025-12-06 13:32:41]     Found VRM: FX65OTT
+[2025-12-06 13:32:41]     Found 82 images (cleaned to: 41)
+[2025-12-06 13:32:41]     Found colour: White
+[2025-12-06 13:32:41]     Found engine_size: 1199
+[2025-12-06 13:32:41]     Found transmission: Manual
+[2025-12-06 13:32:42]   Processing 75/81: vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr
+[2025-12-06 13:32:42]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr/
+[2025-12-06 13:32:43]     Found VRM: AF64OFR
+[2025-12-06 13:32:43]     Found 66 images (cleaned to: 33)
+[2025-12-06 13:32:43]     Found colour: Blue
+[2025-12-06 13:32:43]     Found engine_size: 1598
+[2025-12-06 13:32:43]     Found transmission: Manual
+[2025-12-06 13:32:45]   Processing 76/81: vauxhall-meriva-1-4i-life-euro-6-5dr
+[2025-12-06 13:32:45]   Fetching: https://systonautosltd.co.uk/vehicle/name/vauxhall-meriva-1-4i-life-euro-6-5dr/
+[2025-12-06 13:32:46]     Found VRM: GD65RPZ
+[2025-12-06 13:32:46]     Found 70 images (cleaned to: 35)
+[2025-12-06 13:32:46]     Found colour: Blue
+[2025-12-06 13:32:46]     Found engine_size: 1398
+[2025-12-06 13:32:46]     Found transmission: Manual
+[2025-12-06 13:32:48]   Processing 77/81: renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr
+[2025-12-06 13:32:48]   Fetching: https://systonautosltd.co.uk/vehicle/name/renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr/
+[2025-12-06 13:32:49]     Found VRM: DN16JFZ
+[2025-12-06 13:32:49]     Found 86 images (cleaned to: 43)
+[2025-12-06 13:32:49]     Found colour: Grey
+[2025-12-06 13:32:49]     Found engine_size: 1461
+[2025-12-06 13:32:49]     Found transmission: Manual
+[2025-12-06 13:32:50]   Processing 78/81: citroen-c3-1-2-vti-vtr-euro-5-5dr
+[2025-12-06 13:32:50]   Fetching: https://systonautosltd.co.uk/vehicle/name/citroen-c3-1-2-vti-vtr-euro-5-5dr/
+[2025-12-06 13:32:51]     Found VRM: LS64VPE
+[2025-12-06 13:32:51]     Found 32 images (cleaned to: 16)
+[2025-12-06 13:32:51]     Found colour: Blue
+[2025-12-06 13:32:51]     Found engine_size: 1199
+[2025-12-06 13:32:51]     Found transmission: Manual
+[2025-12-06 13:32:53]   Processing 79/81: ford-c-max-1-8-tdci-style-5dr
+[2025-12-06 13:32:53]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-c-max-1-8-tdci-style-5dr/
+[2025-12-06 13:32:54]     Found VRM: AK09UED
+[2025-12-06 13:32:54]     Found 74 images (cleaned to: 37)
+[2025-12-06 13:32:54]     Found colour: Grey
+[2025-12-06 13:32:54]     Found engine_size: 1753
+[2025-12-06 13:32:54]     Found transmission: Manual
+[2025-12-06 13:32:56]   Processing 80/81: ford-1-8-lx-5dr
+[2025-12-06 13:32:56]   Fetching: https://systonautosltd.co.uk/vehicle/name/ford-1-8-lx-5dr/
+[2025-12-06 13:32:57]     Found VRM: FN05XKK
+[2025-12-06 13:32:57]     Found 58 images (cleaned to: 29)
+[2025-12-06 13:32:57]     Found colour: Silver
+[2025-12-06 13:32:57]     Found engine_size: 1798
+[2025-12-06 13:32:57]     Found transmission: Manual
+[2025-12-06 13:32:58]   Processing 81/81: volkswagen-golf-1-6-tdi-s-euro-5-5dr
+[2025-12-06 13:32:58]   Fetching: https://systonautosltd.co.uk/vehicle/name/volkswagen-golf-1-6-tdi-s-euro-5-5dr/
+[2025-12-06 13:33:00]     Found VRM: AK59NYY
+[2025-12-06 13:33:00]     Found 48 images (cleaned to: 24)
+[2025-12-06 13:33:00]     Found colour: Silver
+[2025-12-06 13:33:00]     Found engine_size: 1598
+[2025-12-06 13:33:00]     Found transmission: Manual
+[2025-12-06 13:33:00] Saving to CarSafari database with change detection...
+[2025-12-06 13:33:00]   [SKIP] Vehicle WP66UEX - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle MJ64YNN - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle ML62YDR - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle NA17HSD - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle BN64WZZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle EX62WJV - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FV63ZXU - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DV64MYP - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle RJ15JPF - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle CE14RUH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AU12UUS - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FP15LPK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DE17XYP - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle N20JBJ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LR14VTO - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AJ17YMS - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle BG66HJY - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle YY17JMX - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DK15VOY - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle MJ67RTX - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle WO16GKA - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle CE67JXW - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle N121OAK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LN17UUG - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LK66ZSW - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FL64SWZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle BC16MLU - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle SN14LUZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle GU15HYS - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle KR65YCU - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle BF15XML - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FD64TYK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle HT15YKC - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FH14RZA - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle NG14HUH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle MK67VMU - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle HF15XHH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle NK14YTP - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle YK14FFS - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DP66UWT - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle KM16FWT - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle WF16NLK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DL15ZNW - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle KU64WPF - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle MC65FUH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle SA17TVT - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle BU16YOA - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle RA17JUK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LG62KNR - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DS64RUW - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle MV62XWA - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle RX15XKW - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle GD65KRE - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DP65YVL - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle VX64ZNJ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DW16DGZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DE14YRC - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle SA14NWJ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LJ14OGA - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle KE15ZFJ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AE64OOV - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle EX65HDH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LS64XRC - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle EF14HHU - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle CU63GKF - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle YO66AKG - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DN66UZH - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle WL16HYZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AY62WME - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DK65LFS - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LF63CRK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle KP64VAE - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle WV12RZN - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FX65OTT - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AF64OFR - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle GD65RPZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle DN16JFZ - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle LS64VPE - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AK09UED - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle FN05XKK - no changes detected
+[2025-12-06 13:33:00]   [SKIP] Vehicle AK59NYY - no changes detected
+[2025-12-06 13:33:00] Setting auto-publish status...
+[2025-12-06 13:33:00] Published 0 vehicles
+[2025-12-06 13:33:00] Saving JSON snapshot with file rotation...
+[2025-12-06 13:33:00] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 13:33:00]   Total vehicles: 162
+[2025-12-06 13:33:00]   With color: 81
+[2025-12-06 13:33:00]   With transmission: 162
+[2025-12-06 13:33:00]   Total images: 2816
+[2025-12-06 13:33:00] CarSafari scrape completed successfully!
+[2025-12-06 13:33:00] Stats: {"found":81,"inserted":0,"updated":0,"skipped":81,"deactivated":0,"images_stored":0,"errors":0,"published":0}
+[2025-12-06 13:33:00] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 13:33:00] Processing Efficiency:
+[2025-12-06 13:33:00]   Found:     81
+[2025-12-06 13:33:00]   Inserted:  0
+[2025-12-06 13:33:00]   Updated:   0
+[2025-12-06 13:33:00]   Skipped:   81
+[2025-12-06 13:33:00]   Skip Rate: 100%
+[2025-12-06 13:33:00] 
+Database Operations:
+[2025-12-06 13:33:00]   Published: 0
+[2025-12-06 13:33:00]   Images:    0
+[2025-12-06 13:33:00]   Errors:    0
+[2025-12-06 13:33:00] =========================================
+
+[2025-12-06 14:47:28] Starting CarSafari scrape...
+[2025-12-06 14:47:28] Cleaning up old log files...
+[2025-12-06 14:47:28] Fetching listing page...
+[2025-12-06 14:47:28]   Fetching: https://systonautosltd.co.uk/vehicle/search/min_price/0/order/price/dir/DESC/limit/250/
+[2025-12-06 14:47:30] Parsing vehicle cards...
+[2025-12-06 14:47:30] Found 81 vehicles
+[2025-12-06 14:47:30] Saving to CarSafari database with change detection...
+[2025-12-06 14:47:30]   [SKIP] Vehicle volvo-v40-2-0-d4-r-design-nav-plus-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle nissan-micra-1-2-acenta-cvt-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle mercedes-benz-e-class-2-1-e300dh-bluetec-g-tronic-euro-5-s-s-4dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-astra-1-6-cdti-blueinjection-elite-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-exclusive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle land-rover-range-rover-evoque-2-2-sd4-dynamic-4wd-euro-5-s-s-3dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle hyundai-ix35-2-0-crdi-premium-4wd-euro-5-5dr-3 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle suzuki-swift-1-2-sz3-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle audi-q3-2-0-tdi-se-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle audi-q3-2-0-tdi-s-line-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle jeep-cherokee-2-0-crd-longitude-plus-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle jaguar-xf-2-2d-se-auto-euro-5-s-s-4dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle nissan-micra-0-9-ig-t-n-connecta-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-sdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle kia-sportage-2-0-crdi-kx-4-awd-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle volvo-v40-2-0-d2-momentum-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle mini-hatch-1-5-cooper-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle kia-sportage-1-7-crdi-1-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle honda-civic-1-6-i-dtec-sr-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c3-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-mokka-1-4i-turbo-exclusiv-2wd-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-clio-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-kadjar-1-5-dci-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle alfa-romeo-giulietta-1-6-jtdm-2-tecnica-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-mokka-1-6i-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle seat-ibiza-1-2-tsi-fr-sport-coupe-euro-6-3dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle suzuki-swift-1-2-sz2-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-c-max-2-0-tdci-titanium-powershift-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle kia-ceed-1-6-t-gdi-gt-tech-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle seat-leon-1-4-tsi-se-sport-tourer-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle jeep-renegade-1-4t-multiairii-longitude-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle mini-countryman-1-6-cooper-d-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-s-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle bmw-x1-2-0-18d-m-sport-xdrive-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c4-picasso-2-0-bluehdi-exclusive-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ds-automobiles-3-1-2-puretech-performance-line-euro-6-s-s-3dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle toyota-yaris-1-33-dual-vvt-i-icon-euro-5-5dr-euro-5 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-captur-0-9-tce-energy-dynamique-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-kuga-2-0-tdci-titanium-2wd-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle peugeot-3008-1-6-bluehdi-allure-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle volkswagen-up-1-0-move-up-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-zetec-s-euro-6-s-s-3dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle nissan-qashqai-1-2-dig-t-acenta-2wd-euro-5-s-s-5dr-2 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle smart-forfour-1-0-passion-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-flair-edition-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ssangyong-tivoli-1-6-e-xdi-elx-red-edition-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-mokka-1-7-cdti-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle mini-countryman-2-0-cooper-sd-all4-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-ds4-2-0-bluehdi-dsport-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-adam-1-4i-glam-euro-6-3dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-insignia-1-6-cdti-ecoflex-design-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-antara-2-2-cdti-se-4wd-euro-5-s-s-5dr-snav - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-insignia-2-0-cdti-limited-edition-hatchback-5dr-diesel-manual-euro-5-130-ps - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-energy-euro-6-5dr-a-c - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-grand-scenic-1-5-dci-energy-dynamique-tomtom-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [inserted] Vehicle vauxhall-antara-2-2-cdti-diamond-2wd-euro-5-s-s-5dr - Hash: b131fdc2b0e32914f9b197375a95fcdd
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-astra-1-4i-excite-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle peugeot-3008-1-6-hdi-allure-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle peugeot-208-1-2-vti-puretech-style-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-corsa-1-2i-excite-euro-6-5dr-a-c - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle hyundai-ix35-1-7-crdi-se-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-captur-1-5-dci-energy-dynamique-s-medianav-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-b-max-1-0t-ecoboost-titanium-mpv-5dr-petrol-manual-euro-5-s-s-120-ps - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-corsa-1-4i-ecoflex-design-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-scenic-1-5-dci-dynamique-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle hyundai-i10-1-2-classic-euro-5-5dr-2 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-fiesta-1-0t-ecoboost-titanium-euro-5-s-s-5dr-3 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c4-cactus-1-2-puretech-feel-euro-6-5dr-euro-6 - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle peugeot-2008-1-2-vti-puretech-active-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle alfa-romeo-giulietta-2-0-jtdm-2-lusso-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c1-1-2-puretech-flair-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-mokka-1-6-exclusiv-2wd-euro-5-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle vauxhall-meriva-1-4i-life-euro-6-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle renault-megane-1-5-dci-limited-nav-euro-6-s-s-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle citroen-c3-1-2-vti-vtr-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-c-max-1-8-tdci-style-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle ford-1-8-lx-5dr - no changes detected
+[2025-12-06 14:47:30]   [SKIP] Vehicle volkswagen-golf-1-6-tdi-s-euro-5-5dr - no changes detected
+[2025-12-06 14:47:30] Setting auto-publish status...
+[2025-12-06 14:47:30] Published 0 vehicles
+[2025-12-06 14:47:30] Saving JSON snapshot with file rotation...
+[2025-12-06 14:47:30] ✓ Complete JSON saved to: C:\wamp64\www\carvendors-scraper/data/vehicles.json
+[2025-12-06 14:47:30]   Total vehicles: 163
+[2025-12-06 14:47:30]   With color: 81
+[2025-12-06 14:47:30]   With transmission: 163
+[2025-12-06 14:47:30]   Total images: 2816
+[2025-12-06 14:47:30] CarSafari scrape completed successfully!
+[2025-12-06 14:47:30] Stats: {"found":81,"inserted":1,"updated":0,"skipped":80,"deactivated":0,"images_stored":0,"errors":0,"published":0}
+[2025-12-06 14:47:30] 
+========== OPTIMIZATION REPORT ==========
+[2025-12-06 14:47:30] Processing Efficiency:
+[2025-12-06 14:47:30]   Found:     81
+[2025-12-06 14:47:30]   Inserted:  1
+[2025-12-06 14:47:30]   Updated:   0
+[2025-12-06 14:47:30]   Skipped:   80
+[2025-12-06 14:47:30]   Skip Rate: 98.8%
+[2025-12-06 14:47:30] 
+Database Operations:
+[2025-12-06 14:47:30]   Published: 0
+[2025-12-06 14:47:30]   Images:    0
+[2025-12-06 14:47:30]   Errors:    0
+[2025-12-06 14:47:30] =========================================
+

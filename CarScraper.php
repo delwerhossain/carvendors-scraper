@@ -330,6 +330,11 @@ class CarScraper
             }
         }
 
+        // CRITICAL: Convert medium URLs to large for better quality
+        $imageUrls = array_map(function($url) {
+            return str_ireplace('/medium/', '/large/', $url);
+        }, $imageUrls);
+
         // Use first image as primary, store all
         $imageUrl = !empty($imageUrls) ? $imageUrls[0] : null;
 

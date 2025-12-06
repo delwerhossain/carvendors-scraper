@@ -538,11 +538,12 @@ class CarSafariScraper extends CarScraper
     /**
      * Generate complete JSON export with ALL vehicle data fields
      * Includes: color, doors, transmission, fuel_type, body_style, engine_size, etc.
+     * FIXED: Use separate queries for images to avoid GROUP_CONCAT truncation at 1024 bytes
      * @param array $vehicles - From database query
      */
     private function generateCompleteVehicleJSON(array $vehicles)
     {
-        // Fetch enriched vehicle data with all fields
+        // Fetch enriched vehicle data with all fields (WITHOUT GROUP_CONCAT to avoid truncation)
         $sql = "
             SELECT 
                 v.id,
@@ -568,8 +569,7 @@ class CarSafariScraper extends CarScraper
                 a.fuel_type,
                 a.body_style,
                 a.engine_size,
-                (SELECT COUNT(*) FROM gyc_product_images WHERE vechicle_info_id = v.id) as image_count,
-                (SELECT GROUP_CONCAT(file_name SEPARATOR '|||') FROM gyc_product_images WHERE vechicle_info_id = v.id ORDER BY serial ASC) as images
+                (SELECT COUNT(*) FROM gyc_product_images WHERE vechicle_info_id = v.id) as image_count
             FROM gyc_vehicle_info v
             LEFT JOIN gyc_vehicle_attribute a ON v.attr_id = a.id
             WHERE v.vendor_id = {$this->vendorId}
@@ -580,6 +580,30 @@ class CarSafariScraper extends CarScraper
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $allVehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Fetch all images separately (NO GROUP_CONCAT truncation)
+            $imageStmt = $this->db->prepare("
+                SELECT vechicle_info_id, file_name 
+                FROM gyc_product_images 
+                ORDER BY vechicle_info_id ASC, serial ASC
+            ");
+            $imageStmt->execute();
+            $allImages = $imageStmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Build image map: vehicle_id => [urls...]
+            $imageMap = [];
+            foreach ($allImages as $img) {
+                $vehicleId = $img['vechicle_info_id'];
+                if (!isset($imageMap[$vehicleId])) {
+                    $imageMap[$vehicleId] = [];
+                }
+                // Add .jpg if missing (handles GROUP_CONCAT truncation damage)
+                $url = $img['file_name'];
+                if (substr($url, -4) !== '.jpg') {
+                    $url .= '.jpg';
+                }
+                $imageMap[$vehicleId][] = str_ireplace('/medium/', '/large/', $url);
+            }
 
             // Count statistics
             $stats = [
@@ -601,18 +625,16 @@ class CarSafariScraper extends CarScraper
                 'count' => count($allVehicles),
                 'last_update' => date('Y-m-d H:i:s'),
                 'statistics' => $stats,
-                'vehicles' => array_map(function($v) {
-                    // Parse image URLs (separated by |||)
-                    $images = [];
-                    if (!empty($v['images'])) {
-                        $images = array_filter(explode('|||', $v['images']));
-                    }
+                'vehicles' => array_map(function($v) use ($imageMap) {
+                    // Get images from map (no GROUP_CONCAT truncation)
+                    $images = $imageMap[$v['id']] ?? [];
 
                     return [
                         'id' => (int)$v['id'],
                         'attr_id' => (int)$v['attr_id'],
                         'reg_no' => $v['reg_no'],
-                        'title' => $v['attention_grabber'],
+                        'title' => $v['model'] . ' ' . $v['year'],  // Build title from model and year
+                        'attention_grabber' => $v['attention_grabber'],  // Include attention_grabber field
                         'model' => $v['model'],
                         'year' => !empty($v['year']) ? (int)$v['year'] : null,
                         'plate_year' => $v['registration_plate'],

@@ -44,7 +44,8 @@ try {
             v.selling_price, v.regular_price, v.mileage, v.color,
             v.description, v.vehicle_url,
             v.post_code as postcode, v.address,
-            v.active_status as published
+            v.active_status as published,
+            v.created_at, v.updated_at
         FROM gyc_vehicle_info v
         LEFT JOIN gyc_vehicle_attribute a ON v.attr_id = a.id
         WHERE v.vendor_id = 432
@@ -57,7 +58,6 @@ try {
         $img_stmt = $pdo->prepare("
             SELECT file_name FROM gyc_product_images 
             WHERE vechicle_info_id = ? 
-            AND file_name LIKE '%aacarsdna%'
             ORDER BY serial
         ");
         $img_stmt->execute([$row['id']]);
@@ -73,6 +73,9 @@ try {
             if (!preg_match('/\.(jpg|jpeg|png|webp)$/i', $imageUrl)) {
                 continue;  // Skip incomplete URL
             }
+            
+            // Convert medium URLs to large for quality
+            $imageUrl = str_ireplace('/medium/', '/large/', $imageUrl);
             
             // Extract image ID from URL
             if (preg_match('/([a-f0-9]{32})\.(jpg|jpeg|png|webp)$/i', $imageUrl, $matches)) {
@@ -141,8 +144,8 @@ try {
                 'address' => 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS'
             ],
             'published' => $row['published'] ? true : false,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+            'created_at' => $row['created_at'],
+            'updated_at' => $row['updated_at']
         ];
         
         $vehicles[] = $vehicle;
