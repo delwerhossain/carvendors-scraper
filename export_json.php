@@ -53,15 +53,45 @@ try {
     
     $vehicles = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // Get images - ONLY large versions (no medium/other)
+        // Get images - all versions, will be cleaned and prioritized
         $img_stmt = $pdo->prepare("
             SELECT file_name FROM gyc_product_images 
             WHERE vechicle_info_id = ? 
-            AND file_name LIKE '%/large/%'
+            AND file_name LIKE '%.jpg%'
+            AND file_name LIKE '%aacarsdna%'
             ORDER BY serial
         ");
         $img_stmt->execute([$row['id']]);
-        $images = $img_stmt->fetchAll(PDO::FETCH_COLUMN);
+        $allImages = $img_stmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        // Clean and prioritize: prefer large over medium, remove duplicates
+        $largeImages = [];
+        $otherImages = [];
+        $seenImageIds = [];
+        
+        foreach ($allImages as $imageUrl) {
+            // Extract image ID from URL
+            if (preg_match('/([a-f0-9]{32})\.jpg/i', $imageUrl, $matches)) {
+                $imageId = strtolower($matches[1]);
+                
+                // Skip if we've already seen this image ID
+                if (isset($seenImageIds[$imageId])) {
+                    continue;
+                }
+                
+                $seenImageIds[$imageId] = true;
+                
+                // Separate large and other images (to prioritize large first)
+                if (stripos($imageUrl, '/large/') !== false) {
+                    $largeImages[] = $imageUrl;
+                } else {
+                    $otherImages[] = $imageUrl;
+                }
+            }
+        }
+        
+        // Combine: large images first (as primary), then other sizes
+        $cleanedImages = array_merge($largeImages, $otherImages);
         
         // Build title from year + model + body_style
         $title_parts = [];
@@ -95,8 +125,10 @@ try {
             'address' => $row['address'],
             'vehicle_url' => $row['vehicle_url'],
             'images' => [
-                'count' => count($images),
-                'urls' => $images
+                'count' => count($cleanedImages),
+                'primary' => !empty($cleanedImages) ? $cleanedImages[0] : null,
+                'urls' => $cleanedImages,
+                'all' => $cleanedImages  // Include all unique images (duplicates removed by ID)
             ],
             'dealer' => [
                 'vendor_id' => 432,

@@ -1193,14 +1193,15 @@ class CarScraper
      * 
      * Rules:
      * - Remove duplicate images (same photo in different sizes: medium vs large)
+     * - Prefer LARGE versions over medium versions
      * - Remove incomplete/invalid URLs (must end with .jpg, .jpeg, .png, .webp)
-     * - Preserve order (cleaner, more complete URLs first)
+     * - Preserve order (first image is primary)
      */
     protected function cleanImageUrls(array $urls): array
     {
-        $cleaned = [];
-        $seenImages = [];  // Track base image names to avoid medium/large duplicates
-
+        // First pass: separate by image ID and prefer large versions
+        $imagesByHash = [];  // Track images by their hash ID
+        
         foreach ($urls as $url) {
             // Skip empty or whitespace-only URLs
             if (empty(trim($url))) {
@@ -1209,26 +1210,42 @@ class CarScraper
 
             // CRITICAL: Validate URL has proper image extension at the end
             if (!preg_match('/\.(jpg|jpeg|png|webp)$/i', $url)) {
-                // URL is incomplete or invalid (like: "...large/927b10d538cf6e8fa0ac30b8374cb3")
+                // URL is incomplete or invalid (missing extension)
                 continue;
             }
 
-            // Extract base image filename (e.g., "213f63cf1426f08db53b6382d7a2ee63" from both
-            // "large/213f63cf1426f08db53b6382d7a2ee63.jpg" and "medium/213f63cf...jpg")
+            // Extract base image filename (hash ID, e.g., "213f63cf1426f08db53b6382d7a2ee63" from
+            // "https://aacarsdna.com/images/vehicles/89/large/213f63cf1426f08db53b6382d7a2ee63.jpg")
             if (preg_match('/([a-f0-9]{32})\.(jpg|jpeg|png|webp)$/i', $url, $matches)) {
-                $baseImage = strtolower($matches[1]);
-
-                // If we've already seen this image, skip it (prefer first occurrence, usually large)
-                if (isset($seenImages[$baseImage])) {
-                    continue;
+                $imageId = strtolower($matches[1]);
+                
+                // Check if we've seen this image ID before
+                if (isset($imagesByHash[$imageId])) {
+                    $existing = $imagesByHash[$imageId];
+                    
+                    // Prefer large over medium
+                    if (stripos($url, '/large/') !== false && stripos($existing, '/large/') === false) {
+                        $imagesByHash[$imageId] = $url;  // Replace with large version
+                    }
+                    // Otherwise keep the existing URL (already large or appeared first)
+                } else {
+                    // First occurrence of this image ID
+                    $imagesByHash[$imageId] = $url;
                 }
-
-                // Mark this image as seen
-                $seenImages[$baseImage] = true;
             }
-
-            // All validations passed, add to cleaned list
-            $cleaned[] = $url;
+        }
+        
+        // Second pass: rebuild in order, preserving first occurrence
+        $cleaned = [];
+        foreach ($urls as $url) {
+            if (preg_match('/([a-f0-9]{32})\.(jpg|jpeg|png|webp)$/i', $url, $matches)) {
+                $imageId = strtolower($matches[1]);
+                
+                // Only add if this is the preferred version for this image ID
+                if ($imagesByHash[$imageId] === $url && !in_array($url, $cleaned)) {
+                    $cleaned[] = $url;
+                }
+            }
         }
 
         return $cleaned;
