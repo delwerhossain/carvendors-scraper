@@ -1,0 +1,46 @@
+# Runtime directories
+data/
+logs/
+backups/
+images/
+temp/
+
+# Development files
+*.log
+*.tmp
+*.cache
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# Project-specific temporary files
+vehicles.json
+scraper_*.log
+*.json
+
+# Database backups
+*.sql
+*_backup_*.json
+
+# Debug files
+debug_*.php
+*_report.md
+*_analysis.md
+
+# Test files
+test_*.php
+*_test.php
+
+# Documentation
+**/*.md
+!README.md
+!CLAUDE.md
