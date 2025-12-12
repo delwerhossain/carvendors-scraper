@@ -7,6 +7,10 @@
 
 namespace CarVendors\Scrapers;
 
+use PDO;
+use PDOException;
+use DateTime;
+
 class StatisticsManager
 {
     private PDO $db;
@@ -126,11 +130,11 @@ class StatisticsManager
     {
         try {
             $sql = "INSERT INTO scraper_statistics (
-                source, vendor_id, run_date, status, vehicles_found,
+                vendor_id, run_date, status, vehicles_found,
                 vehicles_inserted, vehicles_updated, vehicles_skipped, vehicles_failed,
                 images_stored, requests_made, duration_minutes, stats_json, created_at
             ) VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
             )";
 
             $stmt = $this->db->prepare($sql);
@@ -138,7 +142,6 @@ class StatisticsManager
             $statsJson = json_encode($this->currentStats);
 
             return $stmt->execute([
-                $this->config['scraper']['source'] ?? 'unknown',
                 432, // vendor_id
                 date('Y-m-d'),
                 $this->currentStats['status'] ?? 'running',

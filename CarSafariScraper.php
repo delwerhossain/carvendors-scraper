@@ -91,7 +91,7 @@ class CarSafariScraper extends CarScraper
             $vehicles = $this->parseListingPage($html);
             $this->stats['found'] = count($vehicles);
             if ($this->statisticsManager) {
-                $this->statisticsManager->recordVehicleAction('found', count($vehicles));
+                $this->statisticsManager->recordVehicleAction('found', $vehicles);
             }
             $this->log("Found {$this->stats['found']} vehicles");
 

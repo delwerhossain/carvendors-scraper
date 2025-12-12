@@ -4,11 +4,11 @@
  * Creates all required tables for the statistics system
  */
 
-require_once 'config.php';
+$config = require_once 'config.php';
 
 try {
     $pdo = new PDO(
-        "mysql:host={$config['database']['host']};dbname={$config['database']['database']};charset=utf8mb4",
+        "mysql:host={$config['database']['host']};dbname={$config['database']['dbname']};charset=utf8mb4",
         $config['database']['username'],
         $config['database']['password'],
         [

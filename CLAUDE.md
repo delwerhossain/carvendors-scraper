@@ -1,45 +1,6 @@
-# 🚗 CarVendors Scraper - Optimized Daily Refresh System
+# 🚗 CarVendors Scraper
 
-**High-performance car listing scraper with smart change detection and optimized daily refresh functionality**
-
----
-
-## ⚡ Key Performance Metrics
-
-- **78 vehicles processed in ~1 second**
-- **100% skip rate for unchanged data** (smart change detection)
-- **Hash-based comparison** prevents unnecessary updates
-- **Minimal downtime** through optimized refresh strategy
-
----
-
-## 🚀 Optimized Daily Refresh (RECOMMENDED)
-
-The system now includes an optimized daily refresh workflow that provides minimal downtime and maximum efficiency:
-
-### New Scripts Added:
-
-- **`daily_refresh.php`** - Optimized daily refresh with smart change detection
-- **`cleanup_vendor_data.php`** - Safe vendor data deletion by vendor ID
-- **`cleanup_orphaned_attributes.php`** - Cleanup unused vehicle attributes
-- **`setup_cron.php`** - CRON job setup helper
-
-### Recommended Daily Workflow:
-
-```bash
-# For production use - optimized daily refresh
-php daily_refresh.php --vendor=432
-
-# Force refresh (ignores change detection)
-php daily_refresh.php --vendor=432 --force
-```
-
-**Benefits:**
-- ✅ Scrape new data first (minimal downtime)
-- ✅ Only processes changed vehicles (hash-based comparison)
-- ✅ Automatic cleanup of old data
-- ✅ Performance optimization
-- ✅ Comprehensive statistics
+**Auto-publish vehicle listings from systonautosltd.co.uk to CarSafari database**
 
 ---
 
@@ -47,11 +8,12 @@ php daily_refresh.php --vendor=432 --force
 
 | Aspect | Details |
 |--------|---------|
-| **Purpose** | Scrape vehicle listings with smart change detection |
-| **Source** | systonautosltd.co.uk (78+ vehicles) |
-| **Performance** | 78 vehicles in 1 second with 100% efficiency |
+| **Purpose** | Scrape vehicle listings and auto-publish to CarSafari database |
+| **Source** | systonautosltd.co.uk (81 vehicles) |
 | **Database** | CarSafari with MySQL |
-| **Status** | ✅ Production Ready with Optimization |
+| **Status** | ✅ Production Ready |
+
+---
 
 ## 🚀 Getting Started
 
