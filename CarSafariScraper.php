@@ -31,9 +31,15 @@ class CarSafariScraper extends CarScraper
     {
         parent::__construct($config);
         $this->dbName = $dbName;
-        
-        // Temporarily disable StatisticsManager for debugging description fix
-        $this->statisticsManager = null;
+
+        // Initialize StatisticsManager
+        try {
+            $this->statisticsManager = new StatisticsManager($config);
+        } catch (Exception $e) {
+            // Fallback: disable if initialization fails
+            $this->statisticsManager = null;
+            $this->log("Warning: StatisticsManager initialization failed: " . $e->getMessage());
+        }
     }
 
     /**
