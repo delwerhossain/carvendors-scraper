@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Configuration for Car Listings Scraper
  *
@@ -62,20 +63,32 @@ return [
     ],
 
     // Patterns to identify where to cut off finance text in descriptions
+    // DISABLED - Keep complete descriptions including finance information
     'description_cutoff_patterns' => [
-        'Finance available',
-        'Finance Available',
-        'FINANCE AVAILABLE',
-        'finance available',
-        'Representative Example',
-        'REPRESENTATIVE EXAMPLE',
-        'Monthly Payment',
-        'APR Representative',
-        'Total Amount Payable',
-        'Credit subject to',
-        'Terms and conditions apply',
-        'We are authorised',
-        'We are a credit broker',
+        //'Finance available',
+        //'Finance Available',
+        //'FINANCE AVAILABLE',
+        //'finance available',
+        //'Representative Example',
+        //'REPRESENTATIVE EXAMPLE',
+        //'Monthly Payment',
+        //'APR Representative',
+        //'Total Amount Payable',
+        //'Credit subject to',
+        //'Terms and conditions apply',
+        //'We are authorised',
+        //'We are a credit broker',
+        //'12 months free AA breakdown cover',
+        //'5 days drive away insurance',
+        //'Full dealer facilities available',
+        //'If you are coming by train',
+        //'We are open 7 days a week',
+        //'Every effort has been made',
+        //'£99 Admin Fee',
+        //'The vehicle specification displayed',
+        //'We specialize in the sales',
+        //'A trusted dealership',
+        // Keep all finance and dealer information as requested
     ],
 
     // CarCheck Integration Settings (Phase 6)
