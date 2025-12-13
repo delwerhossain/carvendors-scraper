@@ -41,6 +41,6 @@ test_*.php
 *_test.php
 
 # Documentation
-**/*.md
-!README.md
-!CLAUDE.md
+# **/*.md
+# !README.md
+# !CLAUDE.md

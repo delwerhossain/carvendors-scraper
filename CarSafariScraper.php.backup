@@ -173,17 +173,14 @@ class CarSafariScraper extends CarScraper
 
         foreach ($vehicles as $vehicle) {
             try {
-                // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
-                $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
-
-                // Step 1: Create or find vehicle attributes in gyc_vehicle_attribute table
-                $attrId = $this->saveVehicleAttributes($regNo, $vehicle);
+                // Step 1: Find or create vehicle attribute
+                $attrId = $this->findOrCreateAttribute($vehicle);
                 if (!$attrId) {
-                    $this->log("  Error: Could not create attributes for vehicle $regNo");
-                    continue;
+                    $attrId = $this->createNewAttribute($vehicle);
                 }
 
-                // Step 2: Smart save with change detection using the new attr_id
+                // Step 2: Smart save with change detection
+                // Returns array with vehicleId and action (inserted|updated|skipped)
                 $result = $this->saveVehicleInfoWithChangeDetection($vehicle, $attrId, $now);
                 $vehicleId = $result['vehicleId'];
                 $action = $result['action'];
@@ -191,11 +188,11 @@ class CarSafariScraper extends CarScraper
                 if ($vehicleId && $action !== 'skipped') {
                     // Step 3: Download and save images only if data was inserted/updated
                     if (!empty($vehicle['image_urls']) && is_array($vehicle['image_urls'])) {
-                        $this->downloadAndSaveImages($vehicle['image_urls'], $vehicleId, $regNo);
+                        $this->downloadAndSaveImages($vehicle['image_urls'], $vehicleId);
                         $this->stats['images_stored'] = ($this->stats['images_stored'] ?? 0) + count($vehicle['image_urls']);
                     } elseif (!empty($vehicle['image_url'])) {
                         // Fallback for single image
-                        $this->downloadAndSaveImage($vehicle['image_url'], $vehicleId, $regNo);
+                        $this->downloadAndSaveImage($vehicle['image_url'], $vehicleId);
                         $this->stats['images_stored'] = ($this->stats['images_stored'] ?? 0) + 1;
                     }
 
@@ -362,261 +359,74 @@ class CarSafariScraper extends CarScraper
     }
 
     /**
-     * Download multiple images and save to gyc_vehicle_image with proper registration number
+     * Download multiple images and save to gyc_product_images with serial numbering
      */
-    private function downloadAndSaveImages(array $imageUrls, int $vehicleId, string $regNo): void
+    private function downloadAndSaveImages(array $imageUrls, int $vehicleId): void
     {
         if (empty($imageUrls)) {
             return;
         }
 
-        try {
-            // Clear existing images for this vehicle
-            $this->db->prepare("DELETE FROM gyc_vehicle_image WHERE vehicle_reg_no = ?")->execute([$regNo]);
+        $serial = 1;
 
-            $serial = 1;
-
-            foreach ($imageUrls as $imageUrl) {
-                try {
-                    // Validate URL
-                    if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
-                        $this->log("  Warning: Invalid image URL for vehicle $regNo: $imageUrl");
-                        $serial++;
-                        continue;
-                    }
-
-                    // Save to new gyc_vehicle_image table
-                    $sql = "INSERT INTO gyc_vehicle_image (vehicle_reg_no, image_url, image_order, created_at)
-                            VALUES (?, ?, ?, NOW())";
-                    $stmt = $this->db->prepare($sql);
-                    $stmt->execute([$regNo, $imageUrl, $serial]);
-
-                    $this->log("  Stored image URL #{$serial} for vehicle $regNo");
+        foreach ($imageUrls as $imageUrl) {
+            try {
+                // STEP 6: Store image URL instead of downloading
+                // This is faster and keeps images up-to-date
+                $filename = $imageUrl;  // Store full URL in database
+                
+                // Validate URL
+                if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                    $this->log("  Warning: Invalid image URL for vehicle $vehicleId: $imageUrl");
                     $serial++;
-
-                } catch (Exception $e) {
-                    $this->log("  Warning: Could not save image #{$serial} for vehicle $regNo: " . $e->getMessage());
-                    $serial++;
+                    continue;
                 }
+
+                // Save URL record to database with serial number
+                // Store the full URL instead of a local file path
+                $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
+                        VALUES (?, ?, ?, NOW())
+                        ON DUPLICATE KEY UPDATE 
+                          file_name = VALUES(file_name),
+                          updated_at = NOW()";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$filename, $vehicleId, $serial]);
+
+                $this->log("  Stored image URL #{$serial} for vehicle $vehicleId");
+                $serial++;
+
+            } catch (Exception $e) {
+                $this->log("  Warning: Could not save image #{$serial} for vehicle $vehicleId: " . $e->getMessage());
+                $serial++;
             }
-
-            // Also save to old gyc_product_images for backward compatibility
-            $this->saveImagesToOldTable($imageUrls, $vehicleId);
-
-        } catch (Exception $e) {
-            $this->log("Error saving images for vehicle $regNo: " . $e->getMessage());
         }
     }
 
     /**
-     * Save single image URL to gyc_vehicle_image table
+     * Save image URL to gyc_product_images (STEP 6: Store URLs instead of downloading)
      */
-    private function downloadAndSaveImage(string $imageUrl, int $vehicleId, string $regNo): void
+    private function downloadAndSaveImage(string $imageUrl, int $vehicleId): void
     {
         try {
             // Validate URL
             if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
-                $this->log("  Warning: Invalid image URL for vehicle $regNo: $imageUrl");
+                $this->log("  Warning: Invalid image URL for vehicle $vehicleId: $imageUrl");
                 return;
             }
 
-            // Clear existing images for this vehicle
-            $this->db->prepare("DELETE FROM gyc_vehicle_image WHERE vehicle_reg_no = ?")->execute([$regNo]);
-
-            // Save to new gyc_vehicle_image table
-            $sql = "INSERT INTO gyc_vehicle_image (vehicle_reg_no, image_url, image_order, created_at)
-                    VALUES (?, ?, 1, NOW())";
+            // Save URL record to database (store full URL instead of local path)
+            $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
+                    VALUES (?, ?, 1, NOW())
+                    ON DUPLICATE KEY UPDATE 
+                      file_name = VALUES(file_name),
+                      updated_at = NOW()";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$regNo, $imageUrl]);
+            $stmt->execute([$imageUrl, $vehicleId]);
 
-            $this->log("  Stored primary image URL for vehicle $regNo");
-
-            // Also save to old table for backward compatibility
-            $this->saveImagesToOldTable([$imageUrl], $vehicleId);
+            $this->log("  Stored primary image URL for vehicle $vehicleId");
 
         } catch (Exception $e) {
-            $this->log("  Warning: Could not save image URL for vehicle $regNo: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Save images to old gyc_product_images table for backward compatibility
-     */
-    private function saveImagesToOldTable(array $imageUrls, int $vehicleId): void
-    {
-        try {
-            $serial = 1;
-
-            foreach ($imageUrls as $imageUrl) {
-                $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
-                        VALUES (?, ?, ?, NOW())
-                        ON DUPLICATE KEY UPDATE
-                          file_name = VALUES(file_name),
-                          updated_at = NOW()";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([$imageUrl, $vehicleId, $serial]);
-                $serial++;
-            }
-
-        } catch (Exception $e) {
-            $this->log("  Warning: Could not save images to old table for vehicle $vehicleId: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Get enhanced vehicle data from CarCheck website
-     */
-    private function getCarCheckData(string $regNo, string $vehicleTitle = ''): ?array
-    {
-        try {
-            // Extract make from vehicle title (not from reg_no)
-            $make = $this->extractMakeFromTitle($vehicleTitle);
-            if (empty($make)) {
-                $this->log("  Could not determine make for CarCheck lookup: $vehicleTitle");
-                return null;
-            }
-
-            // Build CarCheck URL
-            $url = "https://www.carcheck.co.uk/" . strtolower($make) . "/" . urlencode($regNo);
-
-            $this->log("  Fetching CarCheck data: $url");
-
-            // Add delay to be respectful to CarCheck
-            sleep(1);
-
-            $html = $this->fetchUrl($url);
-            if (!$html) {
-                $this->log("  Could not fetch CarCheck page for $regNo");
-                return null;
-            }
-
-            // Parse CarCheck data using regex or DOM parsing
-            $data = [];
-
-            // Extract key specifications (based on CarCheck page structure)
-            if (preg_match('/(\d+)\s*BHP/i', $html, $matches)) {
-                $data['bhp'] = $matches[1];
-            }
-
-            if (preg_match('/(\d+(?:\.\d+)?)\s*cc/i', $html, $matches)) {
-                $data['engine_size'] = $matches[1];
-            }
-
-            if (preg_match('/(\d+)\s*g\/km/i', $html, $matches)) {
-                $data['co2_emissions'] = $matches[1];
-            }
-
-            if (preg_match('/(\d+)\s*mph/i', $html, $matches)) {
-                $data['top_speed'] = $matches[1];
-            }
-
-            if (preg_match('/(\d+(?:\.\d+)?)\s*mpg/i', $html, $matches)) {
-                $data['mpg'] = $matches[1];
-            }
-
-            if (preg_match('/(\d+)\s*mm\s*width/i', $html, $matches)) {
-                $data['dimensions'] = $matches[1] . 'mm width';
-            }
-
-            if (preg_match('/(\d+)\s*kg\s*weight/i', $html, $matches)) {
-                $data['weight'] = $matches[1];
-            }
-
-            if (preg_match('/(Diesel|Petrol|Hybrid|Electric)/i', $html, $matches)) {
-                $data['fuel_type'] = $matches[1];
-            }
-
-            if (preg_match('/(Manual|Automatic|Semi-automatic)/i', $html, $matches)) {
-                $data['transmission'] = $matches[1];
-            }
-
-            // Extract color if available
-            if (preg_match('/(?:Colour|Color):\s*([A-Za-z]+)/i', $html, $matches)) {
-                $data['color'] = $matches[1];
-            }
-
-            return !empty($data) ? $data : null;
-
-        } catch (Exception $e) {
-            $this->log("  Error fetching CarCheck data for $regNo: " . $e->getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Save vehicle attributes to gyc_vehicle_attribute table with proper schema
-     * Uses CarCheck enhanced data when available
-     */
-    private function saveVehicleAttributes(string $regNo, array $vehicle): int
-    {
-        try {
-            // Extract basic data from vehicle - handle multiple possible field names
-            $make = $this->extractMakeFromTitle($vehicle['title'] ?? '');
-            $model = $this->extractModelFromTitle($vehicle['title'] ?? '');
-            $year = $vehicle['year'] ?? date('Y');
-
-            // Handle scraped data that comes with different field names
-            $engineSize = $vehicle['engine_size'] ?? $vehicle['engineSize'] ?? '';
-            $fuelType = $vehicle['fuel_type'] ?? $vehicle['fuelType'] ?? '';
-            $transmission = $vehicle['transmission'] ?? '';
-            $bodyStyle = $vehicle['body_style'] ?? $vehicle['bodyStyle'] ?? '';
-
-            // Log what we found for debugging
-            $this->log("  Vehicle data for $regNo: engine=$engineSize, trans=$transmission, fuel=$fuelType");
-
-            // Try to get enhanced data from CarCheck
-            $carCheckData = $this->getCarCheckData($regNo, $vehicle['title'] ?? '');
-            if ($carCheckData) {
-                $this->log("  Enhanced data from CarCheck for $regNo");
-                $engineSize = $carCheckData['engine_size'] ?? $engineSize;
-                $fuelType = $carCheckData['fuel_type'] ?? $fuelType;
-                $transmission = $carCheckData['transmission'] ?? $transmission;
-
-                // Store additional CarCheck data in trim field as JSON for now
-                $additionalData = [
-                    'bhp' => $carCheckData['bhp'] ?? '',
-                    'co2_emissions' => $carCheckData['co2_emissions'] ?? '',
-                    'top_speed' => $carCheckData['top_speed'] ?? '',
-                    'mpg' => $carCheckData['mpg'] ?? '',
-                    'weight' => $carCheckData['weight'] ?? '',
-                    'dimensions' => $carCheckData['dimensions'] ?? ''
-                ];
-                $trim = json_encode(array_filter($additionalData));
-            } else {
-                $trim = '';
-            }
-
-            // Insert into gyc_vehicle_attribute table with proper schema
-            $sql = "INSERT INTO gyc_vehicle_attribute (
-                        category_id, make_id, model, generation, trim,
-                        engine_size, fuel_type, transmission, derivative,
-                        gearbox, year, body_style, active_status, created_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '1', NOW())";
-
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([
-                1,  // category_id default
-                1,  // make_id default (will be updated later)
-                $model,
-                '', // generation
-                $trim,
-                $engineSize,
-                $fuelType,
-                $transmission,
-                '', // derivative
-                $transmission, // gearbox (same as transmission for now)
-                $year,
-                $bodyStyle
-            ]);
-
-            $attrId = (int)$this->db->lastInsertId();
-            $this->log("  Created attribute record ID: $attrId for vehicle $regNo");
-
-            return $attrId;
-
-        } catch (Exception $e) {
-            $this->log("  Error saving attributes for vehicle $regNo: " . $e->getMessage());
-            return 0;
+            $this->log("  Warning: Could not save image URL for vehicle $vehicleId: " . $e->getMessage());
         }
     }
 
@@ -697,47 +507,6 @@ class CarSafariScraper extends CarScraper
         }
         $numeric = preg_replace('/[^0-9.]/', '', $mileage);
         return ($numeric && $numeric !== '') ? (int)(float)$numeric : null;
-    }
-
-    /**
-     * Extract make from vehicle title
-     */
-    private function extractMakeFromTitle(string $title): string
-    {
-        // Common car makes to look for
-        $makes = [
-            'Audi', 'BMW', 'Mercedes-Benz', 'Mercedes', 'Volkswagen', 'VW', 'Ford', 'Vauxhall', 'Opel',
-            'Toyota', 'Honda', 'Nissan', 'Hyundai', 'Kia', 'Renault', 'Peugeot', 'Citroen', 'Fiat',
-            'Mini', 'Land Rover', 'Jaguar', 'Volvo', 'Skoda', 'Seat', 'Mazda', 'Mitsubishi',
-            'Suzuki', 'Subaru', 'Dacia', 'Alfa Romeo', 'Jeep', 'DS', 'Abarth', 'SsangYong'
-        ];
-
-        foreach ($makes as $make) {
-            if (stripos($title, $make) === 0) {
-                return $make;
-            }
-        }
-
-        return '';
-    }
-
-    /**
-     * Extract model from vehicle title
-     */
-    private function extractModelFromTitle(string $title): string
-    {
-        $make = $this->extractMakeFromTitle($title);
-        if (!$make) {
-            return '';
-        }
-
-        // Remove make from title to get model
-        $modelPart = trim(str_ireplace($make, '', $title));
-
-        // Remove common spec indicators to clean up model name
-        $modelPart = preg_replace('/\b(0-9|1\.[0-9]|[2-9]\.[0-9]L?|TDI|TFSI|TDCI|CDTi|EcoBoost|GT|GTI|GTD|RS|AMG|M Sport|Line|Sport|Executive|SE|S|Premium|Exclusive|Active|Design|Nav|Plus|Edition|Xdrive|Quattro|AWD|4WD|4MATIC|BlueMotion|BlueEfficiency|E-Hybrid|Hybrid|Electric|EV|PHEV|Mild|Hybrid)\b/i', '', $modelPart);
-
-        return trim($modelPart);
     }
 
     /**
