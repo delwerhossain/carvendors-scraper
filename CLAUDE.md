@@ -299,3 +299,5 @@ $errors = [
 **Status**: ✅ Production Ready with Advanced Optimization
 **Architecture**: Smart Change Detection + Multi-Vendor Support
 **Performance**: Industry-leading efficiency with minimal resource usage
+
+**Data Integrity Note**: Slug-based reg_nos are now auto-deactivated/excluded; only valid UK VRMs remain active and descriptions no longer include the "View More" placeholder.

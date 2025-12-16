@@ -109,6 +109,10 @@ class CarSafariScraper extends CarScraper
             $this->log("Setting auto-publish status...");
             $this->autoPublishVehicles($activeIds);
 
+            // Step 5b: Deactivate stale/invalid records (slug regs, missing VRM, not in current run)
+            $this->log("Deactivating stale or invalid records...");
+            $this->deactivateInvalidAndStaleVehicles($activeIds);
+
             // Step 6: Save JSON snapshot with rotation
             if ($this->config['output']['save_json']) {
                 $this->log("Saving JSON snapshot with file rotation...");
@@ -175,6 +179,14 @@ class CarSafariScraper extends CarScraper
             try {
                 // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
                 $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+                $regNo = strtoupper(str_replace(' ', '', $regNo));
+
+                // Ignore non-VRM slugs to avoid duplicating fake records
+                if (!$this->isValidVrm($regNo)) {
+                    $this->log("  [SKIP] Invalid VRM detected, ignoring vehicle: {$regNo}");
+                    $this->stats['errors'] = ($this->stats['errors'] ?? 0) + 1;
+                    continue;
+                }
 
                 // Step 1: Create or find vehicle attributes in gyc_vehicle_attribute table
                 $attrId = $this->saveVehicleAttributes($regNo, $vehicle);
@@ -333,7 +345,7 @@ class CarSafariScraper extends CarScraper
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
             $vehicle['colour'],                                         // 6: color
-            $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
+            $this->sanitizeDescription($vehicle['description_full'] ?? $vehicle['description_short']),  // 7: description
             $vehicle['attention_grabber'],                             // 8: attention_grabber (short subtitle only, NULL if not present)
             $this->vendorId,                                            // 9: vendor_id
             // 10: v_condition='USED' (hardcoded)
@@ -561,6 +573,25 @@ class CarSafariScraper extends CarScraper
             $transmission = $vehicle['transmission'] ?? '';
             $bodyStyle = $vehicle['body_style'] ?? $vehicle['bodyStyle'] ?? '';
 
+            // Look for an existing attribute record linked to this reg_no
+            $existingAttrId = null;
+            $existingAttr = null;
+
+            $attrLookup = $this->db->prepare("SELECT attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1");
+            if ($attrLookup->execute([$regNo])) {
+                $existingAttrId = $attrLookup->fetchColumn() ?: null;
+            }
+
+            if ($existingAttrId) {
+                $attrStmt = $this->db->prepare("SELECT * FROM gyc_vehicle_attribute WHERE id = ? LIMIT 1");
+                $attrStmt->execute([$existingAttrId]);
+                $existingAttr = $attrStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+                if (!$existingAttr) {
+                    // Attribute record referenced in vehicle_info no longer exists
+                    $existingAttrId = null;
+                }
+            }
+
             // Log what we found for debugging
             $this->log("  Vehicle data for $regNo: engine=$engineSize, trans=$transmission, fuel=$fuelType");
 
@@ -583,7 +614,38 @@ class CarSafariScraper extends CarScraper
                 ];
                 $trim = json_encode(array_filter($additionalData));
             } else {
-                $trim = '';
+                $trim = $existingAttr['trim'] ?? '';
+            }
+
+            // Merge with any existing attribute data to avoid overwriting with blanks
+            $model = $model ?: ($existingAttr['model'] ?? '');
+            $year = $year ?: ($existingAttr['year'] ?? date('Y'));
+            $engineSize = $engineSize ?: ($existingAttr['engine_size'] ?? '');
+            $fuelType = $fuelType ?: ($existingAttr['fuel_type'] ?? '');
+            $transmission = $transmission ?: ($existingAttr['transmission'] ?? '');
+            $bodyStyle = $bodyStyle ?: ($existingAttr['body_style'] ?? '');
+
+            if ($existingAttrId) {
+                // Update existing attribute record
+                $updateSql = "UPDATE gyc_vehicle_attribute
+                              SET model = ?, year = ?, engine_size = ?, fuel_type = ?, transmission = ?,
+                                  body_style = ?, gearbox = ?, trim = ?, updated_at = NOW()
+                              WHERE id = ?";
+                $updateStmt = $this->db->prepare($updateSql);
+                $updateStmt->execute([
+                    $model,
+                    $year,
+                    $engineSize,
+                    $fuelType,
+                    $transmission,
+                    $bodyStyle,
+                    $transmission,   // gearbox mirrors transmission for now
+                    $trim,
+                    $existingAttrId
+                ]);
+
+                $this->log("  Updated attribute record ID: $existingAttrId for vehicle $regNo");
+                return (int)$existingAttrId;
             }
 
             // Insert into gyc_vehicle_attribute table with proper schema
@@ -734,8 +796,19 @@ class CarSafariScraper extends CarScraper
         // Remove make from title to get model
         $modelPart = trim(str_ireplace($make, '', $title));
 
-        // Remove common spec indicators to clean up model name
-        $modelPart = preg_replace('/\b(0-9|1\.[0-9]|[2-9]\.[0-9]L?|TDI|TFSI|TDCI|CDTi|EcoBoost|GT|GTI|GTD|RS|AMG|M Sport|Line|Sport|Executive|SE|S|Premium|Exclusive|Active|Design|Nav|Plus|Edition|Xdrive|Quattro|AWD|4WD|4MATIC|BlueMotion|BlueEfficiency|E-Hybrid|Hybrid|Electric|EV|PHEV|Mild|Hybrid)\b/i', '', $modelPart);
+        // Drop plate/year info inside parentheses and any trailing dash segments
+        $modelPart = preg_replace('/\\([^)]*\\)/', '', $modelPart);
+        $dashSplit = preg_split('/\\s*-\\s*/', $modelPart);
+        $modelPart = trim($dashSplit[0]);
+
+        // Remove engine size / numeric tokens (1.2, 2.0d, 140bhp, etc.)
+        $modelPart = preg_replace('/\\b\\d+(?:\\.\\d+)?[A-Za-z]*\\b/', '', $modelPart);
+
+        // Strip common spec/trim words so only model remains
+        $modelPart = preg_replace('/\\b(Euro|CVT|DCT|Auto|Automatic|Manual|Hybrid|Electric|PHEV|HEV|Diesel|Petrol|BlueHDi|TDI|CDTI|DCI|SD4|TFSI|EcoBoost|s\\/s|S\\/S|Start-Stop|AWD|4WD|2WD|FWD|RWD|Quattro|xDrive|sDrive|ALL4|Hatchback|SUV|Estate|Saloon|Coupe|Convertible|Cabriolet|MPV|Van|5dr|3dr|4dr|Nav|Navigation|Plus|Edition|Line|Sport|SE|S|Active|Design|Premium|Executive|Exclusive)\\b/i', '', $modelPart);
+
+        // Collapse whitespace
+        $modelPart = preg_replace('/\\s+/', ' ', trim($modelPart));
 
         return trim($modelPart);
     }
@@ -810,6 +883,8 @@ class CarSafariScraper extends CarScraper
             FROM gyc_vehicle_info v
             LEFT JOIN gyc_vehicle_attribute a ON v.attr_id = a.id
             WHERE v.vendor_id = {$this->vendorId}
+              AND v.active_status = '1'
+              AND v.reg_no REGEXP '^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$'
             ORDER BY v.created_at DESC
         ";
 
@@ -877,7 +952,7 @@ class CarSafariScraper extends CarScraper
                         'plate_year' => $v['registration_plate'],
                         'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
                         'drive_system' => $v['drive_system'],
-                        'engine_size' => !empty($v['engine_size']) ? (int)$v['engine_size'] : null,
+                        'engine_size' => $this->formatEngineSizeForJson($v['engine_size']),
                         'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
                         'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
                         'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,
@@ -885,7 +960,7 @@ class CarSafariScraper extends CarScraper
                         'transmission' => $v['transmission'],
                         'fuel_type' => $v['fuel_type'],
                         'body_style' => $v['body_style'],
-                        'description' => $v['description'],
+                        'description' => $this->sanitizeDescription($v['description']),
                         'postcode' => $v['post_code'],
                         'address' => $v['address'],
                         'vehicle_url' => $v['vehicle_url'],
@@ -926,11 +1001,97 @@ class CarSafariScraper extends CarScraper
     }
 
     /**
+     * Normalize engine size for JSON output.
+     * If value looks like litres (<= 50) keep as float, otherwise treat as cc integer.
+     */
+    private function formatEngineSizeForJson($engineSize)
+    {
+        if ($engineSize === null || $engineSize === '') {
+            return null;
+        }
+
+        if (is_numeric($engineSize)) {
+            $value = (float)$engineSize;
+            if ($value > 50) {
+                return (int)round($value);
+            }
+            return round($value, 3);
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove placeholder text like "View More" and normalize whitespace.
+     */
+    private function sanitizeDescription($text): ?string
+    {
+        if ($text === null) {
+            return null;
+        }
+
+        $cleaned = trim($text);
+        $cleaned = preg_replace('/\\s*View More\\s*$/i', '', $cleaned);
+        // Collapse excessive whitespace
+        $cleaned = preg_replace('/\\s+/', ' ', $cleaned);
+
+        return trim($cleaned);
+    }
+
+    /**
+     * Basic UK VRM validator (standard and common private plate formats).
+     */
+    private function isValidVrm(string $regNo): bool
+    {
+        $normalized = strtoupper(str_replace(' ', '', $regNo));
+        return (bool)preg_match('/^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$/', $normalized);
+    }
+
+    /**
+     * Deactivate stale or invalid vehicles (slug reg_nos or missing from current scrape).
+     */
+    private function deactivateInvalidAndStaleVehicles(array $activeIds): void
+    {
+        try {
+            $params = [$this->vendorId];
+            $invalidConditions = [
+                "reg_no NOT REGEXP '^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$'"
+            ];
+
+            if (!empty($activeIds)) {
+                $placeholders = implode(',', array_fill(0, count($activeIds), '?'));
+                $invalidConditions[] = "id NOT IN ($placeholders)";
+                $params = array_merge($params, $activeIds);
+            }
+
+            $sql = "UPDATE gyc_vehicle_info
+                    SET active_status = '0', updated_at = NOW()
+                    WHERE vendor_id = ?
+                      AND active_status = '1'
+                      AND (" . implode(' OR ', $invalidConditions) . ")";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            $count = $stmt->rowCount();
+            if ($count > 0) {
+                $this->stats['deactivated'] = ($this->stats['deactivated'] ?? 0) + $count;
+                $this->log("  Deactivated {$count} stale/invalid vehicles");
+            }
+
+        } catch (Exception $e) {
+            $this->log("Warning: Failed to deactivate stale/invalid vehicles: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Log optimization statistics after scrape
      * Shows efficiency of change detection and file management
      */
     protected function logOptimizationStats(): void
     {
+        $this->stats['deactivated'] = $this->stats['deactivated'] ?? 0;
+        $this->stats['errors'] = $this->stats['errors'] ?? 0;
         $this->log("\n========== OPTIMIZATION REPORT ==========");
         $this->log("Processing Efficiency:");
         $this->log("  Found:     {$this->stats['found']}");
@@ -1004,23 +1165,28 @@ class CarSafariScraper extends CarScraper
         $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
         
         // Check if vehicle exists
-        $checkSql = "SELECT id, data_hash FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
+        $checkSql = "SELECT id, data_hash, attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
         $checkStmt = $this->db->prepare($checkSql);
         $checkStmt->execute([$regNo]);
         $existing = $checkStmt->fetch();
+        $existingAttrId = $existing ? (int)($existing['attr_id'] ?? 0) : 0;
 
         // Calculate current data hash
         $currentHash = $this->calculateDataHash($vehicle);
         $storedHash = $existing ? ($existing['data_hash'] ?? null) : null;
 
         // Check if data has changed
-        if ($existing && $currentHash === $storedHash) {
+        if ($existing && $currentHash === $storedHash && $existingAttrId === $attrId) {
             $this->stats['skipped']++;
             $this->log("  [SKIP] Vehicle {$regNo} - no changes detected");
             return [
                 'vehicleId' => (int)$existing['id'],
                 'action' => 'skipped'
             ];
+        }
+
+        if ($existing && $currentHash === $storedHash && $existingAttrId !== $attrId) {
+            $this->log("  [UPDATE] Vehicle {$regNo} - relinking attr_id from {$existingAttrId} to {$attrId}");
         }
 
         // Data has changed or new vehicle - save it
