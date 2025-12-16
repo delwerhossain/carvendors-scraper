@@ -1030,10 +1030,19 @@ class CarSafariScraper extends CarScraper
             return null;
         }
 
-        $cleaned = trim($text);
-        $cleaned = preg_replace('/\\s*View More\\s*$/i', '', $cleaned);
-        // Collapse excessive whitespace
-        $cleaned = preg_replace('/\\s+/', ' ', $cleaned);
+        // Normalize line endings and remove trailing "View More"
+        $cleaned = str_replace(["\r\n", "\r"], "\n", trim($text));
+        $cleaned = preg_replace('/\s*View More\s*$/i', '', $cleaned);
+
+        // Replace pipe separators with line breaks for readability
+        $cleaned = str_replace([' | ', '|'], "\n", $cleaned);
+
+        // Trim each line but keep intended line breaks
+        $lines = array_map('trim', explode("\n", $cleaned));
+        $cleaned = implode("\n", $lines);
+
+        // Collapse multiple blank lines to a single blank line
+        $cleaned = preg_replace("/\n{3,}/", "\n\n", $cleaned);
 
         return trim($cleaned);
     }

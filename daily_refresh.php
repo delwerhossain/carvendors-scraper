@@ -71,6 +71,74 @@ try {
         ]
     );
 
+    $dbName = $config['database']['dbname'];
+
+    /**
+     * Helper: check if a column exists on a table.
+     */
+    $columnExists = function(string $table, string $column) use ($pdo, $dbName): bool {
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM information_schema.COLUMNS 
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?
+        ");
+        $stmt->execute([$dbName, $table, $column]);
+        return (bool)$stmt->fetchColumn();
+    };
+
+    /**
+     * Phase 0: purge existing vendor data to avoid stale/duplicate rows.
+     */
+    $purgeVendorData = function(int $vendorId) use ($pdo, $columnExists): void {
+        echo "Phase 0: Purging vendor {$vendorId} data...\n";
+
+        $deleteByIds = function(string $table, string $column, array $ids, string $label) use ($pdo): int {
+            $total = 0;
+            $chunkSize = 500;
+            foreach (array_chunk($ids, $chunkSize) as $chunk) {
+                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+                $stmt = $pdo->prepare("DELETE FROM {$table} WHERE {$column} IN ($placeholders)");
+                $stmt->execute($chunk);
+                $total += $stmt->rowCount();
+            }
+            echo "  Removed {$total} {$label}\n";
+            return $total;
+        };
+
+        // Fetch vehicle ids and attribute ids for this vendor
+        $stmt = $pdo->prepare("SELECT id, attr_id FROM gyc_vehicle_info WHERE vendor_id = ?");
+        $stmt->execute([$vendorId]);
+        $rows = $stmt->fetchAll();
+        $vehicleIds = array_column($rows, 'id');
+        $attrIds = array_unique(array_filter(array_column($rows, 'attr_id')));
+
+        // Delete product images
+        if (!empty($vehicleIds) && $columnExists('gyc_product_images', 'vechicle_info_id')) {
+            $deleteByIds('gyc_product_images', 'vechicle_info_id', $vehicleIds, 'product images');
+        }
+        // Legacy/fallback table that should stay empty
+        if (!empty($vehicleIds) && $columnExists('gyc_vehicle_image', 'vechicle_info_id')) {
+            $deleteByIds('gyc_vehicle_image', 'vechicle_info_id', $vehicleIds, 'rows from gyc_vehicle_image (legacy)');
+        }
+
+        // Delete vehicle info
+        $delVehicle = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE vendor_id = ?");
+        $delVehicle->execute([$vendorId]);
+        echo "  Removed {$delVehicle->rowCount()} vehicle_info rows\n";
+
+        // Delete attributes linked to this vendor's vehicles
+        if (!empty($attrIds)) {
+            $deleteByIds('gyc_vehicle_attribute', 'id', $attrIds, 'vehicle_attribute rows');
+        } else {
+            echo "  Removed 0 vehicle_attribute rows\n";
+        }
+
+        echo "Phase 0 complete.\n\n";
+    };
+
+    // Perform purge before scraping fresh data
+    $purgeVendorData($vendorId);
+
     // Phase 1: Scrape new data (minimal downtime)
     echo "Phase 1: Scraping new data...\n";
     $startTime = microtime(true);

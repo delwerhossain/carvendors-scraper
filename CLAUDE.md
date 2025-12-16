@@ -301,3 +301,5 @@ $errors = [
 **Performance**: Industry-leading efficiency with minimal resource usage
 
 **Data Integrity Note**: Slug-based reg_nos are now auto-deactivated/excluded; only valid UK VRMs remain active and descriptions no longer include the "View More" placeholder.
+
+**Operational Note**: Daily refresh now purges vendor 432 data before scrape (vehicle_info, vehicle_attribute, gyc_product_images, legacy gyc_vehicle_image) to avoid stale records. Images are only stored in `gyc_product_images`.
