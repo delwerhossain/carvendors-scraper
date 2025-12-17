@@ -26,6 +26,8 @@ class CarSafariScraper extends CarScraper
     private string $dbName;
     private int $vendorId = 432;  // Default vendor ID for scraping data
     private ?StatisticsManager $statisticsManager = null;
+    private array $makeCache = [];
+    private array $colorCache = [];
 
     public function __construct(array $config, string $dbName = 'carsafari')
     {
@@ -566,6 +568,7 @@ class CarSafariScraper extends CarScraper
             $make = $this->extractMakeFromTitle($vehicle['title'] ?? '');
             $model = $this->extractModelFromTitle($vehicle['title'] ?? '');
             $year = $vehicle['year'] ?? date('Y');
+            $makeId = $this->resolveMakeId($make);
 
             // Handle scraped data that comes with different field names
             $engineSize = $vehicle['engine_size'] ?? $vehicle['engineSize'] ?? '';
@@ -620,6 +623,7 @@ class CarSafariScraper extends CarScraper
             // Merge with any existing attribute data to avoid overwriting with blanks
             $model = $model ?: ($existingAttr['model'] ?? '');
             $year = $year ?: ($existingAttr['year'] ?? date('Y'));
+            $makeId = $makeId ?: ($existingAttr['make_id'] ?? null);
             $engineSize = $engineSize ?: ($existingAttr['engine_size'] ?? '');
             $fuelType = $fuelType ?: ($existingAttr['fuel_type'] ?? '');
             $transmission = $transmission ?: ($existingAttr['transmission'] ?? '');
@@ -628,11 +632,12 @@ class CarSafariScraper extends CarScraper
             if ($existingAttrId) {
                 // Update existing attribute record
                 $updateSql = "UPDATE gyc_vehicle_attribute
-                              SET model = ?, year = ?, engine_size = ?, fuel_type = ?, transmission = ?,
+                              SET make_id = ?, model = ?, year = ?, engine_size = ?, fuel_type = ?, transmission = ?,
                                   body_style = ?, gearbox = ?, trim = ?, updated_at = NOW()
                               WHERE id = ?";
                 $updateStmt = $this->db->prepare($updateSql);
                 $updateStmt->execute([
+                    $makeId ?: 1,
                     $model,
                     $year,
                     $engineSize,
@@ -658,7 +663,7 @@ class CarSafariScraper extends CarScraper
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 1,  // category_id default
-                1,  // make_id default (will be updated later)
+                $makeId ?: 1,  // make_id resolved, fallback to 1
                 $model,
                 '', // generation
                 $trim,
@@ -783,6 +788,55 @@ class CarSafariScraper extends CarScraper
         return '';
     }
 
+    /**
+     * Resolve make name to make_id (gyc_make.id). Cached per run.
+     */
+    private function resolveMakeId(?string $make): ?int
+    {
+        $make = trim((string)$make);
+        if ($make === '') {
+            return null;
+        }
+        $key = strtolower($make);
+        if (isset($this->makeCache[$key])) {
+            return $this->makeCache[$key];
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT id FROM gyc_make WHERE LOWER(name) = ? LIMIT 1");
+            $stmt->execute([$key]);
+            $id = $stmt->fetchColumn();
+            $this->makeCache[$key] = $id ? (int)$id : null;
+            return $this->makeCache[$key];
+        } catch (Exception $e) {
+            $this->log("  Warning: make lookup failed for {$make}: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Resolve color name to color_id (gyc_vehicle_color.id). Cached per run.
+     */
+    private function resolveColorId(?string $color): ?int
+    {
+        $color = trim((string)$color);
+        if ($color === '') {
+            return null;
+        }
+        $key = strtolower($color);
+        if (isset($this->colorCache[$key])) {
+            return $this->colorCache[$key];
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT id FROM gyc_vehicle_color WHERE LOWER(color_name) = ? LIMIT 1");
+            $stmt->execute([$key]);
+            $id = $stmt->fetchColumn();
+            $this->colorCache[$key] = $id ? (int)$id : null;
+            return $this->colorCache[$key];
+        } catch (Exception $e) {
+            $this->log("  Warning: color lookup failed for {$color}: " . $e->getMessage());
+            return null;
+        }
+    }
     /**
      * Extract model from vehicle title
      */
@@ -1172,6 +1226,8 @@ class CarSafariScraper extends CarScraper
     {
         // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
         $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+        $colorName = $vehicle['colour'] ?? $vehicle['color'] ?? null;
+        $colorId = $colorName ? $this->resolveColorId($colorName) : null;
         
         // Check if vehicle exists
         $checkSql = "SELECT id, data_hash, attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
@@ -1245,17 +1301,18 @@ class CarSafariScraper extends CarScraper
         // STEP 3: Add new fields + data_hash for change detection
         $sql = "INSERT INTO gyc_vehicle_info (
                     attr_id, reg_no, selling_price, regular_price, mileage,
-                    color, description, attention_grabber, vendor_id, v_condition,
+                    color, color_id, description, attention_grabber, vendor_id, v_condition,
                     active_status, vehicle_url, doors, registration_plate, drive_system,
                     post_code, address, drive_position, data_hash, created_at, updated_at
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?
                 ) ON DUPLICATE KEY UPDATE
                     attr_id = VALUES(attr_id),
                     selling_price = VALUES(selling_price),
                     regular_price = VALUES(regular_price),
                     mileage = VALUES(mileage),
                     color = VALUES(color),
+                    color_id = VALUES(color_id),
                     description = VALUES(description),
                     attention_grabber = VALUES(attention_grabber),
                     vehicle_url = VALUES(vehicle_url),
@@ -1280,22 +1337,23 @@ class CarSafariScraper extends CarScraper
             $price,                                                     // 3: selling_price
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
-            $vehicle['colour'],                                         // 6: color
-            $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
-            $vehicle['attention_grabber'],                             // 8: attention_grabber (short subtitle only, NULL if not present)
-            $this->vendorId,                                            // 9: vendor_id
-            // 10: v_condition='USED' (hardcoded)
-            // 11: active_status='1' (hardcoded)
-            $vehicle['vehicle_url'] ?? null,                           // 12: vehicle_url
-            $vehicle['doors'] ?? null,                                 // 13: doors
-            $vehicle['registration_plate'] ?? null,                    // 14: registration_plate
-            $vehicle['drive_system'] ?? null,                          // 15: drive_system
-            // 16: post_code='LE7 1NS' (hardcoded)
-            // 17: address='Unit 10...' (hardcoded)
-            // 18: drive_position='Right' (hardcoded)
-            $dataHash,                                                  // 19: data_hash
-            $now,                                                       // 20: created_at
-            $now,                                                       // 21: updated_at
+            $vehicle['colour'],                                         // 6: color (raw text)
+            $colorId,                                                   // 7: color_id (lookup)
+            $vehicle['description_full'] ?? $vehicle['description_short'],  // 8: description
+            $vehicle['attention_grabber'],                             // 9: attention_grabber (short subtitle only, NULL if not present)
+            $this->vendorId,                                            // 10: vendor_id
+            // 11: v_condition='USED' (hardcoded)
+            // 12: active_status='1' (hardcoded)
+            $vehicle['vehicle_url'] ?? null,                           // 13: vehicle_url
+            $vehicle['doors'] ?? null,                                 // 14: doors
+            $vehicle['registration_plate'] ?? null,                    // 15: registration_plate
+            $vehicle['drive_system'] ?? null,                          // 16: drive_system
+            // 17: post_code='LE7 1NS' (hardcoded)
+            // 18: address='Unit 10...' (hardcoded)
+            // 19: drive_position='Right' (hardcoded)
+            $dataHash,                                                  // 20: data_hash
+            $now,                                                       // 21: created_at
+            $now,                                                       // 22: updated_at
         ]);
 
         if (!$result) {
