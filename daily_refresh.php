@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+﻿#!/usr/bin/env php
 <?php
 /**
  * Optimized Daily Data Refresh Script
@@ -33,6 +33,7 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/CarScraper.php';
 require_once __DIR__ . '/CarSafariScraper.php';
 require_once __DIR__ . '/src/StatisticsManager.php';
+require_once __DIR__ . '/mail_alert.php';
 
 // Parse command line
 $options = getopt('', ['vendor:', 'force', 'help']);
@@ -155,7 +156,7 @@ try {
     }
 
     $scrapeTime = microtime(true) - $startTime;
-    echo "✓ Scraping completed in " . round($scrapeTime, 2) . " seconds\n";
+    echo "Scraping completed in " . round($scrapeTime, 2) . " seconds\n";
     echo "  Found: {$result['stats']['found']}\n";
     echo "  Inserted: {$result['stats']['inserted']}\n";
     echo "  Updated: {$result['stats']['updated']}\n";
@@ -186,9 +187,9 @@ try {
         $deletedCount = $cleanupStmt->execute([$vendorId]) ? $cleanupStmt->rowCount() : 0;
 
         if ($deletedCount > 0) {
-            echo "  ✓ Deleted $deletedCount old inactive vehicles\n";
+            echo "  Deleted $deletedCount old inactive vehicles\n";
         } else {
-            echo "  ✓ No old vehicles to clean up\n";
+            echo "  No old vehicles to clean up\n";
         }
 
         // Optional: Optimize tables (run weekly)
@@ -197,7 +198,7 @@ try {
             $pdo->exec("OPTIMIZE TABLE gyc_vehicle_info");
             $pdo->exec("OPTIMIZE TABLE gyc_vehicle_attribute");
             $pdo->exec("OPTIMIZE TABLE gyc_product_images");
-            echo "  ✓ Tables optimized\n";
+            echo "  Tables optimized\n";
         }
 
         $cleanupTime = microtime(true) - $cleanupStart;
@@ -216,7 +217,7 @@ try {
     $finalCount = $stmt->fetch()['total'];
 
     echo "==============================================\n";
-    echo "✅ DAILY REFRESH COMPLETED SUCCESSFULLY\n";
+    echo "DAILY REFRESH COMPLETED SUCCESSFULLY\n";
     echo "==============================================\n";
     echo "Performance Metrics:\n";
     echo "  Total Time: " . round($totalTime, 2) . " seconds\n";
@@ -230,15 +231,20 @@ try {
     }
 
     echo "\nOptimization Features Applied:\n";
-    echo "  ✓ Smart Change Detection (100% skip rate for unchanged data)\n";
-    echo "  ✓ Hash-based comparison (no unnecessary updates)\n";
-    echo "  ✓ Bulk operations where possible\n";
-    echo "  ✓ Minimal downtime (scrape first, cleanup later)\n";
+    echo "  - Smart Change Detection (100% skip rate for unchanged data)\n";
+    echo "  - Hash-based comparison (no unnecessary updates)\n";
+    echo "  - Bulk operations where possible\n";
+    echo "  - Minimal downtime (scrape first, cleanup later)\n";
+
+    // Send alert email (best-effort, only if environment variables are set)
+    $errors = (int)($result['stats']['errors'] ?? 0);
+    $note = $errors > 0 ? "Run completed with {$errors} failures (e.g., invalid VRMs or fetch errors)." : '';
+    send_scrape_alert($vendorId, $result['stats'], true, $note);
 
     exit(0);
 
 } catch (Exception $e) {
-    echo "\n❌ DAILY REFRESH FAILED\n";
+    echo "\nDAILY REFRESH FAILED\n";
     echo "Error: " . $e->getMessage() . "\n";
     echo "Time: " . date('Y-m-d H:i:s') . "\n";
 
@@ -252,6 +258,11 @@ try {
         } catch (Exception $logError) {
             // Ignore logging errors
         }
+    }
+
+    // Alert on failure (best-effort)
+    if (function_exists('send_scrape_alert')) {
+        send_scrape_alert($vendorId ?? 432, [], false, $e->getMessage());
     }
 
     exit(1);

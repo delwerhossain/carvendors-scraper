@@ -138,42 +138,54 @@ class CarScraper
     {
         $this->log("  Fetching: $url");
 
-        $ch = curl_init();
-        
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_MAXREDIRS => 5,
-            CURLOPT_TIMEOUT => $this->config['scraper']['timeout'],
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_USERAGENT => $this->config['scraper']['user_agent'],
-            CURLOPT_HTTPHEADER => [
-                'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Language: en-GB,en;q=0.9',
-                'Cache-Control: no-cache',
-            ],
-            CURLOPT_SSL_VERIFYPEER => $this->config['scraper']['verify_ssl'] ?? true,
-            CURLOPT_ENCODING => '', // Accept all encodings
-        ]);
+        $attempts = 3;
+        $baseDelay = 1; // seconds (exponential backoff)
+        $lastError = null;
 
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-        
-        curl_close($ch);
+        for ($i = 1; $i <= $attempts; $i++) {
+            $ch = curl_init();
 
-        if ($error) {
-            $this->log("  CURL error: $error");
-            return null;
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_MAXREDIRS => 5,
+                // Increase timeouts a bit to reduce mid-run DNS/SSL flakiness
+                CURLOPT_TIMEOUT => max((int)$this->config['scraper']['timeout'], 45),
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_USERAGENT => $this->config['scraper']['user_agent'],
+                CURLOPT_HTTPHEADER => [
+                    'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language: en-GB,en;q=0.9',
+                    'Cache-Control: no-cache',
+                ],
+                CURLOPT_SSL_VERIFYPEER => $this->config['scraper']['verify_ssl'] ?? true,
+                CURLOPT_ENCODING => '', // Accept all encodings
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+
+            curl_close($ch);
+
+            if (!$error && $httpCode === 200) {
+                return $response;
+            }
+
+            $lastError = $error ?: "HTTP $httpCode";
+            $this->log("  CURL/HTTP error (attempt {$i}/{$attempts}): {$lastError}");
+
+            if ($i < $attempts) {
+                $sleep = $baseDelay * pow(2, $i - 1);
+                $this->log("  Retrying in {$sleep}s...");
+                sleep((int)$sleep);
+            }
         }
 
-        if ($httpCode !== 200) {
-            $this->log("  HTTP error: $httpCode");
-            return null;
-        }
-
-        return $response;
+        // Final failure after retries
+        $this->log("  Fetch failed after {$attempts} attempts: {$lastError}");
+        return null;
     }
 
     /**
@@ -773,12 +785,15 @@ class CarScraper
         $delay = $this->config['scraper']['request_delay'];
         $total = count($vehicles);
         
+        $consecutiveFailures = 0;
+
         foreach ($vehicles as $index => &$vehicle) {
             $this->log("  Processing " . ($index + 1) . "/$total: {$vehicle['external_id']}");
             
             $html = $this->fetchUrl($vehicle['vehicle_url']);
             
             if ($html) {
+                $consecutiveFailures = 0; // reset on success
                 // Extract full description
                 $fullDesc = $this->extractFullDescription($html);
                 if ($fullDesc) {
@@ -821,6 +836,14 @@ class CarScraper
                 }
                 if (!empty($details['transmission'])) {
                     $this->log("    Found transmission: {$details['transmission']}");
+                }
+            } else {
+                $consecutiveFailures++;
+                $this->log("    Detail fetch failed for {$vehicle['external_id']} (consecutive failures: {$consecutiveFailures})");
+
+                // Fail-fast if detail pages are consistently unreachable to avoid partial datasets
+                if ($consecutiveFailures >= 5) {
+                    throw new Exception("Detail pages failing ({$consecutiveFailures} consecutive errors). Aborting run to avoid partial dataset.");
                 }
             }
             
