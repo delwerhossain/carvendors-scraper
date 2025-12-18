@@ -278,6 +278,8 @@ mysql -u root -e "SELECT * FROM scraper_statistics ORDER BY created_at DESC LIMI
 
 **Database Connection Error**
 ```bash
+C:\wamp64\bin\php\php8.3.14\php.exe  daily_refresh.php --vendor=432
+
 # Check database exists
 mysql -u root -e "SHOW DATABASES LIKE 'your_database';"
 

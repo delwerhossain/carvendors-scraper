@@ -917,6 +917,9 @@ class CarSafariScraper extends CarScraper
                 v.regular_price,
                 v.mileage,
                 v.color,
+                v.color_id,
+                v.manufacturer_color_id,
+                v.engine_no,
                 v.description,
                 v.attention_grabber,
                 v.doors,
@@ -929,6 +932,7 @@ class CarSafariScraper extends CarScraper
                 v.updated_at,
                 a.model,
                 a.year,
+                a.make_id,
                 a.transmission,
                 a.fuel_type,
                 a.body_style,
@@ -1001,15 +1005,19 @@ class CarSafariScraper extends CarScraper
                         'reg_no' => $v['reg_no'],
                         'title' => $v['model'] . ' ' . $v['year'],  // Build title from model and year
                         'attention_grabber' => $v['attention_grabber'],  // Include attention_grabber field
-                        'model' => $v['model'],
-                        'year' => !empty($v['year']) ? (int)$v['year'] : null,
-                        'plate_year' => $v['registration_plate'],
-                        'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
-                        'drive_system' => $v['drive_system'],
-                        'engine_size' => $this->formatEngineSizeForJson($v['engine_size']),
-                        'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
-                        'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
-                        'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,
+                'model' => $v['model'],
+                'year' => !empty($v['year']) ? (int)$v['year'] : null,
+                'plate_year' => $v['registration_plate'],
+                'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
+                'drive_system' => $v['drive_system'],
+                'engine_size' => $this->formatEngineSizeForJson($v['engine_size']),
+                'make_id' => !empty($v['make_id']) ? (int)$v['make_id'] : null,
+                'color_id' => !empty($v['color_id']) ? (int)$v['color_id'] : null,
+                'manufacturer_color_id' => !empty($v['manufacturer_color_id']) ? (int)$v['manufacturer_color_id'] : null,
+                'engine_no' => $v['engine_no'],
+                'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
+                'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
+                'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,
                         'color' => $v['color'],
                         'transmission' => $v['transmission'],
                         'fuel_type' => $v['fuel_type'],
@@ -1228,6 +1236,7 @@ class CarSafariScraper extends CarScraper
         $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
         $colorName = $vehicle['colour'] ?? $vehicle['color'] ?? null;
         $colorId = $colorName ? $this->resolveColorId($colorName) : null;
+        $manufacturerColorId = $colorId; // best effort
         
         // Check if vehicle exists
         $checkSql = "SELECT id, data_hash, attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
@@ -1301,11 +1310,11 @@ class CarSafariScraper extends CarScraper
         // STEP 3: Add new fields + data_hash for change detection
         $sql = "INSERT INTO gyc_vehicle_info (
                     attr_id, reg_no, selling_price, regular_price, mileage,
-                    color, color_id, description, attention_grabber, vendor_id, v_condition,
+                    color, color_id, manufacturer_color_id, description, attention_grabber, vendor_id, v_condition,
                     active_status, vehicle_url, doors, registration_plate, drive_system,
-                    post_code, address, drive_position, data_hash, created_at, updated_at
+                    post_code, address, drive_position, engine_no, data_hash, created_at, updated_at
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?, ?
                 ) ON DUPLICATE KEY UPDATE
                     attr_id = VALUES(attr_id),
                     selling_price = VALUES(selling_price),
@@ -1313,6 +1322,7 @@ class CarSafariScraper extends CarScraper
                     mileage = VALUES(mileage),
                     color = VALUES(color),
                     color_id = VALUES(color_id),
+                    manufacturer_color_id = VALUES(manufacturer_color_id),
                     description = VALUES(description),
                     attention_grabber = VALUES(attention_grabber),
                     vehicle_url = VALUES(vehicle_url),
@@ -1322,6 +1332,7 @@ class CarSafariScraper extends CarScraper
                     post_code = 'LE7 1NS',
                     address = 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS',
                     drive_position = 'Right',
+                    engine_no = VALUES(engine_no),
                     data_hash = VALUES(data_hash),
                     active_status = '1',
                     updated_at = VALUES(updated_at)";
@@ -1339,21 +1350,23 @@ class CarSafariScraper extends CarScraper
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
             $vehicle['colour'],                                         // 6: color (raw text)
             $colorId,                                                   // 7: color_id (lookup)
-            $vehicle['description_full'] ?? $vehicle['description_short'],  // 8: description
-            $vehicle['attention_grabber'],                             // 9: attention_grabber (short subtitle only, NULL if not present)
-            $this->vendorId,                                            // 10: vendor_id
-            // 11: v_condition='USED' (hardcoded)
-            // 12: active_status='1' (hardcoded)
-            $vehicle['vehicle_url'] ?? null,                           // 13: vehicle_url
-            $vehicle['doors'] ?? null,                                 // 14: doors
-            $vehicle['registration_plate'] ?? null,                    // 15: registration_plate
-            $vehicle['drive_system'] ?? null,                          // 16: drive_system
-            // 17: post_code='LE7 1NS' (hardcoded)
-            // 18: address='Unit 10...' (hardcoded)
-            // 19: drive_position='Right' (hardcoded)
-            $dataHash,                                                  // 20: data_hash
-            $now,                                                       // 21: created_at
-            $now,                                                       // 22: updated_at
+            $manufacturerColorId,                                       // 8: manufacturer_color_id (best effort)
+            $vehicle['description_full'] ?? $vehicle['description_short'],  // 9: description
+            $vehicle['attention_grabber'],                             // 10: attention_grabber (short subtitle only, NULL if not present)
+            $this->vendorId,                                            // 11: vendor_id
+            // 12: v_condition='USED' (hardcoded)
+            // 13: active_status='1' (hardcoded)
+            $vehicle['vehicle_url'] ?? null,                           // 14: vehicle_url
+            $vehicle['doors'] ?? null,                                 // 15: doors
+            $vehicle['registration_plate'] ?? null,                    // 16: registration_plate
+            $vehicle['drive_system'] ?? null,                          // 17: drive_system
+            // 18: post_code='LE7 1NS' (hardcoded)
+            // 19: address='Unit 10...' (hardcoded)
+            // 20: drive_position='Right' (hardcoded)
+            $vehicle['engine_no'] ?? $regNo,                           // 21: engine_no (fallback to reg_no)
+            $dataHash,                                                  // 22: data_hash
+            $now,                                                       // 23: created_at
+            $now,                                                       // 24: updated_at
         ]);
 
         if (!$result) {
