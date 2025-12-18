@@ -822,7 +822,59 @@ class CarSafariScraper extends CarScraper
         if ($color === '') {
             return null;
         }
-        $key = strtolower($color);
+
+        // Normalize: drop combos/suffixes and map common variants to the canonical palette (ids 1–22)
+        $normalized = strtolower($color);
+        $normalized = preg_split('/[\\/,|]+/', $normalized)[0]; // take the first color when combos are present
+        $normalized = preg_replace('/\\b(metallic|pearl|matt|matte|solid|gloss|finish)\\b/', '', $normalized);
+        $normalized = trim(preg_replace('/\\s+/', ' ', $normalized));
+
+        // Fast in-memory map to the canonical IDs
+        $map = [
+            'beige' => 1,
+            'cream' => 1,
+            'tan' => 1,
+            'sand' => 1,
+            'black' => 2,
+            'blue' => 3,
+            'navy' => 14,
+            'light blue' => 3,
+            'bronze' => 4,
+            'brown' => 5,
+            'burgundy' => 6,
+            'maroon' => 6,
+            'gold' => 7,
+            'champagne' => 7,
+            'green' => 8,
+            'teal' => 8,
+            'turquoise' => 8,
+            'grey' => 9,
+            'gray' => 9,
+            'charcoal' => 9,
+            'gunmetal' => 9,
+            'silver' => 21,
+            'indigo' => 10,
+            'magenta' => 11,
+            'mccroon' => 12,
+            'mcroon' => 12,
+            'multicolor' => 13,
+            'purple' => 17,
+            'violet' => 17,
+            'red' => 18,
+            'orange' => 15,
+            'yellow' => 22,
+            'white' => 20,
+            'off white' => 20,
+            'ivory' => 20,
+            'pink' => 16,
+        ];
+
+        if (isset($map[$normalized])) {
+            return $map[$normalized];
+        }
+
+        // Fallback: DB lookup on the normalized token
+        $key = $normalized;
         if (isset($this->colorCache[$key])) {
             return $this->colorCache[$key];
         }

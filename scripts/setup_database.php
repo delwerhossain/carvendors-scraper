@@ -4,7 +4,7 @@
  * Creates all required tables for the statistics system
  */
 
-$config = require_once 'config.php';
+$config = require_once dirname(__DIR__) . '/config.php';
 
 try {
     $pdo = new PDO(
