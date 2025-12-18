@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+﻿#!/usr/bin/env php
 <?php
 /**
  * Optimized Daily Data Refresh Script
@@ -33,6 +33,7 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/CarScraper.php';
 require_once __DIR__ . '/CarSafariScraper.php';
 require_once __DIR__ . '/src/StatisticsManager.php';
+require_once __DIR__ . '/mail_alert.php';
 
 // Parse command line
 $options = getopt('', ['vendor:', 'force', 'help']);
@@ -71,6 +72,74 @@ try {
         ]
     );
 
+    $dbName = $config['database']['dbname'];
+
+    /**
+     * Helper: check if a column exists on a table.
+     */
+    $columnExists = function(string $table, string $column) use ($pdo, $dbName): bool {
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM information_schema.COLUMNS 
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?
+        ");
+        $stmt->execute([$dbName, $table, $column]);
+        return (bool)$stmt->fetchColumn();
+    };
+
+    /**
+     * Phase 0: purge existing vendor data to avoid stale/duplicate rows.
+     */
+    $purgeVendorData = function(int $vendorId) use ($pdo, $columnExists): void {
+        echo "Phase 0: Purging vendor {$vendorId} data...\n";
+
+        $deleteByIds = function(string $table, string $column, array $ids, string $label) use ($pdo): int {
+            $total = 0;
+            $chunkSize = 500;
+            foreach (array_chunk($ids, $chunkSize) as $chunk) {
+                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+                $stmt = $pdo->prepare("DELETE FROM {$table} WHERE {$column} IN ($placeholders)");
+                $stmt->execute($chunk);
+                $total += $stmt->rowCount();
+            }
+            echo "  Removed {$total} {$label}\n";
+            return $total;
+        };
+
+        // Fetch vehicle ids and attribute ids for this vendor
+        $stmt = $pdo->prepare("SELECT id, attr_id FROM gyc_vehicle_info WHERE vendor_id = ?");
+        $stmt->execute([$vendorId]);
+        $rows = $stmt->fetchAll();
+        $vehicleIds = array_column($rows, 'id');
+        $attrIds = array_unique(array_filter(array_column($rows, 'attr_id')));
+
+        // Delete product images
+        if (!empty($vehicleIds) && $columnExists('gyc_product_images', 'vechicle_info_id')) {
+            $deleteByIds('gyc_product_images', 'vechicle_info_id', $vehicleIds, 'product images');
+        }
+        // Legacy/fallback table that should stay empty
+        if (!empty($vehicleIds) && $columnExists('gyc_vehicle_image', 'vechicle_info_id')) {
+            $deleteByIds('gyc_vehicle_image', 'vechicle_info_id', $vehicleIds, 'rows from gyc_vehicle_image (legacy)');
+        }
+
+        // Delete vehicle info
+        $delVehicle = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE vendor_id = ?");
+        $delVehicle->execute([$vendorId]);
+        echo "  Removed {$delVehicle->rowCount()} vehicle_info rows\n";
+
+        // Delete attributes linked to this vendor's vehicles
+        if (!empty($attrIds)) {
+            $deleteByIds('gyc_vehicle_attribute', 'id', $attrIds, 'vehicle_attribute rows');
+        } else {
+            echo "  Removed 0 vehicle_attribute rows\n";
+        }
+
+        echo "Phase 0 complete.\n\n";
+    };
+
+    // Perform purge before scraping fresh data
+    $purgeVendorData($vendorId);
+
     // Phase 1: Scrape new data (minimal downtime)
     echo "Phase 1: Scraping new data...\n";
     $startTime = microtime(true);
@@ -87,7 +156,7 @@ try {
     }
 
     $scrapeTime = microtime(true) - $startTime;
-    echo "✓ Scraping completed in " . round($scrapeTime, 2) . " seconds\n";
+    echo "Scraping completed in " . round($scrapeTime, 2) . " seconds\n";
     echo "  Found: {$result['stats']['found']}\n";
     echo "  Inserted: {$result['stats']['inserted']}\n";
     echo "  Updated: {$result['stats']['updated']}\n";
@@ -118,9 +187,9 @@ try {
         $deletedCount = $cleanupStmt->execute([$vendorId]) ? $cleanupStmt->rowCount() : 0;
 
         if ($deletedCount > 0) {
-            echo "  ✓ Deleted $deletedCount old inactive vehicles\n";
+            echo "  Deleted $deletedCount old inactive vehicles\n";
         } else {
-            echo "  ✓ No old vehicles to clean up\n";
+            echo "  No old vehicles to clean up\n";
         }
 
         // Optional: Optimize tables (run weekly)
@@ -129,7 +198,7 @@ try {
             $pdo->exec("OPTIMIZE TABLE gyc_vehicle_info");
             $pdo->exec("OPTIMIZE TABLE gyc_vehicle_attribute");
             $pdo->exec("OPTIMIZE TABLE gyc_product_images");
-            echo "  ✓ Tables optimized\n";
+            echo "  Tables optimized\n";
         }
 
         $cleanupTime = microtime(true) - $cleanupStart;
@@ -148,7 +217,7 @@ try {
     $finalCount = $stmt->fetch()['total'];
 
     echo "==============================================\n";
-    echo "✅ DAILY REFRESH COMPLETED SUCCESSFULLY\n";
+    echo "DAILY REFRESH COMPLETED SUCCESSFULLY\n";
     echo "==============================================\n";
     echo "Performance Metrics:\n";
     echo "  Total Time: " . round($totalTime, 2) . " seconds\n";
@@ -162,15 +231,20 @@ try {
     }
 
     echo "\nOptimization Features Applied:\n";
-    echo "  ✓ Smart Change Detection (100% skip rate for unchanged data)\n";
-    echo "  ✓ Hash-based comparison (no unnecessary updates)\n";
-    echo "  ✓ Bulk operations where possible\n";
-    echo "  ✓ Minimal downtime (scrape first, cleanup later)\n";
+    echo "  - Smart Change Detection (100% skip rate for unchanged data)\n";
+    echo "  - Hash-based comparison (no unnecessary updates)\n";
+    echo "  - Bulk operations where possible\n";
+    echo "  - Minimal downtime (scrape first, cleanup later)\n";
+
+    // Send alert email (best-effort, only if environment variables are set)
+    $errors = (int)($result['stats']['errors'] ?? 0);
+    $note = $errors > 0 ? "Run completed with {$errors} failures (e.g., invalid VRMs or fetch errors)." : '';
+    send_scrape_alert($vendorId, $result['stats'], true, $note);
 
     exit(0);
 
 } catch (Exception $e) {
-    echo "\n❌ DAILY REFRESH FAILED\n";
+    echo "\nDAILY REFRESH FAILED\n";
     echo "Error: " . $e->getMessage() . "\n";
     echo "Time: " . date('Y-m-d H:i:s') . "\n";
 
@@ -184,6 +258,11 @@ try {
         } catch (Exception $logError) {
             // Ignore logging errors
         }
+    }
+
+    // Alert on failure (best-effort)
+    if (function_exists('send_scrape_alert')) {
+        send_scrape_alert($vendorId ?? 432, [], false, $e->getMessage());
     }
 
     exit(1);

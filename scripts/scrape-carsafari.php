@@ -35,7 +35,7 @@ ini_set('memory_limit', '512M');
 set_time_limit(1800);
 
 // Define base path
-define('BASE_PATH', __DIR__);
+define('BASE_PATH', dirname(__DIR__));
 
 // Load the scraper classes
 require_once BASE_PATH . '/CarScraper.php';

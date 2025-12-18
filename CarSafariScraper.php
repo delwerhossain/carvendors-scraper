@@ -26,6 +26,8 @@ class CarSafariScraper extends CarScraper
     private string $dbName;
     private int $vendorId = 432;  // Default vendor ID for scraping data
     private ?StatisticsManager $statisticsManager = null;
+    private array $makeCache = [];
+    private array $colorCache = [];
 
     public function __construct(array $config, string $dbName = 'carsafari')
     {
@@ -109,6 +111,10 @@ class CarSafariScraper extends CarScraper
             $this->log("Setting auto-publish status...");
             $this->autoPublishVehicles($activeIds);
 
+            // Step 5b: Deactivate stale/invalid records (slug regs, missing VRM, not in current run)
+            $this->log("Deactivating stale or invalid records...");
+            $this->deactivateInvalidAndStaleVehicles($activeIds);
+
             // Step 6: Save JSON snapshot with rotation
             if ($this->config['output']['save_json']) {
                 $this->log("Saving JSON snapshot with file rotation...");
@@ -173,14 +179,25 @@ class CarSafariScraper extends CarScraper
 
         foreach ($vehicles as $vehicle) {
             try {
-                // Step 1: Find or create vehicle attribute
-                $attrId = $this->findOrCreateAttribute($vehicle);
-                if (!$attrId) {
-                    $attrId = $this->createNewAttribute($vehicle);
+                // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
+                $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+                $regNo = strtoupper(str_replace(' ', '', $regNo));
+
+                // Ignore non-VRM slugs to avoid duplicating fake records
+                if (!$this->isValidVrm($regNo)) {
+                    $this->log("  [SKIP] Invalid VRM detected, ignoring vehicle: {$regNo}");
+                    $this->stats['errors'] = ($this->stats['errors'] ?? 0) + 1;
+                    continue;
                 }
 
-                // Step 2: Smart save with change detection
-                // Returns array with vehicleId and action (inserted|updated|skipped)
+                // Step 1: Create or find vehicle attributes in gyc_vehicle_attribute table
+                $attrId = $this->saveVehicleAttributes($regNo, $vehicle);
+                if (!$attrId) {
+                    $this->log("  Error: Could not create attributes for vehicle $regNo");
+                    continue;
+                }
+
+                // Step 2: Smart save with change detection using the new attr_id
                 $result = $this->saveVehicleInfoWithChangeDetection($vehicle, $attrId, $now);
                 $vehicleId = $result['vehicleId'];
                 $action = $result['action'];
@@ -188,11 +205,11 @@ class CarSafariScraper extends CarScraper
                 if ($vehicleId && $action !== 'skipped') {
                     // Step 3: Download and save images only if data was inserted/updated
                     if (!empty($vehicle['image_urls']) && is_array($vehicle['image_urls'])) {
-                        $this->downloadAndSaveImages($vehicle['image_urls'], $vehicleId);
+                        $this->downloadAndSaveImages($vehicle['image_urls'], $vehicleId, $regNo);
                         $this->stats['images_stored'] = ($this->stats['images_stored'] ?? 0) + count($vehicle['image_urls']);
                     } elseif (!empty($vehicle['image_url'])) {
                         // Fallback for single image
-                        $this->downloadAndSaveImage($vehicle['image_url'], $vehicleId);
+                        $this->downloadAndSaveImage($vehicle['image_url'], $vehicleId, $regNo);
                         $this->stats['images_stored'] = ($this->stats['images_stored'] ?? 0) + 1;
                     }
 
@@ -330,7 +347,7 @@ class CarSafariScraper extends CarScraper
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
             $vehicle['colour'],                                         // 6: color
-            $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
+            $this->sanitizeDescription($vehicle['description_full'] ?? $vehicle['description_short']),  // 7: description
             $vehicle['attention_grabber'],                             // 8: attention_grabber (short subtitle only, NULL if not present)
             $this->vendorId,                                            // 9: vendor_id
             // 10: v_condition='USED' (hardcoded)
@@ -359,74 +376,314 @@ class CarSafariScraper extends CarScraper
     }
 
     /**
-     * Download multiple images and save to gyc_product_images with serial numbering
+     * Download multiple images and save to gyc_vehicle_image with proper registration number
      */
-    private function downloadAndSaveImages(array $imageUrls, int $vehicleId): void
+    private function downloadAndSaveImages(array $imageUrls, int $vehicleId, string $regNo): void
     {
         if (empty($imageUrls)) {
             return;
         }
 
-        $serial = 1;
+        try {
+            // Clear existing images for this vehicle
+            $this->db->prepare("DELETE FROM gyc_vehicle_image WHERE vehicle_reg_no = ?")->execute([$regNo]);
 
-        foreach ($imageUrls as $imageUrl) {
-            try {
-                // STEP 6: Store image URL instead of downloading
-                // This is faster and keeps images up-to-date
-                $filename = $imageUrl;  // Store full URL in database
-                
-                // Validate URL
-                if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
-                    $this->log("  Warning: Invalid image URL for vehicle $vehicleId: $imageUrl");
+            $serial = 1;
+
+            foreach ($imageUrls as $imageUrl) {
+                try {
+                    // Validate URL
+                    if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                        $this->log("  Warning: Invalid image URL for vehicle $regNo: $imageUrl");
+                        $serial++;
+                        continue;
+                    }
+
+                    // Save to new gyc_vehicle_image table
+                    $sql = "INSERT INTO gyc_vehicle_image (vehicle_reg_no, image_url, image_order, created_at)
+                            VALUES (?, ?, ?, NOW())";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute([$regNo, $imageUrl, $serial]);
+
+                    $this->log("  Stored image URL #{$serial} for vehicle $regNo");
                     $serial++;
-                    continue;
+
+                } catch (Exception $e) {
+                    $this->log("  Warning: Could not save image #{$serial} for vehicle $regNo: " . $e->getMessage());
+                    $serial++;
                 }
-
-                // Save URL record to database with serial number
-                // Store the full URL instead of a local file path
-                $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
-                        VALUES (?, ?, ?, NOW())
-                        ON DUPLICATE KEY UPDATE 
-                          file_name = VALUES(file_name),
-                          updated_at = NOW()";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([$filename, $vehicleId, $serial]);
-
-                $this->log("  Stored image URL #{$serial} for vehicle $vehicleId");
-                $serial++;
-
-            } catch (Exception $e) {
-                $this->log("  Warning: Could not save image #{$serial} for vehicle $vehicleId: " . $e->getMessage());
-                $serial++;
             }
+
+            // Also save to old gyc_product_images for backward compatibility
+            $this->saveImagesToOldTable($imageUrls, $vehicleId);
+
+        } catch (Exception $e) {
+            $this->log("Error saving images for vehicle $regNo: " . $e->getMessage());
         }
     }
 
     /**
-     * Save image URL to gyc_product_images (STEP 6: Store URLs instead of downloading)
+     * Save single image URL to gyc_vehicle_image table
      */
-    private function downloadAndSaveImage(string $imageUrl, int $vehicleId): void
+    private function downloadAndSaveImage(string $imageUrl, int $vehicleId, string $regNo): void
     {
         try {
             // Validate URL
             if (!filter_var($imageUrl, FILTER_VALIDATE_URL)) {
-                $this->log("  Warning: Invalid image URL for vehicle $vehicleId: $imageUrl");
+                $this->log("  Warning: Invalid image URL for vehicle $regNo: $imageUrl");
                 return;
             }
 
-            // Save URL record to database (store full URL instead of local path)
-            $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
-                    VALUES (?, ?, 1, NOW())
-                    ON DUPLICATE KEY UPDATE 
-                      file_name = VALUES(file_name),
-                      updated_at = NOW()";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute([$imageUrl, $vehicleId]);
+            // Clear existing images for this vehicle
+            $this->db->prepare("DELETE FROM gyc_vehicle_image WHERE vehicle_reg_no = ?")->execute([$regNo]);
 
-            $this->log("  Stored primary image URL for vehicle $vehicleId");
+            // Save to new gyc_vehicle_image table
+            $sql = "INSERT INTO gyc_vehicle_image (vehicle_reg_no, image_url, image_order, created_at)
+                    VALUES (?, ?, 1, NOW())";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$regNo, $imageUrl]);
+
+            $this->log("  Stored primary image URL for vehicle $regNo");
+
+            // Also save to old table for backward compatibility
+            $this->saveImagesToOldTable([$imageUrl], $vehicleId);
 
         } catch (Exception $e) {
-            $this->log("  Warning: Could not save image URL for vehicle $vehicleId: " . $e->getMessage());
+            $this->log("  Warning: Could not save image URL for vehicle $regNo: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Save images to old gyc_product_images table for backward compatibility
+     */
+    private function saveImagesToOldTable(array $imageUrls, int $vehicleId): void
+    {
+        try {
+            $serial = 1;
+
+            foreach ($imageUrls as $imageUrl) {
+                $sql = "INSERT INTO gyc_product_images (file_name, vechicle_info_id, serial, cratead_at)
+                        VALUES (?, ?, ?, NOW())
+                        ON DUPLICATE KEY UPDATE
+                          file_name = VALUES(file_name),
+                          updated_at = NOW()";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$imageUrl, $vehicleId, $serial]);
+                $serial++;
+            }
+
+        } catch (Exception $e) {
+            $this->log("  Warning: Could not save images to old table for vehicle $vehicleId: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Get enhanced vehicle data from CarCheck website
+     */
+    private function getCarCheckData(string $regNo, string $vehicleTitle = ''): ?array
+    {
+        try {
+            // Extract make from vehicle title (not from reg_no)
+            $make = $this->extractMakeFromTitle($vehicleTitle);
+            if (empty($make)) {
+                $this->log("  Could not determine make for CarCheck lookup: $vehicleTitle");
+                return null;
+            }
+
+            // Build CarCheck URL
+            $url = "https://www.carcheck.co.uk/" . strtolower($make) . "/" . urlencode($regNo);
+
+            $this->log("  Fetching CarCheck data: $url");
+
+            // Add delay to be respectful to CarCheck
+            sleep(1);
+
+            $html = $this->fetchUrl($url);
+            if (!$html) {
+                $this->log("  Could not fetch CarCheck page for $regNo");
+                return null;
+            }
+
+            // Parse CarCheck data using regex or DOM parsing
+            $data = [];
+
+            // Extract key specifications (based on CarCheck page structure)
+            if (preg_match('/(\d+)\s*BHP/i', $html, $matches)) {
+                $data['bhp'] = $matches[1];
+            }
+
+            if (preg_match('/(\d+(?:\.\d+)?)\s*cc/i', $html, $matches)) {
+                $data['engine_size'] = $matches[1];
+            }
+
+            if (preg_match('/(\d+)\s*g\/km/i', $html, $matches)) {
+                $data['co2_emissions'] = $matches[1];
+            }
+
+            if (preg_match('/(\d+)\s*mph/i', $html, $matches)) {
+                $data['top_speed'] = $matches[1];
+            }
+
+            if (preg_match('/(\d+(?:\.\d+)?)\s*mpg/i', $html, $matches)) {
+                $data['mpg'] = $matches[1];
+            }
+
+            if (preg_match('/(\d+)\s*mm\s*width/i', $html, $matches)) {
+                $data['dimensions'] = $matches[1] . 'mm width';
+            }
+
+            if (preg_match('/(\d+)\s*kg\s*weight/i', $html, $matches)) {
+                $data['weight'] = $matches[1];
+            }
+
+            if (preg_match('/(Diesel|Petrol|Hybrid|Electric)/i', $html, $matches)) {
+                $data['fuel_type'] = $matches[1];
+            }
+
+            if (preg_match('/(Manual|Automatic|Semi-automatic)/i', $html, $matches)) {
+                $data['transmission'] = $matches[1];
+            }
+
+            // Extract color if available
+            if (preg_match('/(?:Colour|Color):\s*([A-Za-z]+)/i', $html, $matches)) {
+                $data['color'] = $matches[1];
+            }
+
+            return !empty($data) ? $data : null;
+
+        } catch (Exception $e) {
+            $this->log("  Error fetching CarCheck data for $regNo: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Save vehicle attributes to gyc_vehicle_attribute table with proper schema
+     * Uses CarCheck enhanced data when available
+     */
+    private function saveVehicleAttributes(string $regNo, array $vehicle): int
+    {
+        try {
+            // Extract basic data from vehicle - handle multiple possible field names
+            $make = $this->extractMakeFromTitle($vehicle['title'] ?? '');
+            $model = $this->extractModelFromTitle($vehicle['title'] ?? '');
+            $year = $vehicle['year'] ?? date('Y');
+            $makeId = $this->resolveMakeId($make);
+
+            // Handle scraped data that comes with different field names
+            $engineSize = $vehicle['engine_size'] ?? $vehicle['engineSize'] ?? '';
+            $fuelType = $vehicle['fuel_type'] ?? $vehicle['fuelType'] ?? '';
+            $transmission = $vehicle['transmission'] ?? '';
+            $bodyStyle = $vehicle['body_style'] ?? $vehicle['bodyStyle'] ?? '';
+
+            // Look for an existing attribute record linked to this reg_no
+            $existingAttrId = null;
+            $existingAttr = null;
+
+            $attrLookup = $this->db->prepare("SELECT attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1");
+            if ($attrLookup->execute([$regNo])) {
+                $existingAttrId = $attrLookup->fetchColumn() ?: null;
+            }
+
+            if ($existingAttrId) {
+                $attrStmt = $this->db->prepare("SELECT * FROM gyc_vehicle_attribute WHERE id = ? LIMIT 1");
+                $attrStmt->execute([$existingAttrId]);
+                $existingAttr = $attrStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+                if (!$existingAttr) {
+                    // Attribute record referenced in vehicle_info no longer exists
+                    $existingAttrId = null;
+                }
+            }
+
+            // Log what we found for debugging
+            $this->log("  Vehicle data for $regNo: engine=$engineSize, trans=$transmission, fuel=$fuelType");
+
+            // Try to get enhanced data from CarCheck
+            $carCheckData = $this->getCarCheckData($regNo, $vehicle['title'] ?? '');
+            if ($carCheckData) {
+                $this->log("  Enhanced data from CarCheck for $regNo");
+                $engineSize = $carCheckData['engine_size'] ?? $engineSize;
+                $fuelType = $carCheckData['fuel_type'] ?? $fuelType;
+                $transmission = $carCheckData['transmission'] ?? $transmission;
+
+                // Store additional CarCheck data in trim field as JSON for now
+                $additionalData = [
+                    'bhp' => $carCheckData['bhp'] ?? '',
+                    'co2_emissions' => $carCheckData['co2_emissions'] ?? '',
+                    'top_speed' => $carCheckData['top_speed'] ?? '',
+                    'mpg' => $carCheckData['mpg'] ?? '',
+                    'weight' => $carCheckData['weight'] ?? '',
+                    'dimensions' => $carCheckData['dimensions'] ?? ''
+                ];
+                $trim = json_encode(array_filter($additionalData));
+            } else {
+                $trim = $existingAttr['trim'] ?? '';
+            }
+
+            // Merge with any existing attribute data to avoid overwriting with blanks
+            $model = $model ?: ($existingAttr['model'] ?? '');
+            $year = $year ?: ($existingAttr['year'] ?? date('Y'));
+            $makeId = $makeId ?: ($existingAttr['make_id'] ?? null);
+            $engineSize = $engineSize ?: ($existingAttr['engine_size'] ?? '');
+            $fuelType = $fuelType ?: ($existingAttr['fuel_type'] ?? '');
+            $transmission = $transmission ?: ($existingAttr['transmission'] ?? '');
+            $bodyStyle = $bodyStyle ?: ($existingAttr['body_style'] ?? '');
+
+            if ($existingAttrId) {
+                // Update existing attribute record
+                $updateSql = "UPDATE gyc_vehicle_attribute
+                              SET make_id = ?, model = ?, year = ?, engine_size = ?, fuel_type = ?, transmission = ?,
+                                  body_style = ?, gearbox = ?, trim = ?, updated_at = NOW()
+                              WHERE id = ?";
+                $updateStmt = $this->db->prepare($updateSql);
+                $updateStmt->execute([
+                    $makeId ?: 1,
+                    $model,
+                    $year,
+                    $engineSize,
+                    $fuelType,
+                    $transmission,
+                    $bodyStyle,
+                    $transmission,   // gearbox mirrors transmission for now
+                    $trim,
+                    $existingAttrId
+                ]);
+
+                $this->log("  Updated attribute record ID: $existingAttrId for vehicle $regNo");
+                return (int)$existingAttrId;
+            }
+
+            // Insert into gyc_vehicle_attribute table with proper schema
+            $sql = "INSERT INTO gyc_vehicle_attribute (
+                        category_id, make_id, model, generation, trim,
+                        engine_size, fuel_type, transmission, derivative,
+                        gearbox, year, body_style, active_status, created_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '1', NOW())";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                1,  // category_id default
+                $makeId ?: 1,  // make_id resolved, fallback to 1
+                $model,
+                '', // generation
+                $trim,
+                $engineSize,
+                $fuelType,
+                $transmission,
+                '', // derivative
+                $transmission, // gearbox (same as transmission for now)
+                $year,
+                $bodyStyle
+            ]);
+
+            $attrId = (int)$this->db->lastInsertId();
+            $this->log("  Created attribute record ID: $attrId for vehicle $regNo");
+
+            return $attrId;
+
+        } catch (Exception $e) {
+            $this->log("  Error saving attributes for vehicle $regNo: " . $e->getMessage());
+            return 0;
         }
     }
 
@@ -510,6 +767,220 @@ class CarSafariScraper extends CarScraper
     }
 
     /**
+     * Extract make from vehicle title
+     */
+    private function extractMakeFromTitle(string $title): string
+    {
+        // Common car makes to look for
+        $makes = [
+            'Audi', 'BMW', 'Mercedes-Benz', 'Mercedes', 'Volkswagen', 'VW', 'Ford', 'Vauxhall', 'Opel',
+            'Toyota', 'Honda', 'Nissan', 'Hyundai', 'Kia', 'Renault', 'Peugeot', 'Citroen', 'Fiat',
+            'Mini', 'Land Rover', 'Jaguar', 'Volvo', 'Skoda', 'Seat', 'Mazda', 'Mitsubishi',
+            'Suzuki', 'Subaru', 'Dacia', 'Alfa Romeo', 'Jeep', 'DS', 'Abarth', 'SsangYong'
+        ];
+
+        foreach ($makes as $make) {
+            if (stripos($title, $make) === 0) {
+                return $make;
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * Resolve make name to make_id (gyc_make.id). Cached per run.
+     */
+    private function resolveMakeId(?string $make): ?int
+    {
+        $make = trim((string)$make);
+        if ($make === '') {
+            return null;
+        }
+        $key = strtolower($make);
+        if (isset($this->makeCache[$key])) {
+            return $this->makeCache[$key];
+        }
+        try {
+            $stmt = $this->db->prepare("SELECT id FROM gyc_make WHERE LOWER(name) = ? LIMIT 1");
+            $stmt->execute([$key]);
+            $id = $stmt->fetchColumn();
+            $this->makeCache[$key] = $id ? (int)$id : null;
+            return $this->makeCache[$key];
+        } catch (Exception $e) {
+            $this->log("  Warning: make lookup failed for {$make}: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Resolve color name to color_id (gyc_vehicle_color.id). Cached per run.
+     * Handles case-insensitive matching with extensive color variants (40+ colors).
+     * Maps to canonical IDs: 1-23 (expanded palette).
+     */
+    private function resolveColorId(?string $color): ?int
+    {
+        $color = trim((string)$color);
+        if ($color === '') {
+            return null;
+        }
+
+        // Normalize: lowercase, drop combos, remove finishes
+        $normalized = strtolower($color);
+        $normalized = preg_split('/[\\/,|&]+/', $normalized)[0]; // take first color in combos
+        $normalized = preg_replace('/\\b(metallic|pearl|matt|matte|solid|gloss|finish|effect|sparkle|shade|tone)\\b/', '', $normalized);
+        $normalized = trim(preg_replace('/\\s+/', ' ', $normalized));
+
+        // EXPANDED in-memory map: 40+ color variants → 23 canonical IDs
+        // IDs match gyc_vehicle_color: 1=Beige, 2=Black, 3=Blue, 4=Bronze, 5=Brown, 6=Burgundy, 7=Gold,
+        //                               8=Green, 9=Grey, 10=Indigo, 11=Magenta, 12=Mcroon, 13=Multicolor, 14=Navy,
+        //                               15=Orange, 16=Pink, 17=Purple, 18=Red, 19=None, 20=White, 21=Silver, 22=Yellow, 23=Lime
+        $map = [
+            // ID 1: Beige / Cream / Tan / Sand
+            'beige' => 1, 'cream' => 1, 'tan' => 1, 'sand' => 1, 'ecru' => 1, 'linen' => 1, 'taupe' => 1,
+            
+            // ID 2: Black
+            'black' => 2, 'jet black' => 2, 'pearl black' => 2, 'ebony' => 2, 'raven' => 2,
+            
+            // ID 3: Blue
+            'blue' => 3, 'light blue' => 3, 'sky blue' => 3, 'azure' => 3, 'cobalt' => 3,
+            'steel blue' => 3, 'peacock blue' => 3, 'cornflower' => 3, 'denim' => 3,
+            
+            // ID 4: Bronze
+            'bronze' => 4, 'copper' => 4, 'bronze metallic' => 4,
+            
+            // ID 5: Brown
+            'brown' => 5, 'tan brown' => 5, 'beige brown' => 5, 'chocolate' => 5, 'mahogany' => 5,
+            'chestnut' => 5, 'coffee' => 5, 'caramel' => 5, 'walnut' => 5, 'mocha' => 5,
+            
+            // ID 6: Burgundy / Maroon / Wine
+            'burgundy' => 6, 'maroon' => 6, 'wine' => 6, 'claret' => 6, 'wine red' => 6, 'oxblood' => 6,
+            
+            // ID 7: Gold / Champagne
+            'gold' => 7, 'champagne' => 7, 'golden' => 7, 'champagne gold' => 7, 'beige gold' => 7,
+            
+            // ID 8: Green
+            'green' => 8, 'light green' => 8, 'dark green' => 8, 'olive' => 8, 'moss' => 8,
+            'forest green' => 8, 'sage' => 8, 'pistachio' => 8,
+            
+            // ID 9: Grey / Gray
+            'grey' => 9, 'gray' => 9, 'light grey' => 9, 'light gray' => 9, 'dark grey' => 9, 'dark gray' => 9,
+            'charcoal' => 9, 'gunmetal' => 9, 'slate' => 9, 'graphite' => 9, 'ash' => 9,
+            'silver grey' => 9, 'pewter' => 9, 'stone' => 9, 'concrete' => 9,
+            
+            // ID 10: Indigo
+            'indigo' => 10, 'deep indigo' => 10,
+            
+            // ID 11: Magenta
+            'magenta' => 11, 'fuchsia' => 11,
+            
+            // ID 12: Mcroon (variant spelling)
+            'mccroon' => 12, 'mcroon' => 12, 'macroon' => 12,
+            
+            // ID 13: Multicolor / Mixed
+            'multicolor' => 13, 'multi-color' => 13, 'mixed' => 13, 'two-tone' => 13, 'two tone' => 13,
+            
+            // ID 14: Navy
+            'navy' => 14, 'navy blue' => 14, 'dark navy' => 14,
+            
+            // ID 15: Orange
+            'orange' => 15, 'burnt orange' => 15, 'apricot' => 15, 'tangerine' => 15, 'coral' => 15,
+            
+            // ID 16: Pink
+            'pink' => 16, 'light pink' => 16, 'hot pink' => 16, 'rose' => 16, 'salmon' => 16,
+            'blush' => 16, 'fuchsia pink' => 16,
+            
+            // ID 17: Purple / Violet
+            'purple' => 17, 'violet' => 17, 'lilac' => 17, 'lavender' => 17, 'plum' => 17,
+            'deep purple' => 17, 'dark purple' => 17,
+            
+            // ID 18: Red
+            'red' => 18, 'dark red' => 18, 'bright red' => 18, 'crimson' => 18, 'scarlet' => 18,
+            'ruby' => 18, 'cherry' => 18, 'fire red' => 18, 'candy red' => 18,
+            
+            // ID 20: White / Off-white / Ivory
+            'white' => 20, 'off white' => 20, 'off-white' => 20, 'ivory' => 20, 'cream white' => 20,
+            'pearl white' => 20, 'snow white' => 20, 'pure white' => 20,
+            
+            // ID 21: Silver
+            'silver' => 21, 'silver metallic' => 21, 'light silver' => 21, 'bright silver' => 21,
+            'polished silver' => 21,
+            
+            // ID 22: Yellow
+            'yellow' => 22, 'light yellow' => 22, 'bright yellow' => 22, 'golden yellow' => 22,
+            'lemon' => 22, 'banana' => 22, 'sunshine' => 22,
+            
+            // ID 23: Lime / Neon (new additions)
+            'lime' => 23, 'lime green' => 23, 'neon' => 23, 'neon green' => 23, 'neon yellow' => 23,
+        ];
+
+        // Check in-memory map first (fastest)
+        if (isset($map[$normalized])) {
+            return $map[$normalized];
+        }
+
+        // Fallback: DB lookup on the normalized token
+        $key = $normalized;
+        if (isset($this->colorCache[$key])) {
+            return $this->colorCache[$key];
+        }
+        
+        try {
+            // Try exact match first (case-insensitive)
+            $stmt = $this->db->prepare("SELECT id FROM gyc_vehicle_color WHERE LOWER(color_name) = ? LIMIT 1");
+            $stmt->execute([$key]);
+            $id = $stmt->fetchColumn();
+            
+            // If not found, try partial match (for edge cases)
+            if (!$id) {
+                $stmt = $this->db->prepare("SELECT id FROM gyc_vehicle_color WHERE LOWER(color_name) LIKE ? LIMIT 1");
+                $stmt->execute(['%' . $key . '%']);
+                $id = $stmt->fetchColumn();
+            }
+            
+            $this->colorCache[$key] = $id ? (int)$id : null;
+            if ($id) {
+                $this->log("  Resolved color '$color' → ID $id");
+            } else {
+                $this->log("  Warning: Color '$color' (normalized: '$normalized') not found in map or DB");
+            }
+            return $this->colorCache[$key];
+        } catch (Exception $e) {
+            $this->log("  Warning: color lookup failed for {$color}: " . $e->getMessage());
+            return null;
+        }
+    }
+    /**
+     * Extract model from vehicle title
+     */
+    private function extractModelFromTitle(string $title): string
+    {
+        $make = $this->extractMakeFromTitle($title);
+        if (!$make) {
+            return '';
+        }
+
+        // Remove make from title to get model
+        $modelPart = trim(str_ireplace($make, '', $title));
+
+        // Drop plate/year info inside parentheses and any trailing dash segments
+        $modelPart = preg_replace('/\\([^)]*\\)/', '', $modelPart);
+        $dashSplit = preg_split('/\\s*-\\s*/', $modelPart);
+        $modelPart = trim($dashSplit[0]);
+
+        // Remove engine size / numeric tokens (1.2, 2.0d, 140bhp, etc.)
+        $modelPart = preg_replace('/\\b\\d+(?:\\.\\d+)?[A-Za-z]*\\b/', '', $modelPart);
+
+        // Strip common spec/trim words so only model remains
+        $modelPart = preg_replace('/\\b(Euro|CVT|DCT|Auto|Automatic|Manual|Hybrid|Electric|PHEV|HEV|Diesel|Petrol|BlueHDi|TDI|CDTI|DCI|SD4|TFSI|EcoBoost|s\\/s|S\\/S|Start-Stop|AWD|4WD|2WD|FWD|RWD|Quattro|xDrive|sDrive|ALL4|Hatchback|SUV|Estate|Saloon|Coupe|Convertible|Cabriolet|MPV|Van|5dr|3dr|4dr|Nav|Navigation|Plus|Edition|Line|Sport|SE|S|Active|Design|Premium|Executive|Exclusive)\\b/i', '', $modelPart);
+
+        // Collapse whitespace
+        $modelPart = preg_replace('/\\s+/', ' ', trim($modelPart));
+
+        return trim($modelPart);
+    }
+
+    /**
      * Override JSON saving to use CarSafari data
      */
     protected function saveJsonSnapshot(): void
@@ -559,6 +1030,9 @@ class CarSafariScraper extends CarScraper
                 v.regular_price,
                 v.mileage,
                 v.color,
+                v.color_id,
+                v.manufacturer_color_id,
+                v.engine_no,
                 v.description,
                 v.attention_grabber,
                 v.doors,
@@ -571,6 +1045,7 @@ class CarSafariScraper extends CarScraper
                 v.updated_at,
                 a.model,
                 a.year,
+                a.make_id,
                 a.transmission,
                 a.fuel_type,
                 a.body_style,
@@ -579,6 +1054,8 @@ class CarSafariScraper extends CarScraper
             FROM gyc_vehicle_info v
             LEFT JOIN gyc_vehicle_attribute a ON v.attr_id = a.id
             WHERE v.vendor_id = {$this->vendorId}
+              AND v.active_status = '1'
+              AND v.reg_no REGEXP '^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$'
             ORDER BY v.created_at DESC
         ";
 
@@ -641,20 +1118,24 @@ class CarSafariScraper extends CarScraper
                         'reg_no' => $v['reg_no'],
                         'title' => $v['model'] . ' ' . $v['year'],  // Build title from model and year
                         'attention_grabber' => $v['attention_grabber'],  // Include attention_grabber field
-                        'model' => $v['model'],
-                        'year' => !empty($v['year']) ? (int)$v['year'] : null,
-                        'plate_year' => $v['registration_plate'],
-                        'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
-                        'drive_system' => $v['drive_system'],
-                        'engine_size' => !empty($v['engine_size']) ? (int)$v['engine_size'] : null,
-                        'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
-                        'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
-                        'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,
+                'model' => $v['model'],
+                'year' => !empty($v['year']) ? (int)$v['year'] : null,
+                'plate_year' => $v['registration_plate'],
+                'doors' => !empty($v['doors']) ? (int)$v['doors'] : null,
+                'drive_system' => $v['drive_system'],
+                'engine_size' => $this->formatEngineSizeForJson($v['engine_size']),
+                'make_id' => !empty($v['make_id']) ? (int)$v['make_id'] : null,
+                'color_id' => !empty($v['color_id']) ? (int)$v['color_id'] : null,
+                'manufacturer_color_id' => !empty($v['manufacturer_color_id']) ? (int)$v['manufacturer_color_id'] : null,
+                'engine_no' => $v['engine_no'],
+                'selling_price' => !empty($v['selling_price']) ? (int)$v['selling_price'] : 0,
+                'regular_price' => !empty($v['regular_price']) ? (int)$v['regular_price'] : null,
+                'mileage' => !empty($v['mileage']) ? (int)$v['mileage'] : 0,
                         'color' => $v['color'],
                         'transmission' => $v['transmission'],
                         'fuel_type' => $v['fuel_type'],
                         'body_style' => $v['body_style'],
-                        'description' => $v['description'],
+                        'description' => $this->sanitizeDescription($v['description']),
                         'postcode' => $v['post_code'],
                         'address' => $v['address'],
                         'vehicle_url' => $v['vehicle_url'],
@@ -695,11 +1176,106 @@ class CarSafariScraper extends CarScraper
     }
 
     /**
+     * Normalize engine size for JSON output.
+     * If value looks like litres (<= 50) keep as float, otherwise treat as cc integer.
+     */
+    private function formatEngineSizeForJson($engineSize)
+    {
+        if ($engineSize === null || $engineSize === '') {
+            return null;
+        }
+
+        if (is_numeric($engineSize)) {
+            $value = (float)$engineSize;
+            if ($value > 50) {
+                return (int)round($value);
+            }
+            return round($value, 3);
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove placeholder text like "View More" and normalize whitespace.
+     */
+    private function sanitizeDescription($text): ?string
+    {
+        if ($text === null) {
+            return null;
+        }
+
+        // Normalize line endings and remove trailing "View More"
+        $cleaned = str_replace(["\r\n", "\r"], "\n", trim($text));
+        $cleaned = preg_replace('/\s*View More\s*$/i', '', $cleaned);
+
+        // Replace pipe separators with line breaks for readability
+        $cleaned = str_replace([' | ', '|'], "\n", $cleaned);
+
+        // Trim each line but keep intended line breaks
+        $lines = array_map('trim', explode("\n", $cleaned));
+        $cleaned = implode("\n", $lines);
+
+        // Collapse multiple blank lines to a single blank line
+        $cleaned = preg_replace("/\n{3,}/", "\n\n", $cleaned);
+
+        return trim($cleaned);
+    }
+
+    /**
+     * Basic UK VRM validator (standard and common private plate formats).
+     */
+    private function isValidVrm(string $regNo): bool
+    {
+        $normalized = strtoupper(str_replace(' ', '', $regNo));
+        return (bool)preg_match('/^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$/', $normalized);
+    }
+
+    /**
+     * Deactivate stale or invalid vehicles (slug reg_nos or missing from current scrape).
+     */
+    private function deactivateInvalidAndStaleVehicles(array $activeIds): void
+    {
+        try {
+            $params = [$this->vendorId];
+            $invalidConditions = [
+                "reg_no NOT REGEXP '^(?:[A-Z]{2}[0-9]{2}[A-Z]{3}|[A-Z]{1,3}[0-9]{1,4}|[0-9]{1,4}[A-Z]{1,3})$'"
+            ];
+
+            if (!empty($activeIds)) {
+                $placeholders = implode(',', array_fill(0, count($activeIds), '?'));
+                $invalidConditions[] = "id NOT IN ($placeholders)";
+                $params = array_merge($params, $activeIds);
+            }
+
+            $sql = "UPDATE gyc_vehicle_info
+                    SET active_status = '0', updated_at = NOW()
+                    WHERE vendor_id = ?
+                      AND active_status = '1'
+                      AND (" . implode(' OR ', $invalidConditions) . ")";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            $count = $stmt->rowCount();
+            if ($count > 0) {
+                $this->stats['deactivated'] = ($this->stats['deactivated'] ?? 0) + $count;
+                $this->log("  Deactivated {$count} stale/invalid vehicles");
+            }
+
+        } catch (Exception $e) {
+            $this->log("Warning: Failed to deactivate stale/invalid vehicles: " . $e->getMessage());
+        }
+    }
+
+    /**
      * Log optimization statistics after scrape
      * Shows efficiency of change detection and file management
      */
     protected function logOptimizationStats(): void
     {
+        $this->stats['deactivated'] = $this->stats['deactivated'] ?? 0;
+        $this->stats['errors'] = $this->stats['errors'] ?? 0;
         $this->log("\n========== OPTIMIZATION REPORT ==========");
         $this->log("Processing Efficiency:");
         $this->log("  Found:     {$this->stats['found']}");
@@ -771,25 +1347,33 @@ class CarSafariScraper extends CarScraper
     {
         // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
         $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];
+        $colorName = $vehicle['colour'] ?? $vehicle['color'] ?? null;
+        $colorId = $colorName ? $this->resolveColorId($colorName) : null;
+        $manufacturerColorId = $colorId; // best effort
         
         // Check if vehicle exists
-        $checkSql = "SELECT id, data_hash FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
+        $checkSql = "SELECT id, data_hash, attr_id FROM gyc_vehicle_info WHERE reg_no = ? LIMIT 1";
         $checkStmt = $this->db->prepare($checkSql);
         $checkStmt->execute([$regNo]);
         $existing = $checkStmt->fetch();
+        $existingAttrId = $existing ? (int)($existing['attr_id'] ?? 0) : 0;
 
         // Calculate current data hash
         $currentHash = $this->calculateDataHash($vehicle);
         $storedHash = $existing ? ($existing['data_hash'] ?? null) : null;
 
         // Check if data has changed
-        if ($existing && $currentHash === $storedHash) {
+        if ($existing && $currentHash === $storedHash && $existingAttrId === $attrId) {
             $this->stats['skipped']++;
             $this->log("  [SKIP] Vehicle {$regNo} - no changes detected");
             return [
                 'vehicleId' => (int)$existing['id'],
                 'action' => 'skipped'
             ];
+        }
+
+        if ($existing && $currentHash === $storedHash && $existingAttrId !== $attrId) {
+            $this->log("  [UPDATE] Vehicle {$regNo} - relinking attr_id from {$existingAttrId} to {$attrId}");
         }
 
         // Data has changed or new vehicle - save it
@@ -839,17 +1423,19 @@ class CarSafariScraper extends CarScraper
         // STEP 3: Add new fields + data_hash for change detection
         $sql = "INSERT INTO gyc_vehicle_info (
                     attr_id, reg_no, selling_price, regular_price, mileage,
-                    color, description, attention_grabber, vendor_id, v_condition,
+                    color, color_id, manufacturer_color_id, description, attention_grabber, vendor_id, v_condition,
                     active_status, vehicle_url, doors, registration_plate, drive_system,
-                    post_code, address, drive_position, data_hash, created_at, updated_at
+                    post_code, address, drive_position, engine_no, data_hash, created_at, updated_at
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'USED', '1', ?, ?, ?, ?, 'LE7 1NS', 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS', 'Right', ?, ?, ?, ?
                 ) ON DUPLICATE KEY UPDATE
                     attr_id = VALUES(attr_id),
                     selling_price = VALUES(selling_price),
                     regular_price = VALUES(regular_price),
                     mileage = VALUES(mileage),
                     color = VALUES(color),
+                    color_id = VALUES(color_id),
+                    manufacturer_color_id = VALUES(manufacturer_color_id),
                     description = VALUES(description),
                     attention_grabber = VALUES(attention_grabber),
                     vehicle_url = VALUES(vehicle_url),
@@ -859,6 +1445,7 @@ class CarSafariScraper extends CarScraper
                     post_code = 'LE7 1NS',
                     address = 'Unit 10 Mill Lane Syston, Leicester, LE7 1NS',
                     drive_position = 'Right',
+                    engine_no = VALUES(engine_no),
                     data_hash = VALUES(data_hash),
                     active_status = '1',
                     updated_at = VALUES(updated_at)";
@@ -874,22 +1461,25 @@ class CarSafariScraper extends CarScraper
             $price,                                                     // 3: selling_price
             $price,                                                     // 4: regular_price
             $this->extractNumericMileage($vehicle['mileage']),         // 5: mileage
-            $vehicle['colour'],                                         // 6: color
-            $vehicle['description_full'] ?? $vehicle['description_short'],  // 7: description
-            $vehicle['attention_grabber'],                             // 8: attention_grabber (short subtitle only, NULL if not present)
-            $this->vendorId,                                            // 9: vendor_id
-            // 10: v_condition='USED' (hardcoded)
-            // 11: active_status='1' (hardcoded)
-            $vehicle['vehicle_url'] ?? null,                           // 12: vehicle_url
-            $vehicle['doors'] ?? null,                                 // 13: doors
-            $vehicle['registration_plate'] ?? null,                    // 14: registration_plate
-            $vehicle['drive_system'] ?? null,                          // 15: drive_system
-            // 16: post_code='LE7 1NS' (hardcoded)
-            // 17: address='Unit 10...' (hardcoded)
-            // 18: drive_position='Right' (hardcoded)
-            $dataHash,                                                  // 19: data_hash
-            $now,                                                       // 20: created_at
-            $now,                                                       // 21: updated_at
+            $vehicle['colour'],                                         // 6: color (raw text)
+            $colorId,                                                   // 7: color_id (lookup)
+            $manufacturerColorId,                                       // 8: manufacturer_color_id (best effort)
+            $vehicle['description_full'] ?? $vehicle['description_short'],  // 9: description
+            $vehicle['attention_grabber'],                             // 10: attention_grabber (short subtitle only, NULL if not present)
+            $this->vendorId,                                            // 11: vendor_id
+            // 12: v_condition='USED' (hardcoded)
+            // 13: active_status='1' (hardcoded)
+            $vehicle['vehicle_url'] ?? null,                           // 14: vehicle_url
+            $vehicle['doors'] ?? null,                                 // 15: doors
+            $vehicle['registration_plate'] ?? null,                    // 16: registration_plate
+            $vehicle['drive_system'] ?? null,                          // 17: drive_system
+            // 18: post_code='LE7 1NS' (hardcoded)
+            // 19: address='Unit 10...' (hardcoded)
+            // 20: drive_position='Right' (hardcoded)
+            $vehicle['engine_no'] ?? $regNo,                           // 21: engine_no (fallback to reg_no)
+            $dataHash,                                                  // 22: data_hash
+            $now,                                                       // 23: created_at
+            $now,                                                       // 24: updated_at
         ]);
 
         if (!$result) {
