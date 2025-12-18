@@ -29,7 +29,9 @@ Dealer Website (systonautosltd.co.uk)
 |-----|---------|-----------|
 | **[📋 Project Overview](doc/project-overview.md)** | **START HERE** — Complete 8-phase execution flow, data sources, database operations, error handling | 15 min |
 | **[🗄️ Database Schema Cheat Sheet](doc/vehicle_db.md)** | Quick reference for table relationships, FK mappings, sample queries | 5 min |
-| **[🔧 Live DB Migration Checklist](live_DB_migrate.md)** | SQL deltas for production: add `vehicle_url`, create stats tables | 3 min |
+| **[🎨 Color Mapping Guide](doc/COLOR_MAPPING_GUIDE.md)** | Color ID lookup table, mapping algorithm, fixes for `color_id: null` issues | 8 min |
+| **[🔧 Live DB Migration Checklist](live_DB_migrate.md)** | SQL deltas for production: color seeding, `vehicle_url`, stats tables | 5 min |
+| **[⚡ Color Quick Reference](QUICK_REFERENCE_COLORS.md)** | Copy-paste commands for seeding, testing, debugging color issues | 5 min |
 | **[📖 This File](README.md)** | Quick start, local setup, cPanel deployment | 10 min |
 
 ---

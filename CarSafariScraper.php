@@ -815,6 +815,8 @@ class CarSafariScraper extends CarScraper
 
     /**
      * Resolve color name to color_id (gyc_vehicle_color.id). Cached per run.
+     * Handles case-insensitive matching with extensive color variants (40+ colors).
+     * Maps to canonical IDs: 1-23 (expanded palette).
      */
     private function resolveColorId(?string $color): ?int
     {
@@ -823,52 +825,96 @@ class CarSafariScraper extends CarScraper
             return null;
         }
 
-        // Normalize: drop combos/suffixes and map common variants to the canonical palette (ids 1–22)
+        // Normalize: lowercase, drop combos, remove finishes
         $normalized = strtolower($color);
-        $normalized = preg_split('/[\\/,|]+/', $normalized)[0]; // take the first color when combos are present
-        $normalized = preg_replace('/\\b(metallic|pearl|matt|matte|solid|gloss|finish)\\b/', '', $normalized);
+        $normalized = preg_split('/[\\/,|&]+/', $normalized)[0]; // take first color in combos
+        $normalized = preg_replace('/\\b(metallic|pearl|matt|matte|solid|gloss|finish|effect|sparkle|shade|tone)\\b/', '', $normalized);
         $normalized = trim(preg_replace('/\\s+/', ' ', $normalized));
 
-        // Fast in-memory map to the canonical IDs
+        // EXPANDED in-memory map: 40+ color variants → 23 canonical IDs
+        // IDs match gyc_vehicle_color: 1=Beige, 2=Black, 3=Blue, 4=Bronze, 5=Brown, 6=Burgundy, 7=Gold,
+        //                               8=Green, 9=Grey, 10=Indigo, 11=Magenta, 12=Mcroon, 13=Multicolor, 14=Navy,
+        //                               15=Orange, 16=Pink, 17=Purple, 18=Red, 19=None, 20=White, 21=Silver, 22=Yellow, 23=Lime
         $map = [
-            'beige' => 1,
-            'cream' => 1,
-            'tan' => 1,
-            'sand' => 1,
-            'black' => 2,
-            'blue' => 3,
-            'navy' => 14,
-            'light blue' => 3,
-            'bronze' => 4,
-            'brown' => 5,
-            'burgundy' => 6,
-            'maroon' => 6,
-            'gold' => 7,
-            'champagne' => 7,
-            'green' => 8,
-            'teal' => 8,
-            'turquoise' => 8,
-            'grey' => 9,
-            'gray' => 9,
-            'charcoal' => 9,
-            'gunmetal' => 9,
-            'silver' => 21,
-            'indigo' => 10,
-            'magenta' => 11,
-            'mccroon' => 12,
-            'mcroon' => 12,
-            'multicolor' => 13,
-            'purple' => 17,
-            'violet' => 17,
-            'red' => 18,
-            'orange' => 15,
-            'yellow' => 22,
-            'white' => 20,
-            'off white' => 20,
-            'ivory' => 20,
-            'pink' => 16,
+            // ID 1: Beige / Cream / Tan / Sand
+            'beige' => 1, 'cream' => 1, 'tan' => 1, 'sand' => 1, 'ecru' => 1, 'linen' => 1, 'taupe' => 1,
+            
+            // ID 2: Black
+            'black' => 2, 'jet black' => 2, 'pearl black' => 2, 'ebony' => 2, 'raven' => 2,
+            
+            // ID 3: Blue
+            'blue' => 3, 'light blue' => 3, 'sky blue' => 3, 'azure' => 3, 'cobalt' => 3,
+            'steel blue' => 3, 'peacock blue' => 3, 'cornflower' => 3, 'denim' => 3,
+            
+            // ID 4: Bronze
+            'bronze' => 4, 'copper' => 4, 'bronze metallic' => 4,
+            
+            // ID 5: Brown
+            'brown' => 5, 'tan brown' => 5, 'beige brown' => 5, 'chocolate' => 5, 'mahogany' => 5,
+            'chestnut' => 5, 'coffee' => 5, 'caramel' => 5, 'walnut' => 5, 'mocha' => 5,
+            
+            // ID 6: Burgundy / Maroon / Wine
+            'burgundy' => 6, 'maroon' => 6, 'wine' => 6, 'claret' => 6, 'wine red' => 6, 'oxblood' => 6,
+            
+            // ID 7: Gold / Champagne
+            'gold' => 7, 'champagne' => 7, 'golden' => 7, 'champagne gold' => 7, 'beige gold' => 7,
+            
+            // ID 8: Green
+            'green' => 8, 'light green' => 8, 'dark green' => 8, 'olive' => 8, 'moss' => 8,
+            'forest green' => 8, 'sage' => 8, 'pistachio' => 8,
+            
+            // ID 9: Grey / Gray
+            'grey' => 9, 'gray' => 9, 'light grey' => 9, 'light gray' => 9, 'dark grey' => 9, 'dark gray' => 9,
+            'charcoal' => 9, 'gunmetal' => 9, 'slate' => 9, 'graphite' => 9, 'ash' => 9,
+            'silver grey' => 9, 'pewter' => 9, 'stone' => 9, 'concrete' => 9,
+            
+            // ID 10: Indigo
+            'indigo' => 10, 'deep indigo' => 10,
+            
+            // ID 11: Magenta
+            'magenta' => 11, 'fuchsia' => 11,
+            
+            // ID 12: Mcroon (variant spelling)
+            'mccroon' => 12, 'mcroon' => 12, 'macroon' => 12,
+            
+            // ID 13: Multicolor / Mixed
+            'multicolor' => 13, 'multi-color' => 13, 'mixed' => 13, 'two-tone' => 13, 'two tone' => 13,
+            
+            // ID 14: Navy
+            'navy' => 14, 'navy blue' => 14, 'dark navy' => 14,
+            
+            // ID 15: Orange
+            'orange' => 15, 'burnt orange' => 15, 'apricot' => 15, 'tangerine' => 15, 'coral' => 15,
+            
+            // ID 16: Pink
+            'pink' => 16, 'light pink' => 16, 'hot pink' => 16, 'rose' => 16, 'salmon' => 16,
+            'blush' => 16, 'fuchsia pink' => 16,
+            
+            // ID 17: Purple / Violet
+            'purple' => 17, 'violet' => 17, 'lilac' => 17, 'lavender' => 17, 'plum' => 17,
+            'deep purple' => 17, 'dark purple' => 17,
+            
+            // ID 18: Red
+            'red' => 18, 'dark red' => 18, 'bright red' => 18, 'crimson' => 18, 'scarlet' => 18,
+            'ruby' => 18, 'cherry' => 18, 'fire red' => 18, 'candy red' => 18,
+            
+            // ID 20: White / Off-white / Ivory
+            'white' => 20, 'off white' => 20, 'off-white' => 20, 'ivory' => 20, 'cream white' => 20,
+            'pearl white' => 20, 'snow white' => 20, 'pure white' => 20,
+            
+            // ID 21: Silver
+            'silver' => 21, 'silver metallic' => 21, 'light silver' => 21, 'bright silver' => 21,
+            'polished silver' => 21,
+            
+            // ID 22: Yellow
+            'yellow' => 22, 'light yellow' => 22, 'bright yellow' => 22, 'golden yellow' => 22,
+            'lemon' => 22, 'banana' => 22, 'sunshine' => 22,
+            
+            // ID 23: Lime / Neon (new additions)
+            'lime' => 23, 'lime green' => 23, 'neon' => 23, 'neon green' => 23, 'neon yellow' => 23,
         ];
 
+        // Check in-memory map first (fastest)
         if (isset($map[$normalized])) {
             return $map[$normalized];
         }
@@ -878,11 +924,26 @@ class CarSafariScraper extends CarScraper
         if (isset($this->colorCache[$key])) {
             return $this->colorCache[$key];
         }
+        
         try {
+            // Try exact match first (case-insensitive)
             $stmt = $this->db->prepare("SELECT id FROM gyc_vehicle_color WHERE LOWER(color_name) = ? LIMIT 1");
             $stmt->execute([$key]);
             $id = $stmt->fetchColumn();
+            
+            // If not found, try partial match (for edge cases)
+            if (!$id) {
+                $stmt = $this->db->prepare("SELECT id FROM gyc_vehicle_color WHERE LOWER(color_name) LIKE ? LIMIT 1");
+                $stmt->execute(['%' . $key . '%']);
+                $id = $stmt->fetchColumn();
+            }
+            
             $this->colorCache[$key] = $id ? (int)$id : null;
+            if ($id) {
+                $this->log("  Resolved color '$color' → ID $id");
+            } else {
+                $this->log("  Warning: Color '$color' (normalized: '$normalized') not found in map or DB");
+            }
             return $this->colorCache[$key];
         } catch (Exception $e) {
             $this->log("  Warning: color lookup failed for {$color}: " . $e->getMessage());
