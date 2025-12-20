@@ -423,7 +423,8 @@ For detailed schema, see → **[🗄️ Database Schema Cheat Sheet](doc/vehicle
 - Enrich specs via CarCheck (where available)
 - Resolve `make_id`, `color_id`/`manufacturer_color_id`, `engine_no`
 - Upsert into `gyc_vehicle_attribute` + `gyc_vehicle_info`; images into `gyc_product_images`
-- Auto-publish status + deactivate stale records
+- Auto-publish status; deactivate stale records only if success rate meets threshold
+- If success rate is low, cleanup is skipped and an alert is sent
 - Persist rotated JSON snapshot and statistics row
 
 ## Quick Architecture Snapshot (fast onboarding)
@@ -433,7 +434,7 @@ For detailed schema, see → **[🗄️ Database Schema Cheat Sheet](doc/vehicle
 
 ### Minimal sequence to run
 ```bash
-php daily_refresh.php --vendor=432       # production run (purge -> scrape -> upsert -> publish)
+php daily_refresh.php --vendor=432       # production run (scrape -> upsert -> publish -> gated cleanup)
 php daily_refresh.php --vendor=432 --force # force changes and cleanup
 ```
 

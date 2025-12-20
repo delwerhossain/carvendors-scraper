@@ -5,8 +5,8 @@
  *
  * This script implements the most efficient daily refresh strategy:
  * 1. Scrape new data first (minimal downtime)
- * 2. Delete old data in bulk
- * 3. Insert new data in bulk
+ * 2. Check success rate (safety threshold)
+ * 3. Clean up old data only if the run is healthy
  *
  * Usage:
  *   php daily_refresh.php
@@ -72,75 +72,17 @@ try {
         ]
     );
 
-    $dbName = $config['database']['dbname'];
+    // Safety thresholds - CRITICAL to protect live website from zero inventory
+    $minSuccessRate = 0.85; // 85% success rate required
+    $minInventoryRatio = 0.80; // New data must be >= 80% of current active inventory
+    
+    // Get current inventory count BEFORE scrape
+    $currentCountStmt = $pdo->prepare("SELECT COUNT(*) as total FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status IN ('1', '2')");
+    $currentCountStmt->execute([$vendorId]);
+    $currentActiveCount = (int)$currentCountStmt->fetch()['total'];
+    echo "Current active inventory: {$currentActiveCount} vehicles\n\n";
 
-    /**
-     * Helper: check if a column exists on a table.
-     */
-    $columnExists = function(string $table, string $column) use ($pdo, $dbName): bool {
-        $stmt = $pdo->prepare("
-            SELECT COUNT(*) 
-            FROM information_schema.COLUMNS 
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?
-        ");
-        $stmt->execute([$dbName, $table, $column]);
-        return (bool)$stmt->fetchColumn();
-    };
-
-    /**
-     * Phase 0: purge existing vendor data to avoid stale/duplicate rows.
-     */
-    $purgeVendorData = function(int $vendorId) use ($pdo, $columnExists): void {
-        echo "Phase 0: Purging vendor {$vendorId} data...\n";
-
-        $deleteByIds = function(string $table, string $column, array $ids, string $label) use ($pdo): int {
-            $total = 0;
-            $chunkSize = 500;
-            foreach (array_chunk($ids, $chunkSize) as $chunk) {
-                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
-                $stmt = $pdo->prepare("DELETE FROM {$table} WHERE {$column} IN ($placeholders)");
-                $stmt->execute($chunk);
-                $total += $stmt->rowCount();
-            }
-            echo "  Removed {$total} {$label}\n";
-            return $total;
-        };
-
-        // Fetch vehicle ids and attribute ids for this vendor
-        $stmt = $pdo->prepare("SELECT id, attr_id FROM gyc_vehicle_info WHERE vendor_id = ?");
-        $stmt->execute([$vendorId]);
-        $rows = $stmt->fetchAll();
-        $vehicleIds = array_column($rows, 'id');
-        $attrIds = array_unique(array_filter(array_column($rows, 'attr_id')));
-
-        // Delete product images
-        if (!empty($vehicleIds) && $columnExists('gyc_product_images', 'vechicle_info_id')) {
-            $deleteByIds('gyc_product_images', 'vechicle_info_id', $vehicleIds, 'product images');
-        }
-        // Legacy/fallback table that should stay empty
-        if (!empty($vehicleIds) && $columnExists('gyc_vehicle_image', 'vechicle_info_id')) {
-            $deleteByIds('gyc_vehicle_image', 'vechicle_info_id', $vehicleIds, 'rows from gyc_vehicle_image (legacy)');
-        }
-
-        // Delete vehicle info
-        $delVehicle = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE vendor_id = ?");
-        $delVehicle->execute([$vendorId]);
-        echo "  Removed {$delVehicle->rowCount()} vehicle_info rows\n";
-
-        // Delete attributes linked to this vendor's vehicles
-        if (!empty($attrIds)) {
-            $deleteByIds('gyc_vehicle_attribute', 'id', $attrIds, 'vehicle_attribute rows');
-        } else {
-            echo "  Removed 0 vehicle_attribute rows\n";
-        }
-
-        echo "Phase 0 complete.\n\n";
-    };
-
-    // Perform purge before scraping fresh data
-    $purgeVendorData($vendorId);
-
-    // Phase 1: Scrape new data (minimal downtime)
+    // Phase 1: Scrape new data (NO impact to live tables yet)
     echo "Phase 1: Scraping new data...\n";
     $startTime = microtime(true);
 
@@ -148,7 +90,7 @@ try {
     $scraper = new CarSafariScraper($config, 'carsafari');
     $scraper->setVendorId($vendorId);
 
-    // Run scraper with all options enabled
+    // Run scraper WITHOUT cleanup phase (success rate will be checked after)
     $result = $scraper->runWithCarSafari();
 
     if (!$result['success']) {
@@ -160,39 +102,81 @@ try {
     echo "  Found: {$result['stats']['found']}\n";
     echo "  Inserted: {$result['stats']['inserted']}\n";
     echo "  Updated: {$result['stats']['updated']}\n";
-    echo "  Skipped: {$result['stats']['skipped']}\n\n";
+    echo "  Skipped: {$result['stats']['skipped']}\n";
+    echo "  Errors: {$result['stats']['errors']}\n\n";
 
-    // Phase 2: Cleanup old data if this was a significant update
-    $totalChanges = $result['stats']['inserted'] + $result['stats']['updated'];
+    // Phase 2: Safety validation - check health BEFORE any cleanup/deactivation
+    echo "Phase 2: Safety validation...\n";
+    $totalChanges = (int)($result['stats']['inserted'] ?? 0) + (int)($result['stats']['updated'] ?? 0);
+    $found = (int)($result['stats']['found'] ?? 0);
+    $processed = (int)($result['stats']['inserted'] ?? 0)
+        + (int)($result['stats']['updated'] ?? 0)
+        + (int)($result['stats']['skipped'] ?? 0);
+    $successRate = $found > 0 ? ($processed / $found) : 0.0;
+    $successRatePct = round($successRate * 100, 1);
+    
+    // Count newly added vehicles in this run
+    $newCountStmt = $pdo->prepare("SELECT COUNT(*) as total FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status IN ('1', '2')");
+    $newCountStmt->execute([$vendorId]);
+    $newActiveCount = (int)$newCountStmt->fetch()['total'];
+    $inventoryRatioPct = $currentActiveCount > 0 ? round(($newActiveCount / $currentActiveCount) * 100, 1) : 0;
+    
+    echo "  Success Rate: {$successRatePct}% (required: " . ($minSuccessRate * 100) . "%)\n";
+    echo "  Inventory Ratio: {$inventoryRatioPct}% (required: " . ($minInventoryRatio * 100) . "%)\n";
+    echo "  Previous inventory: {$currentActiveCount} → Current: {$newActiveCount}\n\n";
 
-    if ($totalChanges > 0 || $force) {
-        echo "Phase 2: Cleaning up old data...\n";
+    // Health check: only cleanup if metrics are healthy
+    $isHealthy = $found > 0 
+        && $successRate >= $minSuccessRate 
+        && $newActiveCount >= (int)round($currentActiveCount * $minInventoryRatio);
+
+    if ($isHealthy) {
+        echo "Phase 3: CLEANUP APPROVED - Metrics are healthy\n";
         $cleanupStart = microtime(true);
 
-        // Get current vehicle count
-        $countSql = "SELECT COUNT(*) as total FROM gyc_vehicle_info WHERE vendor_id = ?";
-        $stmt = $pdo->prepare($countSql);
-        $stmt->execute([$vendorId]);
-        $currentCount = $stmt->fetch()['total'];
-
-        echo "  Current vehicles in database: $currentCount\n";
-
-        // Optional: Remove very old inactive vehicles (older than 30 days)
-        $cleanupSql = "DELETE FROM gyc_vehicle_info
-                      WHERE vendor_id = ?
-                      AND active_status = '0'
-                      AND updated_at < DATE_SUB(NOW(), INTERVAL 30 DAY)";
-
-        $cleanupStmt = $pdo->prepare($cleanupSql);
-        $deletedCount = $cleanupStmt->execute([$vendorId]) ? $cleanupStmt->rowCount() : 0;
-
-        if ($deletedCount > 0) {
-            echo "  Deleted $deletedCount old inactive vehicles\n";
-        } else {
-            echo "  No old vehicles to clean up\n";
+        // Safe deactivation: mark vehicles not in current scrape as inactive
+        echo "  Deactivating vehicles not in current scrape...\n";
+        
+        // Get all vehicle IDs currently in the system for this vendor
+        $allIdsStmt = $pdo->prepare("SELECT id, reg_no FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status IN ('1', '2')");
+        $allIdsStmt->execute([$vendorId]);
+        $allVehicles = $allIdsStmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        
+        // Get all reg_nos from scrape result (from database, not memory)
+        $scrapedRegStmt = $pdo->prepare("SELECT DISTINCT reg_no FROM gyc_vehicle_info WHERE vendor_id = ? AND updated_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)");
+        $scrapedRegStmt->execute([$vendorId]);
+        $scrapedRegs = array_column($scrapedRegStmt->fetchAll(), 'reg_no', 'reg_no');
+        
+        // Find vehicles to deactivate (were active, not in current scrape)
+        $toDeactivate = [];
+        foreach ($allVehicles as $id => $regNo) {
+            if (!isset($scrapedRegs[$regNo])) {
+                $toDeactivate[] = $id;
+            }
+        }
+        
+        if (!empty($toDeactivate)) {
+            // Deactivate in chunks to avoid lock issues
+            $chunkSize = 500;
+            $deactivatedCount = 0;
+            foreach (array_chunk($toDeactivate, $chunkSize) as $chunk) {
+                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+                $deactivateStmt = $pdo->prepare("UPDATE gyc_vehicle_info SET active_status = '0', updated_at = NOW() WHERE id IN ($placeholders)");
+                $deactivateStmt->execute($chunk);
+                $deactivatedCount += $deactivateStmt->rowCount();
+            }
+            echo "  Deactivated {$deactivatedCount} vehicles not in current scrape\n";
         }
 
-        // Optional: Optimize tables (run weekly)
+        // Optional: Remove very old inactive vehicles (older than 30 days)
+        $oldDeleteStmt = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status = '0' AND updated_at < DATE_SUB(NOW(), INTERVAL 30 DAY) LIMIT 1000");
+        $oldDeleteStmt->execute([$vendorId]);
+        $oldDeleted = $oldDeleteStmt->rowCount();
+        if ($oldDeleted > 0) {
+            echo "  Deleted {$oldDeleted} old inactive vehicles (>30 days)\n";
+        }
+
+        // Optional: Optimize tables (weekly)
         if (date('w') == '0' || $force) { // Sunday or force mode
             echo "  Optimizing tables...\n";
             $pdo->exec("OPTIMIZE TABLE gyc_vehicle_info");
@@ -204,14 +188,23 @@ try {
         $cleanupTime = microtime(true) - $cleanupStart;
         echo "  Cleanup completed in " . round($cleanupTime, 2) . " seconds\n\n";
     } else {
-        echo "Phase 2: Skipped (no changes detected)\n\n";
+        echo "Phase 3: CLEANUP SKIPPED - Safety thresholds NOT met\n";
+        $reasons = [];
+        if ($successRate < $minSuccessRate) {
+            $reasons[] = "Success rate {$successRatePct}% < {" . ($minSuccessRate * 100) . "%}";
+        }
+        if ($newActiveCount < (int)round($currentActiveCount * $minInventoryRatio)) {
+            $reasons[] = "Inventory ratio {$inventoryRatioPct}% < " . ($minInventoryRatio * 100) . "%";
+        }
+        echo "  Reason: " . implode(", ", $reasons) . "\n";
+        echo "  LIVE INVENTORY PRESERVED - No deactivation performed\n\n";
     }
 
-    // Phase 3: Final statistics
+    // Phase 4: Final statistics
     $totalTime = microtime(true) - $startTime;
 
     // Get final vehicle count
-    $countSql = "SELECT COUNT(*) as total FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status = '1'";
+    $countSql = "SELECT COUNT(*) as total FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status IN ('1', '2')";
     $stmt = $pdo->prepare($countSql);
     $stmt->execute([$vendorId]);
     $finalCount = $stmt->fetch()['total'];
@@ -223,7 +216,7 @@ try {
     echo "  Total Time: " . round($totalTime, 2) . " seconds\n";
     echo "  Scrape Time: " . round($scrapeTime, 2) . " seconds\n";
     echo "  Changes Made: " . $totalChanges . "\n";
-    echo "  Active Vehicles: $finalCount\n";
+    echo "  Final Active Vehicles: $finalCount\n";
 
     if ($totalChanges > 0) {
         $changeRate = round(($totalChanges / $result['stats']['found']) * 100, 1);
@@ -231,15 +224,26 @@ try {
     }
 
     echo "\nOptimization Features Applied:\n";
-    echo "  - Smart Change Detection (100% skip rate for unchanged data)\n";
-    echo "  - Hash-based comparison (no unnecessary updates)\n";
-    echo "  - Bulk operations where possible\n";
-    echo "  - Minimal downtime (scrape first, cleanup later)\n";
+    echo "  - Smart Change Detection (hash-based, 100% skip for unchanged)\n";
+    echo "  - Safety Gate (only cleanup if health metrics pass)\n";
+    echo "  - Bulk operations & minimal downtime\n";
+    echo "  - Auto-publish & stale deactivation\n";
 
-    // Send alert email (best-effort, only if environment variables are set)
+    // Send alert email (best-effort)
     $errors = (int)($result['stats']['errors'] ?? 0);
-    $note = $errors > 0 ? "Run completed with {$errors} failures (e.g., invalid VRMs or fetch errors)." : '';
-    send_scrape_alert($vendorId, $result['stats'], true, $note);
+    $noteParts = [];
+    $noteParts[] = "Success rate: {$successRatePct}% (required: " . ($minSuccessRate * 100) . "%)";
+    $noteParts[] = "Inventory: {$currentActiveCount} → {$finalCount}";
+    if ($errors > 0) {
+        $noteParts[] = "Errors: {$errors}";
+    }
+    if ($isHealthy) {
+        $noteParts[] = "Cleanup: APPROVED";
+    } else {
+        $noteParts[] = "Cleanup: SKIPPED (protection enabled)";
+    }
+    $note = implode(' | ', $noteParts);
+    send_scrape_alert($vendorId, $result['stats'], $isHealthy, $note);
 
     exit(0);
 

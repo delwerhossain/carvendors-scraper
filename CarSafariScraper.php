@@ -73,14 +73,14 @@ class CarSafariScraper extends CarScraper
         }
 
         try {
-            // PHASE 3: Cleanup old files before starting
+            // PHASE 1: Cleanup old log files before starting
             $this->log("Cleaning up old log files...");
             $deletedLogs = $this->cleanupOldLogs();
             if ($deletedLogs > 0) {
                 $this->log("Deleted {$deletedLogs} old log files (older than 7 days)");
             }
 
-            // Step 1: Fetch and parse listing page
+            // PHASE 2: Scrape - Step 1: Fetch and parse listing page
             $this->log("Fetching listing page...");
             $html = $this->fetchUrl($this->config['scraper']['listing_url']);
 
@@ -103,25 +103,25 @@ class CarSafariScraper extends CarScraper
                 $vehicles = $this->enrichWithDetailPages($vehicles);
             }
 
-            // Step 4: Save to CarSafari database with change detection
+            // PHASE 3: Database save - Save to CarSafari database with change detection
             $this->log("Saving to CarSafari database with change detection...");
             $activeIds = $this->saveVehiclesToCarSafari($vehicles);
 
-            // Step 5: Auto-publish new vehicles
+            // PHASE 4: Auto-publish new vehicles
             $this->log("Setting auto-publish status...");
             $this->autoPublishVehicles($activeIds);
 
-            // Step 5b: Deactivate stale/invalid records (slug regs, missing VRM, not in current run)
-            $this->log("Deactivating stale or invalid records...");
-            $this->deactivateInvalidAndStaleVehicles($activeIds);
+            // IMPORTANT: DO NOT deactivate stale vehicles here
+            // The daily_refresh.php script will handle deactivation only if health checks pass
+            // This protects live inventory if the scrape has a bad run
 
-            // Step 6: Save JSON snapshot with rotation
+            // PHASE 5: Save JSON snapshot with rotation
             if ($this->config['output']['save_json']) {
                 $this->log("Saving JSON snapshot with file rotation...");
                 $this->saveJsonSnapshot();
             }
 
-            // Step 7: Finalize statistics and save to database
+            // PHASE 6: Finalize statistics and save to database
             if ($this->statisticsManager) {
                 $this->statisticsManager->recordImageStatistics(
                     $this->stats['images_stored'] ?? 0,
