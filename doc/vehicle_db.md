@@ -1,57 +1,199 @@
-# Vehicle Database Map
+# Vehicle Database Schema Reference
 
-This document summarizes the core vehicle data model from `sql/full_DB.sql` / `sql/main.sql` for quick reference when writing scrapers or data loaders.
+Production database schema for CarSafari CarVendors scraper. Accurate column definitions from `sql/main_live_db.sql`.
+
+---
 
 ## Core Tables
 
-- **gyc_vehicle_attribute**
-  - Purpose: Canonical spec set (make/model/trim/etc.) that multiple vehicle records can reference.
-  - Key columns: `id` (PK), `category_id` (→ gyc_category.id), `make_id` (→ gyc_make.id), `model`, `generation`, `trim`, `engine_size`, `fuel_type`, `transmission`, `derivative`, `gearbox`, `year`, `body_style`, `active_status`, timestamps.
+### gyc_vehicle_info (Main Vehicle Listing)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Unique vehicle record
+vendor_id           INT(11) FK        Dealer ID (432 = systonautosltd)
+reg_no              VARCHAR(255)      UK registration (VRM) - UNIQUE per vendor
+attr_id             INT(11) FK        Reference to gyc_vehicle_attribute (specs)
+selling_price       INT(11)           Current asking price (£)
+mileage             INT(11)           Odometer reading (miles)
+color               VARCHAR(100)      Exterior color (text)
+color_id            INT(11) FK        Color ID (gyc_vehicle_color)
+description         TEXT              Full vehicle description
+active_status       ENUM(0,1,2,3,4)   0=Pending, 1=Waiting, 2=Published, 3=Sold, 4=Blocked
+created_at          DATETIME          Record creation timestamp
+updated_at          DATETIME          Last modification timestamp
+```
 
-- **gyc_vehicle_info**
-  - Purpose: The per-vehicle listing row.
-  - Key columns: `id` (PK), `attr_id` (→ gyc_vehicle_attribute.id), `reg_no`, `reg_date`, `selling_price`, `regular_price`, `post_code`, `address`, `mileage`, `registration_plate`, `tax_band`, `color` (text), `color_id` / `manufacturer_color_id` / `interior_color_id` (→ gyc_vehicle_color.id), `seats`, `doors`, `v_condition` (USED/NEW), `feature_id` (comma-separated gyc_features ids), `tag_id` (→ gyc_vehicle_tag.id), `trim_id` (→ gyc_vehicle_trim.id), `exterior_finish_id` (→ gyc_vehicle_exterior_finish.id), `vendor_id` (→ gyc_vendor_info.id), `engine_no`, `drive_system`, `drive_position`, `description`, `attention_grabber`, `youtube_link`, `service_history`, `last_service_date`, `miles_service`, `mot_expiry_date`, `mot_included`, `mot_insurance`, `warranty`, `owner`, `interior_condition`, `exterior_condition`, `active_status` (0 pending / 1 waiting / 2 published / 3 sold / 4 blocked), `publish_date`, visit counters, `vehicle_url`, timestamps.
+**Indexes**: 
+- PRIMARY KEY: id
+- UNIQUE: (vendor_id, reg_no)
+- INDEX: vendor_id, active_status, created_at
 
-- **gyc_product_images**
-  - Purpose: Stores listing images.
-  - Relationship: `vechicle_info_id` (FK to gyc_vehicle_info.id), `file_name`, `serial` (ordering).
+### gyc_vehicle_attribute (Vehicle Specifications)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Unique spec set
+category_id         INT(11) FK        Vehicle category
+make_id             INT(11) FK        Manufacturer (gyc_make)
+model               VARCHAR(255)      Vehicle model name
+generation          VARCHAR(255)      Model generation/series
+trim                VARCHAR(255)      Trim level (e.g., "S", "SE", "Limited")
+engine_size         VARCHAR(255)      Engine displacement (cc)
+fuel_type           VARCHAR(255)      Petrol/Diesel/Hybrid/Electric
+transmission        VARCHAR(255)      Manual/Automatic
+derivative          VARCHAR(255)      Body style variant
+gearbox             VARCHAR(255)      Gearbox type (5-speed, CVT, etc.)
+year                INT(4)            Manufacture year (YYYY)
+body_style          VARCHAR(50)       Hatchback/Sedan/SUV/Estate/MPV
+active_status       ENUM(0,1)         0=Inactive, 1=Active
+created_at          DATETIME          Creation timestamp
+updated_at          DATETIME          Last modification timestamp
+```
+
+**Indexes**:
+- PRIMARY KEY: id
+- INDEX: make_id, category_id
+
+### gyc_product_images (Vehicle Images)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Unique image record
+vechicle_info_id    INT(11) FK        Parent vehicle (gyc_vehicle_info.id)
+file_name           VARCHAR(255)      Image URL (reference, not binary)
+serial              INT(255)          Image order (1, 2, 3... per vehicle)
+created_at          DATETIME          Upload timestamp
+updated_at          DATETIME          Last modification timestamp
+```
+
+**Indexes**:
+- PRIMARY KEY: id
+- FK: vechicle_info_id → gyc_vehicle_info.id (ON DELETE CASCADE)
+- INDEX: serial (for ordering)
+
+**Note**: Images stored as URL references only, not binary files. Serial determines display order in listings.
+
+### scraper_statistics (Performance Tracking)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Unique run record
+vendor_id           INT(11)           Dealer ID (432)
+run_date            DATETIME          Execution timestamp
+status              VARCHAR(50)       'success'/'failed'/'warning'
+vehicles_found      INT(11)           Total vehicles discovered
+vehicles_inserted   INT(11)           New vehicles added
+vehicles_updated    INT(11)           Existing vehicles modified
+vehicles_skipped    INT(11)           Unchanged (hash match)
+images_stored       INT(11)           Total images saved
+success_rate        DECIMAL(5,2)      (inserted+updated+skipped)/found %
+inventory_ratio     DECIMAL(5,2)      new_vehicles/baseline_vehicles %
+gates_passed        TINYINT(1)        0=Failed, 1=Both gates passed
+duration_seconds    INT(11)           Execution time
+error_message       TEXT              Failure details
+stats_json          LONGTEXT          Full metrics as JSON
+created_at          TIMESTAMP         Record creation
+```
+
+**Indexes**:
+- PRIMARY KEY: id
+- INDEX: (vendor_id, run_date) - for daily queries
+
+---
 
 ## Reference Tables
 
-- **gyc_make**: `id`, `name`, `cat_id`, `active_status`, timestamps.
-- **gyc_category**: vehicle category lookup (id/name).
-- **gyc_vehicle_color**: `id`, `color_name`, `active_status`, timestamps.
-- **gyc_vehicle_trim**: `id`, `trim_name`, `active_status`, timestamps.
-- **gyc_vehicle_tag**: tagging metadata (`id`, `name`, `tag_color`, `active_status`, timestamps).
-- **gyc_vehicle_exterior_finish**: `id`, `exterior_finish_name`, `active_status`, timestamps.
-- **gyc_vehicle_condition**: `id`, `condition_name`, `active_status`, timestamps.
-- **gyc_vehicle_service_history**: `id`, `service_history_name`, `active_status`, timestamps.
-- **gyc_features** (referenced via comma-separated ids in `feature_id`).
-- **gyc_vendor_info**: vendors/dealers; `vendor_id` in gyc_vehicle_info points here.
+### gyc_make (Manufacturers)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Manufacturer ID
+name                VARCHAR(255)      Make name (e.g., "Volkswagen")
+cat_id              INT(11) FK        Category
+active_status       ENUM(0,1)         0=Inactive, 1=Active
+created_at          DATETIME          Timestamp
+```
 
-## Important View
+### gyc_vehicle_color (Color Standardization)
+```
+Column              Type              Role
+─────────────────────────────────────────────
+id                  INT(11) PK        Color ID
+color_name          VARCHAR(100)      Standardized name
+active_status       ENUM(0,1)         0=Inactive, 1=Active
+created_at          DATETIME          Timestamp
+```
 
-- **gyc_v_vechicle_info**
-  - Joins `gyc_vehicle_info` to: `gyc_vehicle_attribute` (specs), `gyc_make`, `gyc_category`, `gyc_vehicle_color` (color/manufacturer/interior), `gyc_vehicle_exterior_finish`, `gyc_vehicle_tag`, `gyc_vendor_info`, `gyc_features` (via find_in_set on feature_id), and primary image from `gyc_product_images` (`serial = 1`).
-  - Provides a denormalized row with vendor status, make/model/year/specs, colors, drive, price, tag/feature names, and first image.
+### Other Reference Tables
+- **gyc_category**: Vehicle category (SUV, Sedan, etc.)
+- **gyc_vehicle_condition**: Condition lookup (Good/Fair/Excellent)
+- **gyc_vehicle_exterior_finish**: Paint/exterior type
+- **gyc_vendor_info**: Dealers/vendors master list
 
-## Common Relationships (practical guide)
+---
 
-- `gyc_vehicle_info.attr_id` → `gyc_vehicle_attribute.id`
-- `gyc_vehicle_attribute.make_id` → `gyc_make.id`
-- `gyc_vehicle_attribute.category_id` → `gyc_category.id`
-- `gyc_vehicle_info.color_id` / `manufacturer_color_id` / `interior_color_id` → `gyc_vehicle_color.id`
-- `gyc_vehicle_info.trim_id` → `gyc_vehicle_trim.id`
-- `gyc_vehicle_info.exterior_finish_id` → `gyc_vehicle_exterior_finish.id`
-- `gyc_vehicle_info.tag_id` → `gyc_vehicle_tag.id`
-- `gyc_vehicle_info.vendor_id` → `gyc_vendor_info.id`
-- `gyc_product_images.vechicle_info_id` → `gyc_vehicle_info.id`
-- `gyc_vehicle_info.feature_id` holds comma-separated `gyc_features.id` values (parsed via find_in_set in the view).
+## Key Relationships
 
-## Notes for Integrations
+```
+gyc_vehicle_info (vehicle listing)
+  ├─ vendor_id → gyc_vendor_info.id
+  ├─ attr_id → gyc_vehicle_attribute.id (specs)
+  │   ├─ make_id → gyc_make.id
+  │   └─ category_id → gyc_category.id
+  └─ color_id / manufacturer_color_id → gyc_vehicle_color.id
 
-- Use `attr_id` to store structured specs (make/model/trim/body/fuel/transmission/engine_size/year) in `gyc_vehicle_attribute`; keep listing-specific fields in `gyc_vehicle_info`.
-- Prefer `color_id`/`manufacturer_color_id`/`interior_color_id` over free-text `color` when possible.
-- Images should be saved to `gyc_product_images` with `serial` to preserve ordering (legacy `gyc_vehicle_image` exists but view uses `gyc_product_images`).
-- `active_status` in `gyc_vehicle_info`: 0 pending, 1 waiting, 2 published, 3 sold, 4 blocked.
-- The denormalized view `gyc_v_vechicle_info` is useful for exports/search; it already brings make/category/color names and the first product image.
+gyc_product_images
+  └─ vechicle_info_id → gyc_vehicle_info.id (images per vehicle)
+
+scraper_statistics
+  └─ vendor_id → gyc_vendor_info.id (metrics per vendor)
+```
+
+---
+
+## Data Type Notes
+
+| Field | Type | Notes |
+|-------|------|-------|
+| Price | INT(11) | Stored as pence (£10,000 = 1000000) |
+| Mileage | INT(11) | Stored as miles (50,000 = 50000) |
+| VRM/reg_no | VARCHAR(255) | Format: UK format only (valid by scraper) |
+| Fuel Type | VARCHAR(255) | Free text: "Petrol", "Diesel", "Hybrid" |
+| Transmission | VARCHAR(255) | Free text: "Manual", "Automatic" |
+| Engine Size | VARCHAR(255) | Free text: "1.6", "2.0", etc. (cc) |
+| URL References | VARCHAR(255) | Images stored as URLs, not files |
+| JSON Fields | LONGTEXT | stats_json, feature_id (comma-separated) |
+
+---
+
+## Views
+
+### gyc_v_vechicle_info (Denormalized Vehicle View)
+Joins vehicle, specs, manufacturer, color, and first image for reporting/export:
+```sql
+SELECT 
+  gvi.id, gvi.reg_no, gvi.selling_price, gvi.mileage,
+  gva.model, gva.year, gva.fuel_type, gva.transmission,
+  gm.name as make_name,
+  gvc.color_name,
+  gpi.file_name as first_image,
+  gvi.active_status
+FROM gyc_vehicle_info gvi
+LEFT JOIN gyc_vehicle_attribute gva ON gva.id = gvi.attr_id
+LEFT JOIN gyc_make gm ON gm.id = gva.make_id
+LEFT JOIN gyc_vehicle_color gvc ON gvc.id = gvi.color_id
+LEFT JOIN gyc_product_images gpi ON gpi.vechicle_info_id = gvi.id AND gpi.serial = 1
+WHERE gvi.vendor_id = 432
+```
+
+---
+
+## Integration Notes for Scrapers
+
+1. **Unique Constraint**: (vendor_id, reg_no) ensures no duplicate registrations per dealer
+2. **Image Ordering**: Use `serial` (1, 2, 3...) to maintain image order
+3. **Status Workflow**: Start with active_status=0 (pending) → auto-publish to 1 or 2 based on scraper config
+4. **Specs Reuse**: Look up attr_id before INSERT to avoid duplicate spec entries
+5. **Hash-Based Updates**: Store md5 hash of key fields (price, mileage, description, image_count) for change detection
+6. **FK Constraints**: Delete from gyc_product_images BEFORE gyc_vehicle_info (images reference vehicles)

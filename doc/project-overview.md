@@ -110,30 +110,49 @@ Entry Point: php daily_refresh.php --vendor=432
        • mail_alert.php (email notifications)
 ```
 
-### **Phase 1: Data Purge** (`daily_refresh.php` lines 94-138)
-**Purpose**: Delete old vendor data BEFORE scraping to avoid stale records.
+### **Phase 0: Safety Check & Conditional Cleanup** (`daily_refresh.php` lines 94-138)
+**Purpose**: Validate health gates from PREVIOUS run. Delete ALL vendor data ONLY if both gates passed.
+
+**Safety Gates** (must BOTH pass):
+- Success Rate: `(inserted + updated + skipped) / found >= 85%`
+- Inventory Ratio: `new_vehicles >= baseline_vehicles * 80%`
 
 ```php
-Function: $purgeVendorData($vendorId = 432)
+Function: validateHealthGatesAndCleanup($vendorId = 432)
   │
-  ├─▶ Step 1: Delete images from gyc_product_images
-  │    WHERE vechicle_info_id IN (
-  │      SELECT id FROM gyc_vehicle_info WHERE vendor_id = 432
-  │    )
-  │    Result: e.g., "Deleted 2244 images"
+  ├─▶ Check Gate 1: Success Rate >= 85%
+  │    if (($inserted + $updated + $skipped) / $found < 0.85) {
+  │      log("GATE 1 FAILED: Success rate " . $rate . "%");
+  │      send_alert_email("Cleanup aborted - success rate low");
+  │      STOP - Do not delete any data
+  │    }
   │
-  ├─▶ Step 2: Delete vehicles from gyc_vehicle_info
-  │    WHERE vendor_id = 432
-  │    Result: e.g., "Deleted 68 vehicles"
+  ├─▶ Check Gate 2: Inventory Ratio >= 80%
+  │    if ($newCount < ($baselineCount * 0.80)) {
+  │      log("GATE 2 FAILED: Inventory ratio " . $ratio . "%");
+  │      send_alert_email("Cleanup aborted - insufficient inventory");
+  │      STOP - Do not delete any data
+  │    }
   │
-  ├─▶ Step 3: Clean orphaned attributes from gyc_vehicle_attribute
-  │    WHERE id NOT IN (SELECT DISTINCT attr_id FROM gyc_vehicle_info)
-  │    Result: e.g., "Cleaned 0 orphaned attributes"
-  │
-  └─▶ Output: "Purge complete: 2244 images, 68 vehicles, 0 orphans deleted"
+  └─▶ ONLY if BOTH gates pass:
+       ├─▶ Delete images from gyc_product_images (FK constraint)
+       │    WHERE vechicle_info_id IN (SELECT id FROM gyc_vehicle_info WHERE vendor_id = 432)
+       │    Result: e.g., "Deleted 2244 images"
+       │
+       ├─▶ Delete vehicles from gyc_vehicle_info (in 500-record chunks)
+       │    WHERE vendor_id = 432
+       │    Result: e.g., "Deleted 68 vehicles"
+       │
+       └─▶ Output: "Cleanup complete: 2244 images, 68 vehicles deleted (SAFE REFRESH)"
 ```
 
-### **Phase 2: Scraping** (`daily_refresh.php` lines 144-165)
+**If either gate fails**: 
+- ❌ No data deleted
+- ✉️ Alert email sent with failure reason
+- 🔍 Manual review required
+- 🌐 Live website remains untouched
+
+### **Phase 1: Scraping** (`daily_refresh.php` lines 144-165)
 ```php
 Entry: $scraper->runWithCarSafari()
   │
