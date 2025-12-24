@@ -940,13 +940,12 @@ class CarSafariScraper extends CarScraper
             
             $this->colorCache[$key] = $id ? (int)$id : null;
             if ($id) {
-                $this->log("  Resolved color '$color' → ID $id");
-            } else {
-                $this->log("  Warning: Color '$color' (normalized: '$normalized') not found in map or DB");
+                // Only log if we found something
+                // $this->log("  Resolved color '$color' → ID $id");
             }
             return $this->colorCache[$key];
         } catch (Exception $e) {
-            $this->log("  Warning: color lookup failed for {$color}: " . $e->getMessage());
+            // Silently fail - color_id will be null but won't break the scrape
             return null;
         }
     }
@@ -1209,8 +1208,9 @@ class CarSafariScraper extends CarScraper
         $cleaned = str_replace(["\r\n", "\r"], "\n", trim($text));
         $cleaned = preg_replace('/\s*View More\s*$/i', '', $cleaned);
 
-        // Replace pipe separators with line breaks for readability
-        $cleaned = str_replace([' | ', '|'], "\n", $cleaned);
+        // DO NOT replace pipes - they're used as visual separators in formatted specs
+        // The cleanDescriptionText() formatter in CarScraper handles pipe formatting already
+        // Replacing pipes here would destroy the formatted output with grouped specs
 
         // Trim each line but keep intended line breaks
         $lines = array_map('trim', explode("\n", $cleaned));
@@ -1377,7 +1377,7 @@ class CarSafariScraper extends CarScraper
         }
 
         // Data has changed or new vehicle - save it
-        $vehicleId = $this->saveVehicleInfoAndHash($vehicle, $attrId, $now, $currentHash);
+        $vehicleId = $this->saveVehicleInfoAndHash($vehicle, $attrId, $now, $currentHash, $colorId, $manufacturerColorId);
         
         if (!$vehicleId) {
             return ['vehicleId' => null, 'action' => 'error'];
@@ -1407,9 +1407,11 @@ class CarSafariScraper extends CarScraper
      * @param int $attrId Attribute ID
      * @param string $now Current timestamp
      * @param string $dataHash Calculated data hash
+     * @param int|null $colorId Resolved color ID
+     * @param int|null $manufacturerColorId Resolved manufacturer color ID
      * @return int|null Vehicle ID or null on failure
      */
-    private function saveVehicleInfoAndHash(array $vehicle, int $attrId, string $now, string $dataHash): ?int
+    private function saveVehicleInfoAndHash(array $vehicle, int $attrId, string $now, string $dataHash, ?int $colorId = null, ?int $manufacturerColorId = null): ?int
     {
         // CRITICAL: Use actual VRM (reg_no) if available, otherwise fall back to external_id
         $regNo = $vehicle['reg_no'] ?? $vehicle['external_id'];

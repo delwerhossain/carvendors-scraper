@@ -148,6 +148,10 @@ Expected output:
 
 ### Step 4: Run First Scrape
 ```bash
+# in local 
+"C:\wamp64\bin\php\php8.4.0\php.exe" daily_refresh.php --vendor=432
+
+
 # Test without publishing (dev mode)
 php scripts/scrape-carsafari.php
 

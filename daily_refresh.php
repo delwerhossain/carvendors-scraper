@@ -168,12 +168,37 @@ try {
             echo "  Deactivated {$deactivatedCount} vehicles not in current scrape\n";
         }
 
-        // Optional: Remove very old inactive vehicles (older than 30 days)
-        $oldDeleteStmt = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE vendor_id = ? AND active_status = '0' AND updated_at < DATE_SUB(NOW(), INTERVAL 30 DAY) LIMIT 1000");
-        $oldDeleteStmt->execute([$vendorId]);
-        $oldDeleted = $oldDeleteStmt->rowCount();
-        if ($oldDeleted > 0) {
-            echo "  Deleted {$oldDeleted} old inactive vehicles (>30 days)\n";
+        // Delete all vendor data (cleanup before fresh scrape)
+        echo "  Deleting all vendor data (before fresh scrape)...\n";
+        
+        // Get all vehicle IDs for this vendor
+        $vendorVehicles = $pdo->prepare("SELECT id FROM gyc_vehicle_info WHERE vendor_id = ?");
+        $vendorVehicles->execute([$vendorId]);
+        $vehicleIds = array_column($vendorVehicles->fetchAll(), 'id');
+        
+        $deletedCount = 0;
+        if (!empty($vehicleIds)) {
+            // Delete images first (FK constraint)
+            $chunkSize = 500;
+            foreach (array_chunk($vehicleIds, $chunkSize) as $chunk) {
+                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+                $deleteImages = $pdo->prepare("DELETE FROM gyc_product_images WHERE vechicle_info_id IN ($placeholders)");
+                $deleteImages->execute($chunk);
+            }
+            
+            // Delete vehicles
+            foreach (array_chunk($vehicleIds, $chunkSize) as $chunk) {
+                $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+                $deleteVehicles = $pdo->prepare("DELETE FROM gyc_vehicle_info WHERE id IN ($placeholders)");
+                $deleteVehicles->execute($chunk);
+                $deletedCount += $deleteVehicles->rowCount();
+            }
+        }
+        
+        if ($deletedCount > 0) {
+            echo "  Deleted {$deletedCount} vehicles (all vendor {$vendorId} data)\n";
+        } else {
+            echo "  No vehicles to delete\n";
         }
 
         // Optional: Optimize tables (weekly)

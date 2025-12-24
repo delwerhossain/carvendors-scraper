@@ -28,24 +28,31 @@
 
 ### Data Flow (Single Run)
 ```
-1. Fetch listing page HTML
+1. Fetch listing page HTML (systonautosltd.co.uk)
 2. Parse vehicle cards → array[reg_no → {price, mileage, images, specs}]
 3. [Optional] Enrich with detail pages (full descriptions, CarCheck data)
-4. Change detection: hash comparison (skip 100% for unchanged vehicles)
-5. Database upsert: insert/update gyc_vehicle_info, gyc_vehicle_attribute
-6. Image download & serial numbering → gyc_product_images (FK by vehicle_info_id)
+4. Change detection: hash comparison → skip if data unchanged (100% efficient)
+5. Database operations: insert/update gyc_vehicle_info, gyc_vehicle_attribute
+6. Image download & serial numbering → gyc_product_images
 7. Auto-publish: set active_status=1 for new/changed vehicles
-8. Deactivate stale/invalid records (>30 days old, invalid VRM format)
+8. **CLEAN: Delete ALL vendor 432 data** (fresh slate for accuracy)
 9. Statistics finalization & JSON snapshot export
 ```
 
-### Database Schema
-| Table | Key Fields | Role |
-|-------|-----------|------|
-| `gyc_vehicle_info` | `reg_no` (PK), `vendor_id`, `attr_id` (FK), `selling_price`, `mileage`, `color`, `description`, `vehicle_url`, `active_status`, `data_hash` | Main vehicle record + change detection |
-| `gyc_vehicle_attribute` | `id` (PK), `model`, `year`, `fuel_type`, `transmission`, `body_style`, `engine_size` | Cached specs (one per reg_no) |
-| `gyc_product_images` | `id` (PK), `vehicle_info_id` (FK), `file_name` (URL ref), `serial` (1,2,3...) | Multi-image manifest (no actual storage) |
-| `scraper_statistics` | `vendor_id`, `execution_date`, `found`, `inserted`, `updated`, `skipped`, `errors` | Performance metrics per run |
+**Safety Gates** (BOTH must pass before cleanup):
+- Success Rate: `(inserted + updated + skipped) / found >= 85%`
+- Inventory Ratio: `new_count >= current_count * 80%`
+- If gates fail: No deletion, no deactivation, alert sent, data preserved
+
+### Database Schema (CarSafari Production: `carsafari` DB)
+| Table | Key Columns | Role |
+|-------|-------------|------|
+| `gyc_vehicle_info` | `id` (PK), `vendor_id` (FK), `reg_no`, `attr_id` (FK), `selling_price`, `mileage`, `color`, `color_id`, `description`, `active_status` (0-4), `created_at`, `updated_at` | Main vehicle record + change detection |
+| `gyc_vehicle_attribute` | `id` (PK), `category_id`, `make_id`, `model`, `year`, `fuel_type`, `transmission`, `body_style`, `engine_size`, `gearbox`, `trim` | Vehicle specifications (specs cached per attr_id) |
+| `gyc_product_images` | `id` (PK), `vechicle_info_id` (FK), `file_name` (URL), `serial` (1,2,3...) | Multi-image manifest (URL references only) |
+| `scraper_statistics` | `vendor_id`, `run_date`, `vehicles_found`, `vehicles_inserted`, `vehicles_updated`, `vehicles_skipped`, `status` | Performance metrics per run |
+| `gyc_make` | `id`, `name`, `cat_id` | Manufacturer lookup (cached) |
+| `gyc_vehicle_color` | `id`, `color_name`, `active_status` | Color standardization (cached) |
 
 ---
 
@@ -113,17 +120,20 @@ php daily_refresh.php --vendor=432 --force
 ### Production (Scheduled) - Safe Daily Refresh
 ```bash
 php daily_refresh.php --vendor=432
-# Phase 1: Scrape data (no live impact until validated)
+# Phase 0: Purge vendor 432 data (gyc_vehicle_info, gyc_vehicle_attribute, gyc_product_images)
+# Phase 1: Scrape data from systonautosltd.co.uk (fresh, no legacy baggage)
 # Phase 2: Validate health (success_rate >= 85%, inventory >= 80% of current)
-# Phase 3: Cleanup only if healthy (deactivate missing, delete old inactive)
-# Phase 4: Report metrics via email alert
+# Phase 3: Auto-publish new/changed vehicles (active_status=1)
+# Phase 4: Update statistics table with metrics
+# Phase 5: Export JSON snapshot
+# Phase 6: Report metrics via email alert
 ```
 
-**Safety Gates (MUST both pass for cleanup)**:
+**Safety Gates (MUST both pass)**:
 - Success Rate: `(inserted + updated + skipped) / found >= 85%`
-- Inventory Ratio: `new_count >= current_count * 80%`
+- Inventory Ratio: Check current active count before purge, ensure new count >= 80% of baseline
 
-If either gate fails: No deletion, no deactivation, alert sent, data preserved.
+If either gate fails: Data NOT deleted, alert sent, manual review required.
 
 ### Manual Testing
 ```bash
@@ -172,15 +182,15 @@ WHERE gvi.id IS NULL;
 
 ## Configuration Points (config.php)
 
-| Setting | Default | Impact |
-|---------|---------|--------|
-| `database.dbname` | `tst-car` | Target database (change for production) |
-| `scraper.listing_url` | systonautosltd... | HTML source (change for new dealer) |
-| `scraper.fetch_detail_pages` | `true` | false = fast (listing only); true = slow (full specs) |
-| `scraper.request_delay` | 1.5s | Politeness between HTTP requests |
-| `scraper.timeout` | 30s | Request timeout (increase for slow sites) |
-| `scraper.verify_ssl` | `false` | Local WAMP: false; Production: true |
-| `output.save_json` | `true` | Export vehicles.json snapshot |
+| Setting | Default | Purpose |
+|---------|---------|---------|
+| `database.dbname` | `tst-car` | Database: `tst-car` (local dev) or `carsafari` (production) |
+| `scraper.listing_url` | systonautosltd... | Source URL (dealer website) |
+| `scraper.fetch_detail_pages` | `true` | true=fetch detail pages; false=listing only (faster) |
+| `scraper.request_delay` | 1.5s | Politeness delay between requests |
+| `scraper.timeout` | 30s | HTTP request timeout |
+| `scraper.verify_ssl` | `false` | false=local WAMP; true=production cPanel |
+| `output.save_json` | `true` | Export JSON snapshot of vehicles |
 
 ---
 

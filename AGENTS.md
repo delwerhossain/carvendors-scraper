@@ -25,10 +25,12 @@
 - **Zero downtime**: Scrape-first strategy ensures data availability
 
 ### Optimized Daily Refresh Workflow
-1. **Phase 1**: Scrape new data (primary operation)
-2. **Phase 2**: Smart change detection and updates
-3. **Phase 3**: Cleanup old/inactive data (optional)
-4. **Phase 4**: Statistics and performance monitoring
+1. **Phase 0 (Cleanup)**: Delete ALL vendor 432 data (if health gates pass from previous run)
+2. **Phase 1 (Scrape)**: Fetch fresh data from systonautosltd.co.uk (70-80 vehicles)
+3. **Phase 2 (Change Detection)**: Hash-based comparison → skip unchanged vehicles (100% efficiency)
+4. **Phase 3 (Publish)**: Auto-publish new/changed vehicles (active_status=1)
+5. **Phase 4 (Statistics)**: Record metrics in scraper_statistics table
+6. **Phase 5 (Export)**: Generate JSON snapshot for backups
 
 ### Multi-Vendor Support
 - Vendor-based data isolation (`vendor_id` field)
@@ -55,12 +57,12 @@
 
 #### 3. Database Schema
 ```sql
-gyc_vehicle_info        -- Main vehicle records (price, mileage, description, etc.)
-gyc_vehicle_attribute   -- Vehicle specifications (make, model, year, etc.)
-gyc_product_images     -- Vehicle images with serial numbering
-scraper_statistics     -- Performance metrics and execution statistics
-error_logs             -- Detailed error tracking and debugging
-```
+gyc_vehicle_info        -- Main vehicle records (id, vendor_id, reg_no, selling_price, mileage, description, active_status, created_at, updated_at)
+gyc_vehicle_attribute   -- Vehicle specifications (id, make_id, model, year, fuel_type, transmission, body_style, engine_size)
+gyc_product_images     -- Vehicle images with serial numbering (id, vechicle_info_id FK, file_name URL, serial)
+scraper_statistics     -- Performance metrics and execution statistics (vendor_id, run_date, vehicles_found, vehicles_inserted, vehicles_updated, vehicles_skipped, success_rate, inventory_ratio, gates_passed)
+gyc_make               -- Manufacturer lookup (id, name, category_id)
+gyc_vehicle_color     -- Color standardization (id, color_name, active_status)
 
 ### Data Flow Architecture
 
@@ -185,6 +187,9 @@ function calculateDataHash($vehicle) {
 ```
 Input: 78 vehicles from source
 │
+├─▶ [Phase 0] Cleanup (if gates passed)
+│   └─ Delete ALL vendor 432 data (1-2 seconds via chunking)
+│
 ├─▶ [Phase 1] Scrape & Parse (1s)
 │   └─ HTTP requests with rate limiting
 │
@@ -195,10 +200,14 @@ Input: 78 vehicles from source
 ├─▶ [Phase 3] Database Updates (0.2s)
 │   └─ Only 2 vehicles updated (not all 78)
 │
-└─▶ [Phase 4] Statistics & Cleanup (0.1s)
-    └─ Performance metrics and old data removal
+├─▶ [Phase 4] Publish & Statistics (0.1s)
+│   └─ Auto-publish new/changed vehicles
+│
+└─▶ [Phase 5] Export & Report (0.1s)
+    └─ JSON snapshot + email metrics
 
 Total Time: ~1.3 seconds (vs 15+ minutes for naive approach)
+Safety: Gates must pass before cleanup (success_rate >= 85%, inventory_ratio >= 80%)
 ```
 
 ### 2. Database Optimization
