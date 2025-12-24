@@ -1180,37 +1180,96 @@ class CarScraper
     }
 
     /**
-     * SPECIALIZED cleaner for FULL descriptions (preserves specs with pipes)
-     * Keeps pipe-separated specifications intact while removing extra whitespace
+     * SPECIALIZED cleaner for FULL descriptions
+     * Handles pipe-separated specs from meta tags while preserving natural paragraph structure
+     * The meta tag description has NO <br> tags, only pipes to separate specs
      */
     protected function cleanDescriptionText(string $text): string
     {
-        // 1. Decode HTML entities
+        // 1. Decode HTML entities (must do this FIRST for &amp; etc)
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
         // 2. Remove null bytes and control characters
         $text = preg_replace('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]/u', '', $text);
 
-        // 3. PRESERVE pipe-separated specs - normalize spacing around pipes
-        // Clean whitespace around pipes but keep the pipes
-        $text = preg_replace('/\s*\|\s*/', '|', $text);
-
-        // 4. Replace broken UTF-8 sequences
+        // 3. Replace broken UTF-8 sequences
         $text = preg_replace('/[\xC0-\xC3][\x80-\xBF]+/', '', $text);
         $text = preg_replace('/[\xE0-\xEF][\x80-\xBF]{2}/', '', $text);
 
-        // 5. Replace specific HTML encoding artifacts
+        // 4. Replace specific HTML encoding artifacts
         $text = str_replace([
-            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â„¢',
+            'â¦', 'â€™', 'â€œ', 'â€"', 'â€"', 'â„¢', '&rsquo;', '&apos;',
+            '&quot;', 'Â£', '£'
         ], [
-            '...', "'", '"', '-', '-', 'TM'
+            '...', "'", '"', '-', '-', 'TM', "'", "'",
+            '"', '£', '£'
         ], $text);
 
-        // 6. Clean up excessive whitespace BUT preserve pipe structure
-        $text = preg_replace('/(?<!\|)\s{2,}(?!\|)/', ' ', $text);
+        // 5. INTELLIGENT PIPE HANDLING FOR META TAG DESCRIPTIONS
+        // CRITICAL: The meta tag has inconsistent pipe spacing (some "| text" some "|text")
+        // When extracted via meta tag, <br> tags become \n newlines
+        // KEEP those newlines - they're section breaks, not spec separators
+        // Only specs are separated by pipes
+        
+        // Normalize pipes: ensure all pipes have space around them " | "
+        // (do NOT convert newlines to pipes - preserve the <br> structure)
+        $text = preg_replace('/\s*\|\s*/', ' | ', $text);
+        
+        // Now identify major section keywords and create paragraph breaks before them
+        $sectionPatterns = [
+            'Finance available',
+            'First to see',
+            'We also offer',
+            'We specialize',
+            '12 months free',
+            'If you are coming',
+            'Every effort has been',
+            'If you are looking'
+        ];
+        
+        // Create paragraph breaks before major section keywords
+        foreach ($sectionPatterns as $pattern) {
+            $text = preg_replace('/ \| (' . preg_quote($pattern) . ')/i', "\n\n$1", $text);
+        }
+        
+        // 6. Process each paragraph separately
+        $paragraphs = preg_split('/\n\n+/', $text);
+        $processedParagraphs = [];
+        
+        foreach ($paragraphs as $para) {
+            if (trim($para) === '') {
+                continue;
+            }
+            
+            $trimmedPara = trim($para);
+            
+            // Count pipes to determine if this is a spec list
+            $pipeCount = substr_count($trimmedPara, '|');
+            
+            if ($pipeCount >= 3) {
+                // Many pipes = spec list - keep with pipes, no newlines
+                // This ensures all specs remain on conceptual "lines" but are actually
+                // separated by pipes in the output (no literal newlines in output)
+                $processedParagraphs[] = $trimmedPara;
+            } else if ($pipeCount > 0) {
+                // Few pipes = keep as is with pipes visible
+                $processedParagraphs[] = $trimmedPara;
+            } else {
+                // No pipes = regular paragraph text
+                $processedParagraphs[] = $trimmedPara;
+            }
+        }
+        
+        // 7. Rejoin paragraphs with double newlines (paragraph breaks)
+        $text = implode("\n\n", $processedParagraphs);
+
+        // 8. Clean up excessive blank lines
+        $text = preg_replace('/\n{3,}/', "\n\n", $text);
+
+        // 9. Remove excessive dots
         $text = preg_replace('/\.{4,}/', '...', $text);
 
-        // 7. Trim
+        // 10. Final trim
         $text = trim($text);
 
         return $text;
